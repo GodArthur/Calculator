@@ -1,10 +1,17 @@
 package calculator;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.JButton;
+import javax.swing.JTextField;
+
+
 import java.util.ArrayList;
 
 public class Controller {
 	private Calculator model;
 	private View view;
+
 	
 //	private ArrayList<String> operands = new ArrayList<String>(); 
 //	private ArrayList<String> operators = new ArrayList<String>(); 
@@ -16,8 +23,37 @@ public class Controller {
 	public Controller(Calculator model, View view) {
 		this.model = model;
 		this.view = view;
+
+		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
+		this.view.addCalculateBtnListener(new CalculateBtnListener());
+	}
+	
+	class OperandsAndOperatorsBtnListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonText = ((JButton) e.getSource()).getText();
+
+			model.appendToExpression(buttonText);
+			System.out.println(buttonText);
+			view.setExpressionInput(model.getExpression());
+		}
 		
-//		this.view.addBtn_1Listener(new Btn_1Listener);
+	}
+	
+	class CalculateBtnListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String expressionInputText = model.getExpression();
+			
+			model.calculateExpression(expressionInputText);
+			System.out.println("expression: "+model.getExpression());
+
+
+			//TODO Calculate the math expression input in the TextField
+		}
+		
 	}
 	
 	//getters

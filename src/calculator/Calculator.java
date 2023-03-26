@@ -8,6 +8,10 @@ import java.util.*;
  */
 public class Calculator {
 
+	private StringBuilder expression = new StringBuilder("");
+	public static final String[] OPERATORS = {"+", "-", "*", "/"};
+	public static final String[] OPERANDS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+
 	private double operand_1; //a
 	private double operand_2; //b
 	private double operand_3; //x
@@ -82,6 +86,44 @@ public class Calculator {
 		data.clear();
 		result = 0;
 		error = "empty";
+	}
+	
+	private boolean checkIfOperatorClicked(String lastInput) {
+		return (Arrays.asList(OPERATORS).contains(lastInput)) ? true : false;
+	}
+	
+	public void appendToExpression(String newInput) {
+		
+		//Append to the expression input if the input is empty or the button clicked is a number
+		if(expression.isEmpty() || expression.length() == 1 || Arrays.asList(OPERANDS).contains(newInput)) {
+			if(!(newInput.equals("+") || newInput.equals("*") || newInput.equals("/"))) {
+				expression.append(newInput);
+			}
+		}
+		//Check if any operator is clicked twice - if yes, replace the new operator by the new one
+		else {
+			String lastInput = expression.substring(expression.length() - 1);
+			if(checkIfOperatorClicked(lastInput)) {
+				System.out.println("Another operator is clicked");
+				expression.deleteCharAt(expression.length() - 1);
+				expression.append(newInput);
+			}
+			else {
+				expression.append(newInput);
+			}
+		}
+
+	}
+	
+	public void calculateExpression(String calculatorExpression) {
+		String lastInput = expression.substring(expression.length() - 1);
+		if(checkIfOperatorClicked(lastInput)) {
+			expression.deleteCharAt(expression.length() - 1);
+		}
+	}
+	
+	public String getExpression() {
+		return expression.toString();
 	}
 	
 // BASIC ARITHMETIC just copied from Main

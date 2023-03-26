@@ -1,5 +1,5 @@
 package calculator;
-import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 import java.awt.event.ActionListener;
 
@@ -11,7 +11,7 @@ import javax.swing.border.EmptyBorder;
 public class View extends JFrame {
 
 //	private JPanel contentPane;
-	private JTextField textField;
+	private JTextField expressionInput = new JTextField("");
 	
 	// Number buttons
 	private JButton btn_1 = new JButton("1");
@@ -53,9 +53,13 @@ public class View extends JFrame {
 	public View() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
+		expressionInput.setPreferredSize(new Dimension(250,50));
+		expressionInput.setEditable(false);
+
 		JPanel contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
+		contentPane.add(expressionInput);
 		contentPane.add(btn_1);
 		contentPane.add(btn_2);
 		contentPane.add(btn_3);
@@ -69,19 +73,37 @@ public class View extends JFrame {
 		contentPane.add(btn_plus);
 		contentPane.add(btn_minus);
 		contentPane.add(btn_mult);
+		contentPane.add(btn_div);
 		contentPane.add(btn_equal);
 		setContentPane(contentPane);
 	}
 	
-	public String getTextField() {
-		return textField.getText();
+	public String getExpressionInput() {
+		return expressionInput.getText();
 	}
-	public void setTextField(String display) {
-		textField.setText(display);
+	public void setExpressionInput(String display) {
+		expressionInput.setText(display);
 	}
-	// Do this below for every button
-	void addBtn_1Listener(ActionListener listen) {
+	void addOperandsAndOperatorsBtnListener(ActionListener listen) {
 		btn_1.addActionListener(listen);
+		btn_2.addActionListener(listen);
+		btn_3.addActionListener(listen);
+		btn_4.addActionListener(listen);
+		btn_5.addActionListener(listen);
+		btn_6.addActionListener(listen);
+		btn_7.addActionListener(listen);
+		btn_8.addActionListener(listen);
+		btn_9.addActionListener(listen);
+		btn_0.addActionListener(listen);
+		btn_plus.addActionListener(listen);
+		btn_minus.addActionListener(listen);
+		btn_mult.addActionListener(listen);
+		btn_div.addActionListener(listen);
 	}
+	
+	void addCalculateBtnListener(ActionListener listen) {
+		btn_equal.addActionListener(listen);
+	}
+
 
 }
