@@ -11,80 +11,71 @@ public class Calculator {
 	private StringBuilder expression = new StringBuilder("");
 	public static final String[] OPERATORS = {"+", "-", "*", "/"};
 	public static final String[] OPERANDS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
-
-	private double operand_1; //a
-	private double operand_2; //b
-	private double operand_3; //x
-	private double operand_4; //y
-	private String operator;
+	
+	// Store in memory variables
+	private double operand_a; 
+	private double operand_b;
+	private double operand_c;
+	private double operand_d;
 	private ArrayList<Double> data = new ArrayList<Double>(); // FOR THE PEOPLE WITH STAT FUNCTIONS
-	private double result;
 	private String error = "empty";
 	
 /**
  * Getters
  */
-	public double getOperand_1() {
-		return operand_1;
+	public double getOperand_A() {
+		return operand_a;
 	}
-	public double getOperand_2() {
-		return operand_2;
+	public double getOperand_B() {
+		return operand_b;
 	}
-	public double getOperand_3() {
-		return operand_3;
+	public double getOperand_C() {
+		return operand_c;
 	}
-	public double getOperand_4() {
-		return operand_4;
+	public double getOperand_D() {
+		return operand_d;
 	}	
-	public String getOperator() {
-		return operator;
-	}
 	public ArrayList<Double> getData() {
 		return data;
-	}
-	public double getResult() {
-		return result;
 	}
 	public String getError() {
 		return error;
 	}
 	
+	public String getExpression() {
+		return expression.toString();
+	}
+	
 /**
  * Setters
  */	
-	public void setOperand_1(double operand) {
-		this.operand_1 = operand;
+	public void setOperand_a(double operand) {
+		this.operand_a = operand;
 	}
-	public void setOperand_2(double operand) {
-		this.operand_2 = operand;
+	public void setOperand_b(double operand) {
+		this.operand_b = operand;
 	}	
-	public void setOperand_3(double operand) {
-		this.operand_3 = operand;
+	public void setOperand_c(double operand) {
+		this.operand_c = operand;
 	}
-	public void setOperand_4(double operand) {
-		this.operand_4 = operand;
+	public void setOperand_d(double operand) {
+		this.operand_d = operand;
 	}
-	public void setOperator(String operator) {
-		this.operator = operator;
-	}
+
 	public void setData(ArrayList<Double> data) {
 		this.data = data;
 	}
-	public void setResult(double result) {
-		this.result = result;
-	}
+
 	public void setError(String error) {
 		this.error = error;
 	}
 
 	public void clear() {
-		operand_1 = 0;
-		operand_2 = 0;
-		operand_3 = 0;
-		operand_4 = 0;
-		operator = "";
+		operand_a = 0;
+		operand_b = 0;
+		operand_c = 0;
+		operand_d = 0;
 		data.clear();
-		result = 0;
 		error = "empty";
 	}
 	
@@ -96,9 +87,11 @@ public class Calculator {
 		
 		//Append to the expression input if the input is empty or the button clicked is a number
 		if(expression.isEmpty() || expression.length() == 1 || Arrays.asList(OPERANDS).contains(newInput)) {
-			if(!(newInput.equals("+") || newInput.equals("*") || newInput.equals("/"))) {
-				expression.append(newInput);
-			}
+			expression.append(newInput);
+			// NOT SURE WHAT THE LINES BELOW WERE FOR??
+//			if(!(newInput.equals("+") || newInput.equals("*") || newInput.equals("/"))) {
+//				expression.append(newInput);
+//			}
 		}
 		//Check if any operator is clicked twice - if yes, replace the new operator by the new one
 		else {
@@ -118,28 +111,90 @@ public class Calculator {
 	public void calculateExpression(String calculatorExpression) {
 		String lastInput = expression.substring(expression.length() - 1);
 		if(checkIfOperatorClicked(lastInput)) {
-			expression.deleteCharAt(expression.length() - 1);
+			expression.deleteCharAt(expression.length());
+//			expression.deleteCharAt(expression.length() - 1);
+		}
+		// TODO: Turn expression into postfix expression
+		ArrayList<String> expressionPostfix = infixToPostfix(calculatorExpression);
+		// probably a for loop here to go through postfixexpression
+		
+		// TODO: CALCULATIONS BASIC
+		// TODO: CALCULATIONS ADVANCED
+		
+		// Delete the expression and replace with the result only
+		
+	}
+	
+/**
+ * Method to transform the expression entered from infix to postfix as to respect precedence and associativity rules
+ * @param expression
+ * @return
+ */
+	private ArrayList<String> infixToPostfix(String expression){
+		Stack<Character> postfixStack = new Stack();
+		ArrayList<String> postfixString = new ArrayList<String>();
+		String tempOperand="";
+		
+		for (char i: expression.toCharArray()) {
+			//Brackets
+
+			if (i=='(') {postfixStack.push(i);}
+			
+			if (i==')') {
+				while(postfixStack.peek() != '(') {
+					postfixString.add(Character.toString(postfixStack.pop()));
+				}
+				// removes open bracket leftover
+				postfixStack.pop();
+			}
+			// Operand : will keep concatenating digits that are part of the operand
+			if (isOperand(i)) {
+				tempOperand = tempOperand.concat(Character.toString(i));
+				if (postfixString.size()>0 && isOperand(postfixString.get(postfixString.size()-1)) )
+				postfixString.set(postfixString.size()-1, tempOperand);
+				else
+				postfixString.add(Character.toString(i));
+			}
+			
+			//Operator : resets temporary operand, TODO : THIS PART IS NOT WORKING CORRECTLY
+			if (isOperator(i)) {
+				tempOperand="";
+	                // remove operators from the stack with higher or equal precedence
+	                // and append them at the end of the postfix expression
+	                while (!postfixStack.isEmpty() && precedence(i) >= precedence(postfixStack.peek())) {
+	                    postfixString.add(Character.toString(postfixStack.pop()));
+	                }
+	                // add current operator to string
+	                postfixString.add(Character.toString(i));
+			}
+		}
+	     
+		while (!postfixStack.isEmpty()) {
+	            postfixString.add(Character.toString(postfixStack.pop()));
+	        }
+		
+	      for (String str : postfixString)
+	      { System.out.println("COMPONENT "+str); }
+		return postfixString;
+		
+	}
+	
+	
+// BASIC ARITHMETIC
+private double calculateBasicArithmetic(double operand1, double operand2, String operator) {
+		switch(operator) {
+		case "+": return operand1+operand2;
+		case "-": return operand1-operand2;
+		case "x": return operand1*operand2;
+		case "/": 
+			if(operand2==0) {
+				this.error="Division by 0 error";
+				return 0;
+				}
+			return operand1/operand2;
+		default: return 0;
 		}
 	}
-	
-	public String getExpression() {
-		return expression.toString();
-	}
-	
-// BASIC ARITHMETIC just copied from Main
-//private double calculate(double operand1, double operand2, String operator) {
-//		switch(operator) {
-//		case "+": return operand1+operand2;
-//		case "-": return operand1-operand2;
-//		case "x": return operand1*operand2;
-//		case "/": 
-//			if(operand2==0)
-//				return 0;
-//			return operand1/operand2;
-//		default: return 0;
-//		}
-//	}
-	
 	
 	
 /**
@@ -149,7 +204,7 @@ public class Calculator {
  * @param x 
  * Will not return anything, rather will set the result as an instance of the expression.
  */
-	public void logbx(double b, double x) {
+	public double logbx(double b, double x) {
 		double result=0;
 		
 		// error conditions
@@ -160,17 +215,55 @@ public class Calculator {
 		if (x == 1) {result = 0;}
 		
 		// Regular valid cases
-		
 		//TODO : Estimation (Halley/Newton) instead of loga/logb
 		result = Math.log(x)/Math.log(b);
-		this.setResult(result);
+		return result;
 	}
 	
 // Same method but in case the user enters values in memory before selecting the function
-	public void logbx() {
-		this.logbx(this.operand_1,this.operand_2);
+	public void logab() {
+		this.logbx(this.operand_a,this.operand_b);
 	}
 	
+// Support Methods for the Infix to Postfix Method	
+	private boolean isOperand(char c) {
+		if (Arrays.asList(OPERANDS).contains(Character.toString(c)))
+			return true;
+		else 
+			return false;
+	}
 	
+	private boolean isOperand(String str) {
+		if (Arrays.asList(OPERANDS).contains(str))
+			return true;
+		else 
+			return false;
+	}
+	
+	private boolean isOperator(char c) {
+		if (Arrays.asList(OPERATORS).contains(Character.toString(c)))
+			return true;
+		else 
+			return false;
+	}
+	
+	private int precedence(char c) {
+		int precedence = 0;
+		switch(c) {
+		case '+':
+		precedence = 0;
+		
+		case '-':
+		precedence = 0;
+		
+		case '*':
+		precedence = 1;
+		
+		case '/':
+		precedence = 1;
+		}
+		
+		return precedence;
+	}
 	
 }

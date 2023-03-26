@@ -19,7 +19,6 @@ public class Controller {
 //	StringBuilder currentNumber =  new StringBuilder("");
 //	private StringBuilder expression = new StringBuilder("");
 	
-	//CalculatorView view; Not really possible with Java FX.... so maybe the Main/application class will have a Model instead
 	public Controller(Calculator model, View view) {
 		this.model = model;
 		this.view = view;
@@ -49,7 +48,6 @@ public class Controller {
 			
 			model.calculateExpression(expressionInputText);
 			System.out.println("expression: "+model.getExpression());
-
 
 			//TODO Calculate the math expression input in the TextField
 		}

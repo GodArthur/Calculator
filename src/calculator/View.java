@@ -30,7 +30,19 @@ public class View extends JFrame {
 	private JButton btn_mult = new JButton("*");
 	private JButton btn_div = new JButton("/");
 	private JButton btn_equal = new JButton("=");
-
+	// TODO: TO BE ADDED
+//	private JButton btn_opbracket = new JButton("(");
+//	private JButton btn_closebracket = new JButton(")");
+//	private JButton btn_decimal = new JButton(".");
+	// clear
+	// backspace
+	// a,b,c and d buttons
+	// upload data button
+	
+	// ADD ADVANCED FUNCTION BUTTONS HERE
+	
+	
+	
 	/**
 	 * Launch the application.
 	 */
@@ -75,15 +87,19 @@ public class View extends JFrame {
 		contentPane.add(btn_mult);
 		contentPane.add(btn_div);
 		contentPane.add(btn_equal);
+		
+		//TODO: ADD BUTTONS ON PANE HERE
 		setContentPane(contentPane);
 	}
 	
 	public String getExpressionInput() {
 		return expressionInput.getText();
 	}
+	
 	public void setExpressionInput(String display) {
 		expressionInput.setText(display);
 	}
+	
 	void addOperandsAndOperatorsBtnListener(ActionListener listen) {
 		btn_1.addActionListener(listen);
 		btn_2.addActionListener(listen);
