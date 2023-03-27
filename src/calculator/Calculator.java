@@ -106,8 +106,14 @@ public class Calculator {
 	
 	private boolean checkIfFunctionEnabled(String input) {
 		if(!expression.isEmpty()) {
+			
+
 
 		if(isAbx) {
+			if(checkIfOperatorClicked(input) && totalNumInputed < 3) {
+				return true;
+			}
+			
 			if(totalNumInputed == 0) {
 				System.out.println("setting A: "+input);
 				funcAbx.setA(Integer.parseInt(input));
