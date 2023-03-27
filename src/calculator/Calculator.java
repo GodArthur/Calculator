@@ -1,5 +1,5 @@
 package calculator;
-
+import functions.FunctionAbx;
 import java.util.*;
 /**
  * Expression is the Model in the MVC Design Pattern
@@ -11,6 +11,10 @@ public class Calculator {
 	private StringBuilder expression = new StringBuilder("");
 	public static final String[] OPERATORS = {"+", "-", "*", "/"};
 	public static final String[] OPERANDS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+	private boolean isAbx = false;
+	private int totalNumInputed = 0;
+	FunctionAbx funcAbx = new FunctionAbx();
+
 	
 	// Store in memory variables
 	private double operand_a; 
@@ -79,25 +83,90 @@ public class Calculator {
 		error = "empty";
 	}
 	
+	public static String superscript(String str) {
+	    str = str.replaceAll("0", "⁰");
+	    str = str.replaceAll("1", "¹");
+	    str = str.replaceAll("2", "²");
+	    str = str.replaceAll("3", "³");
+	    str = str.replaceAll("4", "⁴");
+	    str = str.replaceAll("5", "⁵");
+	    str = str.replaceAll("6", "⁶");
+	    str = str.replaceAll("7", "⁷");
+	    str = str.replaceAll("8", "⁸");
+	    str = str.replaceAll("9", "⁹");         
+	    return str;
+	}
+	
 	private boolean checkIfOperatorClicked(String lastInput) {
 		return (Arrays.asList(OPERATORS).contains(lastInput)) ? true : false;
 	}
+	private boolean checkIfOperandsClicked(String lastInput) {
+		return (Arrays.asList(OPERANDS).contains(lastInput)) ? true : false;
+	}
+	
+	private boolean checkIfFunctionEnabled(String input) {
+		if(!expression.isEmpty()) {
+
+		if(isAbx) {
+			if(totalNumInputed == 0) {
+				System.out.println("setting A: "+input);
+				funcAbx.setA(Integer.parseInt(input));
+				expression.replace(expression.length()-3, expression.length()-2, input+"*");
+
+			} else if(totalNumInputed == 1) {
+				System.out.println("setting B: "+input);
+
+				funcAbx.setB(Integer.parseInt(input));
+				expression.replace(expression.length()-2, expression.length()-1, input);
+
+			} else if(totalNumInputed == 2) {
+				System.out.println("setting X: "+input);
+
+				funcAbx.setX(Integer.parseInt(input));
+				expression.replace(expression.length()-1, expression.length(), superscript(input));
+			} else {
+				if(checkIfOperandsClicked(input)) {
+					return true; //skip
+				} else {
+					isAbx = false;
+					totalNumInputed = 0;
+					return false;
+				}
+			}
+
+			System.out.println("EXP: "+expression);
+			totalNumInputed++;
+			return true;
+		}
+	}
+		return false;
+
+	}
 	
 	public void appendToExpression(String newInput) {
+		if(!checkIfFunctionEnabled(newInput)) {
+		
+		String expressionString = expression.toString();
 		
 		//Append to the expression input if the input is empty or the button clicked is a number
-		if(expression.isEmpty() || expression.length() == 1 || Arrays.asList(OPERANDS).contains(newInput)) {
+		if((expression.isEmpty() && !newInput.equals("+") && !newInput.equals("*") && !newInput.equals("/")) || checkIfOperandsClicked(newInput)) {
 			expression.append(newInput);
-			// NOT SURE WHAT THE LINES BELOW WERE FOR??
-//			if(!(newInput.equals("+") || newInput.equals("*") || newInput.equals("/"))) {
-//				expression.append(newInput);
-//			}
+
+		} else if (expression.length() == 1  && expressionString.equals("-") && checkIfOperatorClicked(newInput)) {
+			if(newInput.equals("+")) {
+				expression.deleteCharAt(expression.length() - 1);
+			} 
+			else {
+				return;
+			}
+		} else if (expression.isEmpty() && (newInput.equals("+") || newInput.equals("*") || newInput.equals("/"))) {
+			return;
 		}
 		//Check if any operator is clicked twice - if yes, replace the new operator by the new one
 		else {
 			String lastInput = expression.substring(expression.length() - 1);
+
 			if(checkIfOperatorClicked(lastInput)) {
-				System.out.println("Another operator is clicked");
 				expression.deleteCharAt(expression.length() - 1);
 				expression.append(newInput);
 			}
@@ -105,13 +174,13 @@ public class Calculator {
 				expression.append(newInput);
 			}
 		}
-
+		}
 	}
 	
 	public void calculateExpression(String calculatorExpression) {
 		String lastInput = expression.substring(expression.length() - 1);
 		if(checkIfOperatorClicked(lastInput)) {
-			expression.deleteCharAt(expression.length());
+			expression.deleteCharAt(expression.length()-1);
 //			expression.deleteCharAt(expression.length() - 1);
 		}
 		// TODO: Turn expression into postfix expression
@@ -196,6 +265,12 @@ private double calculateBasicArithmetic(double operand1, double operand2, String
 		}
 	}
 	
+public void appendAbxToExpression(String abx) {
+	if(expression.isEmpty() || !checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
+		isAbx = true;
+		expression.append(abx);
+	}
+}
 	
 /**
  * Method to calculate log of base b of x.
@@ -224,6 +299,8 @@ private double calculateBasicArithmetic(double operand1, double operand2, String
 	public void logab() {
 		this.logbx(this.operand_a,this.operand_b);
 	}
+	
+	
 	
 // Support Methods for the Infix to Postfix Method	
 	private boolean isOperand(char c) {

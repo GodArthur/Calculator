@@ -29,6 +29,7 @@ public class View extends JFrame {
 	private JButton btn_minus = new JButton("-");
 	private JButton btn_mult = new JButton("*");
 	private JButton btn_div = new JButton("/");
+	private JButton btn_abx = new JButton("ab\u02e3");
 	private JButton btn_equal = new JButton("=");
 	// TODO: TO BE ADDED
 //	private JButton btn_opbracket = new JButton("(");
@@ -46,7 +47,7 @@ public class View extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
@@ -57,7 +58,7 @@ public class View extends JFrame {
 				}
 			}
 		});
-	}
+	}*/
 
 	/**
 	 * Create the frame.
@@ -86,6 +87,7 @@ public class View extends JFrame {
 		contentPane.add(btn_minus);
 		contentPane.add(btn_mult);
 		contentPane.add(btn_div);
+		contentPane.add(btn_abx);
 		contentPane.add(btn_equal);
 		
 		//TODO: ADD BUTTONS ON PANE HERE
@@ -119,6 +121,10 @@ public class View extends JFrame {
 	
 	void addCalculateBtnListener(ActionListener listen) {
 		btn_equal.addActionListener(listen);
+	}
+	
+	void addABtoXBtnListener(ActionListener listen) {
+		btn_abx.addActionListener(listen);
 	}
 
 

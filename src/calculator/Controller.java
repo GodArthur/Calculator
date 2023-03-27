@@ -11,7 +11,6 @@ import java.util.ArrayList;
 public class Controller {
 	private Calculator model;
 	private View view;
-
 	
 //	private ArrayList<String> operands = new ArrayList<String>(); 
 //	private ArrayList<String> operators = new ArrayList<String>(); 
@@ -25,6 +24,7 @@ public class Controller {
 
 		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
 		this.view.addCalculateBtnListener(new CalculateBtnListener());
+		this.view.addABtoXBtnListener(new ABtoXBtnListener());
 	}
 	
 	class OperandsAndOperatorsBtnListener implements ActionListener{
@@ -50,6 +50,19 @@ public class Controller {
 			System.out.println("expression: "+model.getExpression());
 
 			//TODO Calculate the math expression input in the TextField
+		}
+		
+	}
+	
+	class ABtoXBtnListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonText = ((JButton) e.getSource()).getText();
+
+			model.appendAbxToExpression(buttonText);
+			System.out.println(buttonText);
+			view.setExpressionInput(model.getExpression());
 		}
 		
 	}
