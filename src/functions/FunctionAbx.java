@@ -1,10 +1,13 @@
 package functions;
 
-public class FunctionAbx {
-
-	private int a;
-	private int b;
-	private int x;
+public class FunctionAbx extends Functions{
+// Instances all exist in Superclass Function already, 
+	//Also the superclass as getters and setters for the variables
+	// but they are type double so it gives error here, you can override or just return a double
+	
+//	private int a;
+//	private int b;
+//	private int x;
 	
 	
 	public FunctionAbx(){
@@ -41,5 +44,11 @@ public class FunctionAbx {
 	
 	public double compute() {
 		return a*(Math.pow(b, x));
+	}
+
+	@Override
+	public boolean validate() {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

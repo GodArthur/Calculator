@@ -1,5 +1,6 @@
 package calculator;
 import functions.FunctionAbx;
+import functions.*;
 import java.util.*;
 /**
  * Expression is the Model in the MVC Design Pattern
@@ -13,16 +14,16 @@ public class Calculator {
 	public static final String[] OPERANDS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
 	private boolean isAbx = false;
 	private int totalNumInputed = 0;
-	FunctionAbx funcAbx = new FunctionAbx();
+	Functions transcendentalFunction;
+	//FunctionAbx funcAbx = new FunctionAbx();
 
 	
-	// Store in memory variables
+	// Store in memory variables TODO : DO WE NEED THESE VARIABLES BELOW??
 	private double operand_a; 
 	private double operand_b;
 	private double operand_c;
 	private double operand_d;
 	private ArrayList<Double> data = new ArrayList<Double>(); // FOR THE PEOPLE WITH STAT FUNCTIONS
-	private String error = "empty";
 	
 /**
  * Getters
@@ -43,7 +44,7 @@ public class Calculator {
 		return data;
 	}
 	public String getError() {
-		return error;
+		return transcendentalFunction.getErrorMessage();
 	}
 	
 	public String getExpression() {
@@ -70,9 +71,10 @@ public class Calculator {
 		this.data = data;
 	}
 
-	public void setError(String error) {
-		this.error = error;
-	}
+	//NO NEED THIS
+//	public void setError(String error) {
+//		this.error = error;
+//	}
 
 	public void clear() {
 		operand_a = 0;
@@ -80,7 +82,6 @@ public class Calculator {
 		operand_c = 0;
 		operand_d = 0;
 		data.clear();
-		error = "empty";
 	}
 	
 	public static String superscript(String str) {
@@ -93,7 +94,7 @@ public class Calculator {
 	    str = str.replaceAll("6", "⁶");
 	    str = str.replaceAll("7", "⁷");
 	    str = str.replaceAll("8", "⁸");
-	    str = str.replaceAll("9", "⁹");         
+	    str = str.replaceAll("9", "⁹");           
 	    return str;
 	}
 	
@@ -104,10 +105,9 @@ public class Calculator {
 		return (Arrays.asList(OPERANDS).contains(lastInput)) ? true : false;
 	}
 	
+	// I CHANGED YOUR functionABX to transcendentalFunction everywhere in this method
 	private boolean checkIfFunctionEnabled(String input) {
 		if(!expression.isEmpty()) {
-			
-
 
 		if(isAbx) {
 			if(checkIfOperatorClicked(input) && totalNumInputed < 3) {
@@ -116,19 +116,19 @@ public class Calculator {
 			
 			if(totalNumInputed == 0) {
 				System.out.println("setting A: "+input);
-				funcAbx.setA(Integer.parseInt(input));
+				transcendentalFunction.setA(Integer.parseInt(input));
 				expression.replace(expression.length()-3, expression.length()-2, input+"*");
 
 			} else if(totalNumInputed == 1) {
 				System.out.println("setting B: "+input);
 
-				funcAbx.setB(Integer.parseInt(input));
+				transcendentalFunction.setB(Integer.parseInt(input));
 				expression.replace(expression.length()-2, expression.length()-1, input);
 
 			} else if(totalNumInputed == 2) {
 				System.out.println("setting X: "+input);
 
-				funcAbx.setX(Integer.parseInt(input));
+				transcendentalFunction.setX(Integer.parseInt(input));
 				expression.replace(expression.length()-1, expression.length(), superscript(input));
 			} else {
 				if(checkIfOperandsClicked(input)) {
@@ -187,17 +187,33 @@ public class Calculator {
 		String lastInput = expression.substring(expression.length() - 1);
 		if(checkIfOperatorClicked(lastInput)) {
 			expression.deleteCharAt(expression.length()-1);
-//			expression.deleteCharAt(expression.length() - 1);
 		}
-		// TODO: Turn expression into postfix expression
-		ArrayList<String> expressionPostfix = infixToPostfix(calculatorExpression);
-		// probably a for loop here to go through postfixexpression
+		// MAKE CALLS TO APPROPRIATE THINGS HERE
 		
-		// TODO: CALCULATIONS BASIC
-		// TODO: CALCULATIONS ADVANCED
+	}
+	
+	
+	// BASIC ARITHMETIC
+	private double calculateBasicArithmetic(double operand1, double operand2, String operator) {
+			switch(operator) {
+			case "+": return operand1+operand2;
+			case "-": return operand1-operand2;
+			case "x": return operand1*operand2;
+			case "/": 
+				if(operand2==0) {
+					this.error="Division by 0 error";
+					return 0;
+					}
+				return operand1/operand2;
+			default: return 0;
+			}
+		}
 		
-		// Delete the expression and replace with the result only
-		
+	public void appendAbxToExpression(String abx) {
+		if(expression.isEmpty() || !checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
+			isAbx = true;
+			expression.append(abx);
+		}
 	}
 	
 /**
@@ -205,110 +221,58 @@ public class Calculator {
  * @param expression
  * @return
  */
-	private ArrayList<String> infixToPostfix(String expression){
-		Stack<Character> postfixStack = new Stack();
-		ArrayList<String> postfixString = new ArrayList<String>();
-		String tempOperand="";
-		
-		for (char i: expression.toCharArray()) {
-			//Brackets
-
-			if (i=='(') {postfixStack.push(i);}
-			
-			if (i==')') {
-				while(postfixStack.peek() != '(') {
-					postfixString.add(Character.toString(postfixStack.pop()));
-				}
-				// removes open bracket leftover
-				postfixStack.pop();
-			}
-			// Operand : will keep concatenating digits that are part of the operand
-			if (isOperand(i)) {
-				tempOperand = tempOperand.concat(Character.toString(i));
-				if (postfixString.size()>0 && isOperand(postfixString.get(postfixString.size()-1)) )
-				postfixString.set(postfixString.size()-1, tempOperand);
-				else
-				postfixString.add(Character.toString(i));
-			}
-			
-			//Operator : resets temporary operand, TODO : THIS PART IS NOT WORKING CORRECTLY
-			if (isOperator(i)) {
-				tempOperand="";
-	                // remove operators from the stack with higher or equal precedence
-	                // and append them at the end of the postfix expression
-	                while (!postfixStack.isEmpty() && precedence(i) >= precedence(postfixStack.peek())) {
-	                    postfixString.add(Character.toString(postfixStack.pop()));
-	                }
-	                // add current operator to string
-	                postfixString.add(Character.toString(i));
-			}
-		}
-	     
-		while (!postfixStack.isEmpty()) {
-	            postfixString.add(Character.toString(postfixStack.pop()));
-	        }
-		
-	      for (String str : postfixString)
-	      { System.out.println("COMPONENT "+str); }
-		return postfixString;
-		
-	}
-	
-	
-// BASIC ARITHMETIC
-private double calculateBasicArithmetic(double operand1, double operand2, String operator) {
-		switch(operator) {
-		case "+": return operand1+operand2;
-		case "-": return operand1-operand2;
-		case "x": return operand1*operand2;
-		case "/": 
-			if(operand2==0) {
-				this.error="Division by 0 error";
-				return 0;
-				}
-			return operand1/operand2;
-		default: return 0;
-		}
-	}
-	
-public void appendAbxToExpression(String abx) {
-	if(expression.isEmpty() || !checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
-		isAbx = true;
-		expression.append(abx);
-	}
-}
-	
-/**
- * Method to calculate log of base b of x.
- * Author: Marie-Josee Castellanos
- * @param b : Base of the logarithmic function
- * @param x 
- * Will not return anything, rather will set the result as an instance of the expression.
- */
-	public double logbx(double b, double x) {
-		double result=0;
-		
-		// error conditions
-		if (x <= 0) {this.setError("Undefined");}
-		if (b <= 1) {this.setError("Undefined");}
-		
-		// special case(s)
-		if (x == 1) {result = 0;}
-		
-		// Regular valid cases
-		//TODO : Estimation (Halley/Newton) instead of loga/logb
-		result = Math.log(x)/Math.log(b);
-		return result;
-	}
-	
-// Same method but in case the user enters values in memory before selecting the function
-	public void logab() {
-		this.logbx(this.operand_a,this.operand_b);
-	}
+//	private ArrayList<String> infixToPostfix(String expression){
+//		Stack<Character> postfixStack = new Stack();
+//		ArrayList<String> postfixString = new ArrayList<String>();
+//		String tempOperand="";
+//		
+//		for (char i: expression.toCharArray()) {
+//			//Brackets
+//
+//			if (i=='(') {postfixStack.push(i);}
+//			
+//			if (i==')') {
+//				while(postfixStack.peek() != '(') {
+//					postfixString.add(Character.toString(postfixStack.pop()));
+//				}
+//				// removes open bracket leftover
+//				postfixStack.pop();
+//			}
+//			// Operand : will keep concatenating digits that are part of the operand
+//			if (isOperand(i)) {
+//				tempOperand = tempOperand.concat(Character.toString(i));
+//				if (postfixString.size()>0 && isOperand(postfixString.get(postfixString.size()-1)) )
+//				postfixString.set(postfixString.size()-1, tempOperand);
+//				else
+//				postfixString.add(Character.toString(i));
+//			}
+//			
+//			//Operator : resets temporary operand, TODO : THIS PART IS NOT WORKING CORRECTLY
+//			if (isOperator(i)) {
+//				tempOperand="";
+//	                // remove operators from the stack with higher or equal precedence
+//	                // and append them at the end of the postfix expression
+//	                while (!postfixStack.isEmpty() && precedence(i) >= precedence(postfixStack.peek())) {
+//	                    postfixString.add(Character.toString(postfixStack.pop()));
+//	                }
+//	                // add current operator to string
+//	                postfixString.add(Character.toString(i));
+//			}
+//		}
+//	     
+//		while (!postfixStack.isEmpty()) {
+//	            postfixString.add(Character.toString(postfixStack.pop()));
+//	        }
+//		
+//	      for (String str : postfixString)
+//	      { System.out.println("COMPONENT "+str); }
+//		return postfixString;
+//		
+//	}
 	
 	
 	
-// Support Methods for the Infix to Postfix Method	
+// Support Methods for the Infix to Postfix Method	- > wont be used but maybe support might still be useful
 	private boolean isOperand(char c) {
 		if (Arrays.asList(OPERANDS).contains(Character.toString(c)))
 			return true;
@@ -329,24 +293,24 @@ public void appendAbxToExpression(String abx) {
 		else 
 			return false;
 	}
-	
-	private int precedence(char c) {
-		int precedence = 0;
-		switch(c) {
-		case '+':
-		precedence = 0;
-		
-		case '-':
-		precedence = 0;
-		
-		case '*':
-		precedence = 1;
-		
-		case '/':
-		precedence = 1;
-		}
-		
-		return precedence;
-	}
-	
+//	
+//	private int precedence(char c) {
+//		int precedence = 0;
+//		switch(c) {
+//		case '+':
+//		precedence = 0;
+//		
+//		case '-':
+//		precedence = 0;
+//		
+//		case '*':
+//		precedence = 1;
+//		
+//		case '/':
+//		precedence = 1;
+//		}
+//		
+//		return precedence;
+//	}
+//	
 }
