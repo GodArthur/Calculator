@@ -6,7 +6,6 @@ import java.awt.*;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
-
 public class NewView extends JFrame {
 
 	private JPanel panel;
@@ -14,32 +13,31 @@ public class NewView extends JFrame {
 	JTextField textField;
 	JButton[] numBtns = new JButton[10];
 	JButton[] funcBtns = new JButton[8];
-	
+
 	JButton addBtn, subBtn, multBtn, divBtn;
 	JButton decBtn, eqBtn, delBtn, clrBtn;
 
-	
 	/**
 	 * Create the frame.
 	 */
 	public NewView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setSize(420, 550);
-		//setBounds(100, 100, 565, 478);
-		
-		//Creating Content Pane
+		// setBounds(100, 100, 565, 478);
+
+		// Creating Content Pane
 		contentPane = new JPanel();
 		contentPane.setSize(420, 550);
 		contentPane.setBackground(Color.LIGHT_GRAY);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		//Creating Input Textbox
+
+		// Creating Input Textbox
 		textField = new JTextField();
 		textField.setBounds(50, 25, 300, 50);
 		textField.setEditable(false);
-		
-		//Initializing operator buttons
+
+		// Initializing operator buttons
 		addBtn = new JButton("+");
 		subBtn = new JButton("-");
 		multBtn = new JButton("x");
@@ -48,33 +46,33 @@ public class NewView extends JFrame {
 		eqBtn = new JButton("=");
 		delBtn = new JButton("DEL");
 		clrBtn = new JButton("C");
-		
+
 		funcBtns[0] = addBtn;
 		funcBtns[1] = subBtn;
 		funcBtns[2] = divBtn;
 		funcBtns[3] = multBtn;
 		funcBtns[4] = decBtn;
-		funcBtns[5] = eqBtn;;
-		funcBtns[6] = delBtn;;
+		funcBtns[5] = eqBtn;
+		funcBtns[6] = delBtn;
 		funcBtns[7] = clrBtn;
-		
-		//Setting the value of the buttons
-		for(int i = 0; i < numBtns.length; i++) {
-			
+
+		// Initializing the value of the buttons
+		for (int i = 0; i < numBtns.length; i++) {
+
 			numBtns[i] = new JButton(String.valueOf(i));
-			//numBtns[i].setFocusable(false);
+			// numBtns[i].setFocusable(false);
 		}
-		
+
 		delBtn.setBounds(50, 430, 135, 40);
 		clrBtn.setBounds(205, 430, 135, 40);
-		
-		//creating the button grid
+
+		// creating the button grid
 		panel = new JPanel();
 		panel.setBounds(50, 100, 300, 300);
 		panel.setBackground(Color.BLACK);
 		panel.setLayout(new GridLayout(4, 4, 10, 10));
-		
-		//Adding buttons to the calculator GUI
+
+		// Adding buttons to the calculator GUI
 		panel.add(numBtns[1]);
 		panel.add(numBtns[2]);
 		panel.add(numBtns[3]);
@@ -91,52 +89,57 @@ public class NewView extends JFrame {
 		panel.add(numBtns[0]);
 		panel.add(eqBtn);
 		panel.add(divBtn);
-		
-		for(JButton num : numBtns) {
+
+		//changing button num colour
+		for (JButton num : numBtns) {
 			num.setBackground(Color.WHITE);
-		
-			
 		}
-		
-		for(JButton func : funcBtns) {
-			
+
+		//changing button func colour
+		for (JButton func : funcBtns) {
+
 			func.setBackground(Color.GRAY);
 		}
-			
+
 		add(panel);
 		add(delBtn);
 		add(clrBtn);
 		add(textField);
-			
-	
+
 	}
-	
-	
-	
+
 	public String getExpressionInput() {
 		return textField.getText();
 	}
-	
+
 	public void setExpressionInput(String display) {
 		textField.setText(display);
 	}
-	
+
+	/*
+	 * Function adds event listeners to the operators and operands
+	 */
 	void addOperandsAndOperatorsBtnListener(ActionListener listen) {
-		
-		//Adding event listeners to the operators and operands
-		for(JButton num : numBtns) {
+
+		for (JButton num : numBtns) {
 			num.addActionListener(listen);
 		}
-		
-		for(JButton func : funcBtns) {
-			func.addActionListener(listen);
+
+		for (JButton func : funcBtns) {
+
+			if (!(func.getText().equals("="))) {
+				func.addActionListener(listen);
+			}
 		}
-		
-			//funcBtns[i].setFocusable(false);
+
+		// funcBtns[i].setFocusable(false);
 
 	}
-	
+
+	/*
+	 * Function adds an event listener to the equal button
+	 */
 	void addCalculateBtnListener(ActionListener listen) {
 		eqBtn.addActionListener(listen);
 	}
-	}
+}
