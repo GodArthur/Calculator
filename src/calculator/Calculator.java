@@ -12,10 +12,13 @@ public class Calculator {
 	private StringBuilder expression = new StringBuilder("");
 	public static final String[] OPERATORS = {"+", "-", "*", "/"};
 	public static final String[] OPERANDS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+	
+	// Find another than an instance, probably just compare operator and type of function
 	private boolean isAbx = false;
 	private int totalNumInputed = 0;
+	
 	Functions transcendentalFunction;
-	//FunctionAbx funcAbx = new FunctionAbx();
+	private String errorMessage = "";
 
 	
 	// Store in memory variables TODO : DO WE NEED THESE VARIABLES BELOW??
@@ -71,10 +74,9 @@ public class Calculator {
 		this.data = data;
 	}
 
-	//NO NEED THIS
-//	public void setError(String error) {
-//		this.error = error;
-//	}
+	public void setErrorMessage(String error) {
+		this.errorMessage = error;
+	}
 
 	public void clear() {
 		operand_a = 0;
@@ -83,7 +85,8 @@ public class Calculator {
 		operand_d = 0;
 		data.clear();
 	}
-	
+
+	// Maybe to be moved to the controller instead?
 	public static String superscript(String str) {
 	    str = str.replaceAll("0", "⁰");
 	    str = str.replaceAll("1", "¹");
@@ -104,6 +107,7 @@ public class Calculator {
 	private boolean checkIfOperandsClicked(String lastInput) {
 		return (Arrays.asList(OPERANDS).contains(lastInput)) ? true : false;
 	}
+
 	
 	// I CHANGED YOUR functionABX to transcendentalFunction everywhere in this method
 	private boolean checkIfFunctionEnabled(String input) {
@@ -184,31 +188,50 @@ public class Calculator {
 	}
 	
 	public void calculateExpression(String calculatorExpression) {
+		if(!expression.isEmpty()) {
 		String lastInput = expression.substring(expression.length() - 1);
+		
 		if(checkIfOperatorClicked(lastInput)) {
 			expression.deleteCharAt(expression.length()-1);
 		}
-		// MAKE CALLS TO APPROPRIATE THINGS HERE
 		
+		// BASIC TODO
+		
+		//TRANSCENDENTAL FUNCTIONS TODO
+
+		
+		}
 	}
 	
+	private ArrayList<String> expressionSeparated(String expression){
+		ArrayList<String> expressionSeparated = new ArrayList<String>();
+		// TODO 
+		return expressionSeparated;
+	}
 	
-	// BASIC ARITHMETIC
-	private double calculateBasicArithmetic(double operand1, double operand2, String operator) {
+/**
+ * Method used for basic arithmetic
+ * @param operand1
+ * @param operand2
+ * @param operator
+ * @return
+ */
+	private double compute(double operand1, double operand2, String operator) {
 			switch(operator) {
 			case "+": return operand1+operand2;
 			case "-": return operand1-operand2;
 			case "x": return operand1*operand2;
 			case "/": 
 				if(operand2==0) {
-					this.error="Division by 0 error";
+					this.errorMessage ="Division by 0 error";
 					return 0;
 					}
 				return operand1/operand2;
 			default: return 0;
 			}
 		}
-		
+
+	// Method below should be moved to FunctionAbx
 	public void appendAbxToExpression(String abx) {
 		if(expression.isEmpty() || !checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
 			isAbx = true;

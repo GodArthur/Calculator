@@ -6,14 +6,14 @@
  */	
 package functions;
 
-public class LogBX extends Functions{
+public class FunctionLogBX extends Functions{
 	
-	LogBX(){
+	FunctionLogBX(){
 		this.b = 0;
 		this.x = 0;
 	}
 
-	LogBX(double b, double x){
+	FunctionLogBX(double b, double x){
 		this.b = b;
 		this.x = x;
 	}
@@ -32,8 +32,6 @@ public class LogBX extends Functions{
 
 	@Override
 	public boolean validate() {
-		// TODO: VERIFICATION THAT ALL VARIABLES ARE ENTERED
-		
 		// error conditions
 		if (x <= 0) {
 			this.setErrorMessage("Undefined");
