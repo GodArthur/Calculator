@@ -20,21 +20,6 @@ public class NewView extends JFrame {
 
 	
 	/**
-	 * Launch the application.
-	 */
-//	public static void main(String[] args) {
-//		EventQueue.invokeLater(new Runnable() {
-//			public void run() {
-//				try {
-//					NewView frame = new NewView();
-//					frame.setVisible(true);
-//				} catch (Exception e) {
-//					e.printStackTrace();
-//				}
-//			}
-//		});
-//	}
-	/**
 	 * Create the frame.
 	 */
 	public NewView() {
@@ -83,12 +68,13 @@ public class NewView extends JFrame {
 		delBtn.setBounds(50, 430, 135, 40);
 		clrBtn.setBounds(205, 430, 135, 40);
 		
+		//creating the button grid
 		panel = new JPanel();
 		panel.setBounds(50, 100, 300, 300);
 		panel.setBackground(Color.BLACK);
 		panel.setLayout(new GridLayout(4, 4, 10, 10));
 		
-		
+		//Adding buttons to the calculator GUI
 		panel.add(numBtns[1]);
 		panel.add(numBtns[2]);
 		panel.add(numBtns[3]);
@@ -115,18 +101,14 @@ public class NewView extends JFrame {
 		for(JButton func : funcBtns) {
 			
 			func.setBackground(Color.GRAY);
-			//panel.add(func);
 		}
-		
-		
-		
+			
 		add(panel);
 		add(delBtn);
 		add(clrBtn);
 		add(textField);
 			
-
-		
+	
 	}
 	
 	
@@ -141,6 +123,7 @@ public class NewView extends JFrame {
 	
 	void addOperandsAndOperatorsBtnListener(ActionListener listen) {
 		
+		//Adding event listeners to the operators and operands
 		for(JButton num : numBtns) {
 			num.addActionListener(listen);
 		}
