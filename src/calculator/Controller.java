@@ -11,6 +11,9 @@ import java.util.ArrayList;
 public class Controller {
 	private Calculator model;
 	private View view;
+	private NewView newView;
+
+
 	
 //	private ArrayList<String> operands = new ArrayList<String>(); 
 //	private ArrayList<String> operators = new ArrayList<String>(); 
@@ -27,6 +30,15 @@ public class Controller {
 		this.view.addABtoXBtnListener(new ABtoXBtnListener());
 	}
 	
+	public Controller(Calculator model, NewView view) {
+		this.model = model;
+		this.newView = view;
+
+		this.newView.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
+		this.newView.addCalculateBtnListener(new CalculateBtnListener());
+	}
+	
+	
 	class OperandsAndOperatorsBtnListener implements ActionListener{
 
 		@Override
@@ -35,7 +47,7 @@ public class Controller {
 
 			model.appendToExpression(buttonText);
 			System.out.println(buttonText);
-			view.setExpressionInput(model.getExpression());
+			newView.setExpressionInput(model.getExpression());
 		}
 		
 	}
