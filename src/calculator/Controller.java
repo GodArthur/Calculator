@@ -39,6 +39,14 @@ public class Controller {
 	}
 	
 	
+ * Setters
+ */
+	public void setModel(Calculator model) {
+		this.model = model;
+	}
+
+	
+//-------------------------------- BtnListener Class -----------------------------------------------//	
 	class OperandsAndOperatorsBtnListener implements ActionListener{
 
 		@Override
@@ -59,12 +67,18 @@ public class Controller {
 			String expressionInputText = model.getExpression();
 			
 			model.calculateExpression(expressionInputText);
+			if(model.getError()=="")
+			view.setExpressionInput(model.getExpression());
+			else
+				view.setExpressionInput(model.getError());
 			System.out.println("expression: "+model.getExpression());
 
 			//TODO Calculate the math expression input in the TextField
 		}
 		
 	}
+	
+//-------------------------------- Transcendental functions Btn Classes -----------------------------------------------//	
 	
 	class ABtoXBtnListener implements ActionListener{
 
@@ -79,11 +93,20 @@ public class Controller {
 		
 	}
 	
-	//getters
-	
-	//setters
-	public void setModel(Calculator model) {
-		this.model = model;
+	class LogBXBtnListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonText = ((JButton) e.getSource()).getText();
+
+			model.appendLogbXToExpression(buttonText);
+			System.out.println(buttonText);
+			view.setExpressionInput(model.getExpression());
+		}
+		
 	}
+	
+	//TODO : ADD YOUR BtnListener 
+	
 
 }

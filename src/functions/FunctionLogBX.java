@@ -8,12 +8,12 @@ package functions;
 
 public class FunctionLogBX extends Functions{
 	
-	FunctionLogBX(){
+	public FunctionLogBX(){
 		this.b = 0;
 		this.x = 0;
 	}
 
-	FunctionLogBX(double b, double x){
+	public FunctionLogBX(double b, double x){
 		this.b = b;
 		this.x = x;
 	}
