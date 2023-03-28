@@ -44,5 +44,11 @@ public class FunctionLogBX extends Functions{
 		
 		return true;
 	}
+
+	@Override
+	public String parse(String input, String expression) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }

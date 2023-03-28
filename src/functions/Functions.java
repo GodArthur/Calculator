@@ -4,6 +4,8 @@ public abstract class Functions {
 	
 	public String type;
 	public String errorMessage;
+	protected int varsInputed; //the number of variables you inputed in the calculator (ex: ab^x -> 2*3^x means varsInputed = 2)
+	protected int totalVars; //the total number of variables you need for your function
 	protected double a;
 	protected double b;
 	protected double x;
@@ -37,6 +39,12 @@ public abstract class Functions {
 	public double getY() {
 		return this.y;
 	}
+	public double getVarsInputed() {
+		return this.varsInputed;
+	}
+	public double getTotalVars() {
+		return this.totalVars;
+	}
 	
 /**
  * Setters
@@ -59,7 +67,6 @@ public abstract class Functions {
 	public void setY(double y) {
 		this.y = y;
 	}
-
 /**
  * Abstract method to be implemented in subclasses as to calculate the function defined in the subclass.
  * @return double value from the resulting computation.
@@ -71,4 +78,5 @@ public abstract class Functions {
  */
 	public abstract boolean validate();
 	
+	public abstract String parse(String input, String expression);
 }

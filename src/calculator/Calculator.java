@@ -1,5 +1,6 @@
 package calculator;
 import functions.FunctionAbx;
+import misc.StringHelper;
 import functions.*;
 import java.util.*;
 /**
@@ -10,12 +11,11 @@ import java.util.*;
 public class Calculator {
 
 	private StringBuilder expression = new StringBuilder("");
-	public static final String[] OPERATORS = {"+", "-", "*", "/"};
-	public static final String[] OPERANDS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+
+	private StringBuilder expressionToParse = new StringBuilder("");
 	
 	// Find another than an instance, probably just compare operator and type of function
-	private boolean isAbx = false;
-	private int totalNumInputed = 0;
+
 	
 	Functions transcendentalFunction;
 	private String errorMessage = "";
@@ -86,68 +86,23 @@ public class Calculator {
 		data.clear();
 	}
 
-	// Maybe to be moved to the controller instead?
-	public static String superscript(String str) {
-	    str = str.replaceAll("0", "⁰");
-	    str = str.replaceAll("1", "¹");
-	    str = str.replaceAll("2", "²");
-	    str = str.replaceAll("3", "³");
-	    str = str.replaceAll("4", "⁴");
-	    str = str.replaceAll("5", "⁵");
-	    str = str.replaceAll("6", "⁶");
-	    str = str.replaceAll("7", "⁷");
-	    str = str.replaceAll("8", "⁸");
-	    str = str.replaceAll("9", "⁹");           
-	    return str;
-	}
-	
-	private boolean checkIfOperatorClicked(String lastInput) {
-		return (Arrays.asList(OPERATORS).contains(lastInput)) ? true : false;
-	}
-	private boolean checkIfOperandsClicked(String lastInput) {
-		return (Arrays.asList(OPERANDS).contains(lastInput)) ? true : false;
-	}
 
-	
-	// I CHANGED YOUR functionABX to transcendentalFunction everywhere in this method
 	private boolean checkIfFunctionEnabled(String input) {
 		if(!expression.isEmpty()) {
 
-		if(isAbx) {
-			if(checkIfOperatorClicked(input) && totalNumInputed < 3) {
+		if(transcendentalFunction instanceof FunctionAbx) {
+			String expString = expression.toString();
+			String expr = transcendentalFunction.parse(input, expString);
+			if(expr.equals("-1")) {
 				return true;
 			}
-			
-			if(totalNumInputed == 0) {
-				System.out.println("setting A: "+input);
-				transcendentalFunction.setA(Integer.parseInt(input));
-				expression.replace(expression.length()-3, expression.length()-2, input+"*");
-
-			} else if(totalNumInputed == 1) {
-				System.out.println("setting B: "+input);
-
-				transcendentalFunction.setB(Integer.parseInt(input));
-				expression.replace(expression.length()-2, expression.length()-1, input);
-
-			} else if(totalNumInputed == 2) {
-				System.out.println("setting X: "+input);
-
-				transcendentalFunction.setX(Integer.parseInt(input));
-				expression.replace(expression.length()-1, expression.length(), superscript(input));
-			} else {
-				if(checkIfOperandsClicked(input)) {
-					return true; //skip
-				} else {
-					isAbx = false;
-					totalNumInputed = 0;
-					return false;
-				}
+			if(transcendentalFunction.getVarsInputed() == transcendentalFunction.getTotalVars()) {
+				transcendentalFunction = null;
 			}
-
 			System.out.println("EXP: "+expression);
-			totalNumInputed++;
 			return true;
 		}
+		
 	}
 		return false;
 
@@ -159,10 +114,10 @@ public class Calculator {
 		String expressionString = expression.toString();
 		
 		//Append to the expression input if the input is empty or the button clicked is a number
-		if((expression.isEmpty() && !newInput.equals("+") && !newInput.equals("*") && !newInput.equals("/")) || checkIfOperandsClicked(newInput)) {
+		if((expression.isEmpty() && !newInput.equals("+") && !newInput.equals("*") && !newInput.equals("/")) || StringHelper.checkIfOperandsClicked(newInput)) {
 			expression.append(newInput);
 
-		} else if (expression.length() == 1  && expressionString.equals("-") && checkIfOperatorClicked(newInput)) {
+		} else if (expression.length() == 1  && expressionString.equals("-") && StringHelper.checkIfOperatorClicked(newInput)) {
 			if(newInput.equals("+")) {
 				expression.deleteCharAt(expression.length() - 1);
 			} 
@@ -176,7 +131,7 @@ public class Calculator {
 		else {
 			String lastInput = expression.substring(expression.length() - 1);
 
-			if(checkIfOperatorClicked(lastInput)) {
+			if(StringHelper.checkIfOperatorClicked(lastInput)) {
 				expression.deleteCharAt(expression.length() - 1);
 				expression.append(newInput);
 			}
@@ -191,7 +146,7 @@ public class Calculator {
 		if(!expression.isEmpty()) {
 		String lastInput = expression.substring(expression.length() - 1);
 		
-		if(checkIfOperatorClicked(lastInput)) {
+		if(StringHelper.checkIfOperatorClicked(lastInput)) {
 			expression.deleteCharAt(expression.length()-1);
 		}
 		
@@ -233,8 +188,9 @@ public class Calculator {
 
 	// Method below should be moved to FunctionAbx
 	public void appendAbxToExpression(String abx) {
-		if(expression.isEmpty() || !checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
-			isAbx = true;
+		if(expression.isEmpty() || !StringHelper.checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
+			transcendentalFunction = new FunctionAbx();
+			//isAbx = true;
 			expression.append(abx);
 		}
 	}
@@ -297,21 +253,21 @@ public class Calculator {
 	
 // Support Methods for the Infix to Postfix Method	- > wont be used but maybe support might still be useful
 	private boolean isOperand(char c) {
-		if (Arrays.asList(OPERANDS).contains(Character.toString(c)))
+		if (Arrays.asList(StringHelper.OPERANDS).contains(Character.toString(c)))
 			return true;
 		else 
 			return false;
 	}
 	
 	private boolean isOperand(String str) {
-		if (Arrays.asList(OPERANDS).contains(str))
+		if (Arrays.asList(StringHelper.OPERANDS).contains(str))
 			return true;
 		else 
 			return false;
 	}
 	
 	private boolean isOperator(char c) {
-		if (Arrays.asList(OPERATORS).contains(Character.toString(c)))
+		if (Arrays.asList(StringHelper.OPERATORS).contains(Character.toString(c)))
 			return true;
 		else 
 			return false;
