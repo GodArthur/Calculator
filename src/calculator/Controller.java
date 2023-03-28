@@ -10,16 +10,18 @@ import java.util.ArrayList;
 
 public class Controller {
 	private Calculator model;
+//	private OldView view;
 	private View view;
-	private NewView newView;
 
-
-	
-//	private ArrayList<String> operands = new ArrayList<String>(); 
-//	private ArrayList<String> operators = new ArrayList<String>(); 
+// Obsolete, to delete	
+//	public Controller(Calculator model, View view) {
+//		this.model = model;
+//		this.view = view;
 //
-//	StringBuilder currentNumber =  new StringBuilder("");
-//	private StringBuilder expression = new StringBuilder("");
+//		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
+//		this.view.addCalculateBtnListener(new CalculateBtnListener());
+//		this.view.addABtoXBtnListener(new ABtoXBtnListener());
+//	}
 	
 	public Controller(Calculator model, View view) {
 		this.model = model;
@@ -27,22 +29,14 @@ public class Controller {
 
 		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
 		this.view.addCalculateBtnListener(new CalculateBtnListener());
-		this.view.addABtoXBtnListener(new ABtoXBtnListener());
 	}
 	
-	public Controller(Calculator model, NewView view) {
-		this.model = model;
-		this.newView = view;
-
-		this.newView.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
-		this.newView.addCalculateBtnListener(new CalculateBtnListener());
-	}
-	
-	
- * Setters
- */
 	public void setModel(Calculator model) {
 		this.model = model;
+	}
+
+	public void setView(View view) {
+		this.view = view;
 	}
 
 	
@@ -55,7 +49,7 @@ public class Controller {
 
 			model.appendToExpression(buttonText);
 			System.out.println(buttonText);
-			newView.setExpressionInput(model.getExpression());
+			view.setExpressionInput(model.getExpression());
 		}
 		
 	}
