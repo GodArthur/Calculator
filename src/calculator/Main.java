@@ -5,7 +5,7 @@ public class Main{
 
 public static void main(String[] args) {
 
-	NewView calculatorView = new NewView();
+	View calculatorView = new View();
 	Calculator calculatorModel = new Calculator();
 	Controller calcController = new Controller(calculatorModel, calculatorView);
 	calculatorView.setVisible(true);
