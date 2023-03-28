@@ -12,10 +12,10 @@ public class NewView extends JFrame {
 	private JPanel contentPane;
 	JTextField textField;
 	JButton[] numBtns = new JButton[10];
-	JButton[] funcBtns = new JButton[8];
+	JButton[] funcBtns = new JButton[9];
 
 	JButton addBtn, subBtn, multBtn, divBtn;
-	JButton decBtn, eqBtn, delBtn, clrBtn;
+	JButton decBtn, eqBtn, delBtn, clrBtn, abxBtn;
 
 	/**
 	 * Create the frame.
@@ -40,12 +40,13 @@ public class NewView extends JFrame {
 		// Initializing operator buttons
 		addBtn = new JButton("+");
 		subBtn = new JButton("-");
-		multBtn = new JButton("x");
+		multBtn = new JButton("*");
 		divBtn = new JButton("/");
 		decBtn = new JButton(".");
 		eqBtn = new JButton("=");
 		delBtn = new JButton("DEL");
 		clrBtn = new JButton("C");
+		abxBtn = new JButton("abx");
 
 		funcBtns[0] = addBtn;
 		funcBtns[1] = subBtn;
@@ -55,6 +56,7 @@ public class NewView extends JFrame {
 		funcBtns[5] = eqBtn;
 		funcBtns[6] = delBtn;
 		funcBtns[7] = clrBtn;
+		funcBtns[8] = abxBtn;
 
 		// Initializing the value of the buttons
 		for (int i = 0; i < numBtns.length; i++) {
@@ -70,7 +72,7 @@ public class NewView extends JFrame {
 		panel = new JPanel();
 		panel.setBounds(50, 100, 300, 300);
 		panel.setBackground(Color.BLACK);
-		panel.setLayout(new GridLayout(4, 4, 10, 10));
+		panel.setLayout(new GridLayout(5, 4, 10, 10));
 
 		// Adding buttons to the calculator GUI
 		panel.add(numBtns[1]);
@@ -89,6 +91,7 @@ public class NewView extends JFrame {
 		panel.add(numBtns[0]);
 		panel.add(eqBtn);
 		panel.add(divBtn);
+		panel.add(abxBtn);
 
 		//changing button num colour
 		for (JButton num : numBtns) {
