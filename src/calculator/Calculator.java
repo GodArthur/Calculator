@@ -81,15 +81,17 @@ public class Calculator {
 * Method that applies the DEL button to the instance variables of the calculator
 */
 	public void del() {
-		this.expression = expression.deleteCharAt(expression.length()-1);
+		 if(!expression.isEmpty())
+			expression.deleteCharAt(expression.length()-1);
 	}
 	
 /**
  * 
  * @param newInput
 */
-	public void appendToExpression(String newInput) {
+	public void appendToExpressionOLD(String newInput) {
 		if(!checkIfFunctionEnabled(newInput)) {
+			
 		String expressionString = expression.toString();
 
 			if((expression.isEmpty() && !newInput.equals("+") && !newInput.equals("*") && !newInput.equals("/")) || StringHelper.checkIfOperandsClicked(newInput)) {
@@ -121,6 +123,62 @@ public class Calculator {
 			}
 		}
 
+	public void appendToExpression(String newInput) {
+			if(StringHelper.checkIfOperandsClicked(newInput))
+				expression.append(newInput);
+			
+			else if(StringHelper.checkIfOperatorClicked(newInput))
+				operatorHandler(newInput);
+			
+			else if(newInput=="del")
+				this.del();
+			
+			else if (newInput =="clr")
+				this.clear();
+			
+			else if (newInput == ".")
+				decimalHandler(newInput);
+			
+			else if(newInput =="(-)")
+				negationHandler(newInput);
+			
+			// TODO NO OPTION FOR "NEXT" SINCE IT SHOULD ONLE BE ACTIVE INSIDE T.FUNCTIONS --> MAYBE "FUNCTION ENABLED"?
+		}
+	
+	
+	private void operatorHandler(String newInput) {
+		if(!expression.isEmpty()) {
+			String lastInput = expression.substring(expression.length() - 1);
+			if(StringHelper.checkIfOperatorClicked(lastInput)) {
+				expression.deleteCharAt(expression.length() - 1);
+				expression.append(newInput);
+			}
+			else {
+				expression.append(newInput);
+			}
+		}
+		
+	}
+	
+	private void decimalHandler(String newInput) {
+		if(!expression.isEmpty()) {
+			String lastInput = expression.substring(expression.length() - 1);
+			if(StringHelper.checkIfOperandsClicked(lastInput)) {
+				expression.append(newInput);
+			}
+		}
+	}
+	
+	private void negationHandler(String newInput) {
+		if(!expression.isEmpty()) {
+			String lastInput = expression.substring(expression.length() - 1);
+			if(StringHelper.checkIfOperatorClicked(lastInput)) {
+				expression.append(newInput);
+			}
+			//else /// tODO AS FIRST ENTRY
+			
+		}
+	}
 	
 	private boolean isBasicArithmetic() {
 		if(!expression.isEmpty()) {
@@ -182,7 +240,7 @@ public class Calculator {
 	}
 
 /**
- * Method called by the controller when requests a logbx expression.
+ * Method called by the controller when it requests a logbx expression.
  * Creates the function instance and appends to the Calculator expression.	
  * @param logbx
  */

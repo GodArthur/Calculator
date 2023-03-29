@@ -12,10 +12,11 @@ public class View extends JFrame {
 	private JPanel contentPane;
 	JTextField textField;
 	JButton[] numBtns = new JButton[10];
-	JButton[] funcBtns = new JButton[10];
+	JButton[] funcBtns = new JButton[13]; // TODO : +1 SIZE OF ARRAY IF NECESSARY
 
 	JButton addBtn, subBtn, multBtn, divBtn;
-	JButton decBtn, eqBtn, delBtn, clrBtn, abxBtn, acosBtn;
+	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn;
+	JButton abxBtn, acosBtn, logbxBtn; //TODO : ADD YOUR BUTTON HERE
 
 	/**
 	 * Create the frame.
@@ -37,29 +38,42 @@ public class View extends JFrame {
 		textField.setBounds(50, 25, 300, 50);
 		textField.setEditable(false);
 
-		// Initializing operator buttons
+		// Initializing operator buttons 
 		addBtn = new JButton("+");
 		subBtn = new JButton("-");
 		multBtn = new JButton("*");
 		divBtn = new JButton("/");
+		
 		decBtn = new JButton(".");
 		eqBtn = new JButton("=");
+		negBtn = new JButton("(-)");
 		delBtn = new JButton("DEL");
 		clrBtn = new JButton("C");
+		nextBtn = new JButton("next");
+		
 		abxBtn = new JButton("abx");
 		acosBtn = new JButton("acos");
-
+		logbxBtn = new JButton("logbx");
+		// TODO : ADD BUTTON HERE
+		
+		
 		funcBtns[0] = addBtn;
 		funcBtns[1] = subBtn;
 		funcBtns[2] = divBtn;
 		funcBtns[3] = multBtn;
+		
 		funcBtns[4] = decBtn;
-		funcBtns[5] = eqBtn;
-		funcBtns[6] = delBtn;
-		funcBtns[7] = clrBtn;
-		funcBtns[8] = abxBtn;
-		funcBtns[9] = acosBtn;
-
+		funcBtns[5] = negBtn;
+		funcBtns[6] = eqBtn;
+		funcBtns[7] = delBtn;
+		funcBtns[8] = nextBtn;
+		funcBtns[9] = clrBtn;
+		
+		funcBtns[10] = abxBtn;
+		funcBtns[11] = acosBtn;
+		funcBtns[12] = logbxBtn;
+		// TODO : ADD BUTTON HERE
+		
 		// Initializing the value of the buttons
 		for (int i = 0; i < numBtns.length; i++) {
 
@@ -74,7 +88,7 @@ public class View extends JFrame {
 		panel = new JPanel();
 		panel.setBounds(50, 100, 300, 300);
 		panel.setBackground(Color.BLACK);
-		panel.setLayout(new GridLayout(5, 4, 10, 10));
+		panel.setLayout(new GridLayout(6, 4, 10, 10));
 
 		// Adding buttons to the calculator GUI
 		panel.add(numBtns[1]);
@@ -93,9 +107,13 @@ public class View extends JFrame {
 		panel.add(numBtns[0]);
 		panel.add(eqBtn);
 		panel.add(divBtn);
+		panel.add(negBtn);
+		panel.add(nextBtn);
 		panel.add(abxBtn);
 		panel.add(acosBtn);
-
+		panel.add(logbxBtn);
+		// TODO : ADD BUTTON HERE
+		
 		//changing button num colour
 		for (JButton num : numBtns) {
 			num.setBackground(Color.WHITE);
