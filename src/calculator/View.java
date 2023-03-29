@@ -46,7 +46,7 @@ public class View extends JFrame {
 		eqBtn = new JButton("=");
 		delBtn = new JButton("DEL");
 		clrBtn = new JButton("C");
-		abxBtn = new JButton("abx");
+		abxBtn = new JButton("ab\u02e3");
 		acosBtn = new JButton("acos");
 
 		funcBtns[0] = addBtn;
