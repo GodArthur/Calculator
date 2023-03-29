@@ -46,9 +46,7 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String buttonText = ((JButton) e.getSource()).getText();
-
 			model.appendToExpression(buttonText);
-			System.out.println(buttonText);
 			view.setExpressionInput(model.getExpression());
 		}
 		
@@ -59,7 +57,6 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String expressionInputText = model.getExpression();
-			
 			model.calculateExpression(expressionInputText);
 			if(model.getError()=="")
 			view.setExpressionInput(model.getExpression());

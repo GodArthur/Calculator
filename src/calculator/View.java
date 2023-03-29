@@ -40,7 +40,7 @@ public class View extends JFrame {
 
 		// Initializing operator buttons 
 		addBtn = new JButton("+");
-		subBtn = new JButton("-");
+		subBtn = new JButton("—");
 		multBtn = new JButton("*");
 		divBtn = new JButton("/");
 		

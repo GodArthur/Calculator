@@ -89,39 +89,39 @@ public class Calculator {
  * 
  * @param newInput
 */
-	public void appendToExpressionOLD(String newInput) {
-		if(!checkIfFunctionEnabled(newInput)) {
-			
-		String expressionString = expression.toString();
-
-			if((expression.isEmpty() && !newInput.equals("+") && !newInput.equals("*") && !newInput.equals("/")) || StringHelper.checkIfOperandsClicked(newInput)) {
-				expression.append(newInput);
-			} 
-			else if (expression.length() == 1  && expressionString.equals("-") && StringHelper.checkIfOperatorClicked(newInput)) {
-				if(newInput.equals("+")) {
-					expression.deleteCharAt(expression.length() - 1);
-				} 
-				else {
-					return;
-				}
-			} else if (expression.isEmpty() && (newInput.equals("+") || newInput.equals("*") || newInput.equals("/"))) {
-				return;
-			}
-			//Check if any operator is clicked twice - if yes, replace the new operator by the new one
-			else {
-				String lastInput = expression.substring(expression.length() - 1);
-
-				if(StringHelper.checkIfOperatorClicked(lastInput)) {
-					expression.deleteCharAt(expression.length() - 1);
-					expression.append(newInput);
-				}
-				
-				else {
-					expression.append(newInput);
-				}
-			}
-			}
-		}
+//	public void appendToExpressionOLD(String newInput) {
+//		if(!checkIfFunctionEnabled(newInput)) {
+//			
+//		String expressionString = expression.toString();
+//
+//			if((expression.isEmpty() && !newInput.equals("+") && !newInput.equals("*") && !newInput.equals("/")) || StringHelper.checkIfOperandsClicked(newInput)) {
+//				expression.append(newInput);
+//			} 
+//			else if (expression.length() == 1  && expressionString.equals("-") && StringHelper.checkIfOperatorClicked(newInput)) {
+//				if(newInput.equals("+")) {
+//					expression.deleteCharAt(expression.length() - 1);
+//				} 
+//				else {
+//					return;
+//				}
+//			} else if (expression.isEmpty() && (newInput.equals("+") || newInput.equals("*") || newInput.equals("/"))) {
+//				return;
+//			}
+//			//Check if any operator is clicked twice - if yes, replace the new operator by the new one
+//			else {
+//				String lastInput = expression.substring(expression.length() - 1);
+//
+//				if(StringHelper.checkIfOperatorClicked(lastInput)) {
+//					expression.deleteCharAt(expression.length() - 1);
+//					expression.append(newInput);
+//				}
+//				
+//				else {
+//					expression.append(newInput);
+//				}
+//			}
+//			}
+//		}
 
 	public void appendToExpression(String newInput) {
 			if(StringHelper.checkIfOperandsClicked(newInput))
@@ -167,45 +167,51 @@ public class Calculator {
 				expression.append(newInput);
 			}
 		}
+		//TODO :  IF THERE IS NO DIGIT ENTERED AFTER DECIMAL AND THEY CLICK CALCULATE/...ERROR MESSAGE
 	}
 	
 	private void negationHandler(String newInput) {
 		if(!expression.isEmpty()) {
 			String lastInput = expression.substring(expression.length() - 1);
-			if(StringHelper.checkIfOperatorClicked(lastInput)) {
-				expression.append(newInput);
+			if(lastInput==newInput) {
+				return;
 			}
-			//else /// tODO AS FIRST ENTRY
-			
+			else if(StringHelper.checkIfOperatorClicked(lastInput)) {
+				expression.append("-");
+			}
 		}
+		else
+			expression.append("-");
 	}
 	
 	private boolean isBasicArithmetic() {
 		if(!expression.isEmpty()) {
 			String expString = expression.toString();
-			if(expString.contains("+")) {
-				String[] operands = expString.split("\\+");
-				this.expression = expression.replace(0, expression.length()-1, compute(operands[0], operands[1], "+"));
-				return true;
-			}
-			if(expString.contains("-")) {
-				String[] operands = expString.split("\\-");
-				this.expression = expression.replace(0, expression.length()-1, compute(operands[0], operands[1], "-"));
-				return true;
-			}
-			if(expString.contains("*")) {
-				String[] operands = expString.split("\\*");
-				this.expression = expression.replace(0, expression.length()-1, compute(operands[0], operands[1], "*"));
-				return true;
-			}
-			if(expString.contains("/")) {
-				String[] operands = expString.split("\\/");
-				this.expression = expression.replace(0, expression.length()-1, compute(operands[0], operands[1], "/"));
-
+			if(expString.contains("+") || expString.contains("—")|| expString.contains("*")|| expString.contains("/")) {
 				return true;
 			}
 		}
 		return false;
+	}
+	
+	private void computeBasicArithmetic() {
+			String expString = expression.toString();
+			if(expString.contains("+")) {
+				String[] operands = expString.split("\\+");
+				this.expression = expression.replace(0, expression.length(), compute(operands[0], operands[1], "+"));
+			}
+			if(expString.contains("—")) {
+				String[] operands = expString.split("\\—");
+				this.expression = expression.replace(0, expression.length(), compute(operands[0], operands[1], "-"));
+			}
+			if(expString.contains("*")) {
+				String[] operands = expString.split("\\*");
+				this.expression = expression.replace(0, expression.length(), compute(operands[0], operands[1], "*"));
+			}
+			if(expString.contains("/")) {
+				String[] operands = expString.split("\\/");
+				this.expression = expression.replace(0, expression.length(), compute(operands[0], operands[1], "/"));
+			}
 	}
 	/**
 	 * Method used for computing basic arithmetic
@@ -226,6 +232,7 @@ public class Calculator {
 							result = operand1/operand2;} break;
 				default: result= 0;
 			}
+			
 			return Double.toString(result);
 			}
 	
@@ -293,8 +300,8 @@ public class Calculator {
 		}
 		
 		// BASIC
-		if(this.isBasicArithmetic());
-		
+		if(this.isBasicArithmetic()) 
+			this.computeBasicArithmetic();
 		//TRANSCENDENTAL FUNCTIONS 
 		else {
 			// TODO
