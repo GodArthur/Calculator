@@ -48,7 +48,7 @@ public class View extends JFrame {
 		eqBtn = new JButton("=");
 		negBtn = new JButton("(-)");
 		delBtn = new JButton("DEL");
-		clrBtn = new JButton("C");
+		clrBtn = new JButton("Clr");
 		nextBtn = new JButton("next");
 		
 		abxBtn = new JButton("abx");

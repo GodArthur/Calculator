@@ -130,10 +130,10 @@ public class Calculator {
 			else if(StringHelper.checkIfOperatorClicked(newInput))
 				operatorHandler(newInput);
 			
-			else if(newInput=="del")
+			else if(newInput=="DEL")
 				this.del();
 			
-			else if (newInput =="clr")
+			else if (newInput =="Clr")
 				this.clear();
 			
 			else if (newInput == ".")
