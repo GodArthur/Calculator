@@ -26,9 +26,26 @@ public class FunctionStandardDev extends Functions
 	{
 		this.values = new double[0];
 	}
-	public FunctionStandardDev(double[] x) 
+	public FunctionStandardDev(String x) 
 	{
-		this.values = x;
+		
+		//takes string x and puts them in an array
+		String[] numStrings = x.substring(5).split(",");
+		
+		values = new double[numStrings.length];
+		
+		for(int s = 0; s < numStrings.length;s++)
+		{
+			System.out.print(numStrings[s]);
+		}
+		
+		//Take the same string array and convert each number into a double
+		for(int i = 0; i < numStrings.length;i++)
+		{
+			values[i] = Double.parseDouble(numStrings[i]);
+		}
+		
+		
 	}
 	
 	public double compute() 
@@ -56,6 +73,8 @@ public class FunctionStandardDev extends Functions
         
         //Finally, do the square root
         total = squareRoot(total);
+        
+        System.out.println(total);
 		
 		return total;
 	}

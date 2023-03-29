@@ -92,7 +92,7 @@ public class Calculator {
 		if(!checkIfFunctionEnabled(newInput)) {
 		String expressionString = expression.toString();
 
-			if((expression.isEmpty() && !newInput.equals("+") && !newInput.equals("*") && !newInput.equals("/")) || StringHelper.checkIfOperandsClicked(newInput)) {
+			if((expression.toString().isEmpty() && !newInput.equals("+") && !newInput.equals("*") && !newInput.equals("/")) || StringHelper.checkIfOperandsClicked(newInput)) {
 				expression.append(newInput);
 			} 
 			else if (expression.length() == 1  && expressionString.equals("-") && StringHelper.checkIfOperatorClicked(newInput)) {
@@ -102,7 +102,7 @@ public class Calculator {
 				else {
 					return;
 				}
-			} else if (expression.isEmpty() && (newInput.equals("+") || newInput.equals("*") || newInput.equals("/"))) {
+			} else if (expression.toString().isEmpty() && (newInput.equals("+") || newInput.equals("*") || newInput.equals("/"))) {
 				return;
 			}
 			//Check if any operator is clicked twice - if yes, replace the new operator by the new one
@@ -123,7 +123,7 @@ public class Calculator {
 
 	
 	private boolean isBasicArithmetic() {
-		if(!expression.isEmpty()) {
+		if(!expression.toString().isEmpty()) {
 			String expString = expression.toString();
 			if(expString.contains("+")) {
 				String[] operands = expString.split("\\+");
@@ -175,7 +175,7 @@ public class Calculator {
 
 
 	public void appendAbxToExpression(String abx) {
-		if(expression.isEmpty() || !StringHelper.checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
+		if(expression.toString().isEmpty() || !StringHelper.checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
 			transcendentalFunction = new FunctionAbx();
 			expression.append(abx);
 		}
@@ -187,7 +187,7 @@ public class Calculator {
  * @param logbx
  */
 	public void appendLogbXToExpression(String logbx) {
-		if(expression.isEmpty() || !StringHelper.checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
+		if(expression.toString().isEmpty() || !StringHelper.checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
 			transcendentalFunction = new FunctionLogBX();
 			expression.append(logbx);
 		}
@@ -195,13 +195,19 @@ public class Calculator {
 	
 	// TODO : ADD YOUR OWN APPEND (FUNCTION)TO Expression Method
 	
+	public void appendStandardDevExpression(String i)
+	{
+		
+		transcendentalFunction = new FunctionStandardDev(expression.toString());
+		expression.append(i);
+	}
 /**
  * 
  * @param input
  * @return
  */
 	private boolean checkIfFunctionEnabled(String input) {
-		if(!expression.isEmpty()) {
+		if(!expression.toString().isEmpty()) {
 			String expString = expression.toString();
 			
 			//AB^X Function
@@ -216,6 +222,11 @@ public class Calculator {
 				System.out.println("EXP: "+expression);
 				return true;
 			}
+			else if (transcendentalFunction instanceof FunctionStandardDev)
+			{
+
+				return true;
+			}
 		
 		// TODO : ADD YOUR FUNCTION
 			
@@ -227,22 +238,34 @@ public class Calculator {
 
 	
 	public void calculateExpression(String calculatorExpression) {
-		if(!expression.isEmpty()) {
+		if(!expression.toString().isEmpty()) {
 		String lastInput = expression.substring(expression.length() - 1);
 		
 		if(StringHelper.checkIfOperatorClicked(lastInput)) {
 			expression.deleteCharAt(expression.length()-1);
 		}
 		
-		// BASIC
-		if(this.isBasicArithmetic());
-		
-		//TRANSCENDENTAL FUNCTIONS 
-		else {
+		//Disable all expressions, just test the stdev function
+		if(true) 
+		{
+			transcendentalFunction = new FunctionStandardDev(expression.toString());
+			//expression.append(expression.toString());
+			//this.expression = expression(transcendentalFunction.compute()).toString();
+			this.expression = expression.replace(0, expression.length()-1, Double.toString(transcendentalFunction.compute()));
+			System.out.println("Calculating Standard Deviation of: " + transcendentalFunction);
+			
 			// TODO
 		}
 		
+		// BASIC
+		else if(this.isBasicArithmetic());
+		{
+			
 		}
+		
+		//TRANSCENDENTAL FUNCTIONS 
+
+	}
 	}
 	
 	

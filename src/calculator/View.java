@@ -12,10 +12,10 @@ public class View extends JFrame {
 	private JPanel contentPane;
 	JTextField textField;
 	JButton[] numBtns = new JButton[10];
-	JButton[] funcBtns = new JButton[10];
+	JButton[] funcBtns = new JButton[12];
 
 	JButton addBtn, subBtn, multBtn, divBtn;
-	JButton decBtn, eqBtn, delBtn, clrBtn, abxBtn, acosBtn;
+	JButton decBtn, eqBtn, delBtn, clrBtn, abxBtn, acosBtn,commaBtn,stDevBtn;
 
 	/**
 	 * Create the frame.
@@ -48,6 +48,8 @@ public class View extends JFrame {
 		clrBtn = new JButton("C");
 		abxBtn = new JButton("abx");
 		acosBtn = new JButton("acos");
+		commaBtn = new JButton(",");
+		stDevBtn = new JButton("stdev");
 
 		funcBtns[0] = addBtn;
 		funcBtns[1] = subBtn;
@@ -59,6 +61,8 @@ public class View extends JFrame {
 		funcBtns[7] = clrBtn;
 		funcBtns[8] = abxBtn;
 		funcBtns[9] = acosBtn;
+		funcBtns[10] = commaBtn;
+		funcBtns[11] = stDevBtn;
 
 		// Initializing the value of the buttons
 		for (int i = 0; i < numBtns.length; i++) {
@@ -95,6 +99,8 @@ public class View extends JFrame {
 		panel.add(divBtn);
 		panel.add(abxBtn);
 		panel.add(acosBtn);
+		panel.add(commaBtn);
+		panel.add(stDevBtn);
 
 		//changing button num colour
 		for (JButton num : numBtns) {
