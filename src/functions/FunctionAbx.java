@@ -28,23 +28,39 @@ public class FunctionAbx extends Functions {
 
 	public String parse(String input, String expression) {
 		
+		StringBuilder exprBuilder = new StringBuilder(expression);
 		  if(StringHelper.checkIfOperatorClicked(input) &&
 		  StringHelper.checkIfFunctionClicked(input) && varsInputed < 3) { return "-1";
 		  }
 		  
 		  if(varsInputed == 0) { 
+			  String current = this.a == 0 ? input : this.a+input;
+			  System.out.println("CURRENT: "+current);
+
+
 			  System.out.println("setting A: "+input);
-			  this.setA(Integer.parseInt(input)); expression.replace("a", input+"*");
+			  if(this.a == 0) {
+				  exprBuilder.replace(expression.length()-3, expression.length()-2, input+"*");
+				  System.out.println("exprBuilder1: "+exprBuilder);
+
+			  } else {
+				  exprBuilder.insert(expression.length()-3, current.toCharArray(), 0, 1);
+				  System.out.println("exprBuilder2: "+exprBuilder);
+			  }
+			  this.setA(Integer.parseInt(current)); 
+
 		  
 		  } else if(varsInputed == 1) { 
 			  System.out.println("setting B: "+input);
-		  
-			  this.setB(Integer.parseInt(input)); expression.replace("b", input);
+			  String current = this.b == 0 ? input : this.b+input;
+			  this.setB(Integer.parseInt(current)); 
+			  expression.replace("b", input);
 		  
 		  } else if(varsInputed == 2) { 
 			  System.out.println("setting X: "+input);
-		  
-			  this.setX(Integer.parseInt(input)); expression.replace("x",StringHelper.superscript(input)); 
+			  String current = this.x == 0 ? input : this.x+input;
+			  this.setX(Integer.parseInt(current)); 
+			  expression.replace("x",StringHelper.superscript(input)); 
 		  } else {
 			  if(StringHelper.checkIfOperandsClicked(input)) { 
 				  return expression; //skip 

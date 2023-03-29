@@ -29,6 +29,7 @@ public class Controller {
 
 		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
 		this.view.addCalculateBtnListener(new CalculateBtnListener());
+		this.view.addABtoXBtnListener(new ABtoXBtnListener());
 	}
 	
 	public void setModel(Calculator model) {
