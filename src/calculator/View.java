@@ -12,7 +12,7 @@ public class View extends JFrame {
 	private JPanel contentPane;
 	JTextField textField;
 	JButton[] numBtns = new JButton[10];
-	JButton[] funcBtns = new JButton[13]; // TODO : +1 SIZE OF ARRAY IF NECESSARY
+	JButton[] funcBtns = new JButton[12];
 
 	JButton addBtn, subBtn, multBtn, divBtn;
 	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn;
@@ -61,18 +61,15 @@ public class View extends JFrame {
 		funcBtns[1] = subBtn;
 		funcBtns[2] = divBtn;
 		funcBtns[3] = multBtn;
-		
 		funcBtns[4] = decBtn;
 		funcBtns[5] = negBtn;
 		funcBtns[6] = eqBtn;
 		funcBtns[7] = delBtn;
 		funcBtns[8] = nextBtn;
 		funcBtns[9] = clrBtn;
-		
 		funcBtns[10] = abxBtn;
 		funcBtns[11] = acosBtn;
-		funcBtns[12] = logbxBtn;
-		// TODO : ADD BUTTON HERE
+
 		
 		// Initializing the value of the buttons
 		for (int i = 0; i < numBtns.length; i++) {
@@ -121,7 +118,6 @@ public class View extends JFrame {
 
 		//changing button func colour
 		for (JButton func : funcBtns) {
-
 			func.setBackground(Color.GRAY);
 		}
 
@@ -166,4 +162,9 @@ public class View extends JFrame {
 	void addCalculateBtnListener(ActionListener listen) {
 		eqBtn.addActionListener(listen);
 	}
+	
+	void addlogBXBtnListener(ActionListener listen) {
+		logbxBtn.addActionListener(listen);
+	}
+	// TODO : Create your own button listener
 }

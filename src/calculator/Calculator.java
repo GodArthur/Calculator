@@ -14,6 +14,7 @@ public class Calculator {
 	private StringBuilder expressionToParse = new StringBuilder("");
 	private Functions transcendentalFunction;
 	private String errorMessage = "";
+	private boolean functionSelected = false;
 
 	// Store in memory variables TODO : DO WE NEED THESE VARIABLES BELOW??
 	private double operand_a; 
@@ -63,7 +64,7 @@ public class Calculator {
 		this.errorMessage = error;
 	}
 
-/** TODO  : Connection with controller and view
+/** 
  * Method that applies the clear button to the instance variables of the calculator
  */
 	public void clear() {
@@ -77,7 +78,7 @@ public class Calculator {
 		this.errorMessage = "";
 	}
 	
-/** TODO : Connection with controller and view
+/** 
 * Method that applies the DEL button to the instance variables of the calculator
 */
 	public void del() {
@@ -184,6 +185,8 @@ public class Calculator {
 			expression.append("-");
 	}
 	
+	
+	
 	private boolean isBasicArithmetic() {
 		if(!expression.isEmpty()) {
 			String expString = expression.toString();
@@ -252,7 +255,7 @@ public class Calculator {
  * @param logbx
  */
 	public void appendLogbXToExpression(String logbx) {
-		if(expression.isEmpty() || !StringHelper.checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
+		if(expression.isEmpty()){
 			transcendentalFunction = new FunctionLogBX();
 			expression.append(logbx);
 		}
@@ -304,9 +307,9 @@ public class Calculator {
 			this.computeBasicArithmetic();
 		//TRANSCENDENTAL FUNCTIONS 
 		else {
-			// TODO
+			// TODO 
+			transcendentalFunction.compute();
 		}
-		
 		}
 	}
 	
