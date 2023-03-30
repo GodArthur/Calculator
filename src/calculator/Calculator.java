@@ -255,6 +255,15 @@ public class Calculator {
 			}
 		}
 	
+	public void appendMADToExpression(String MAD) {
+		boolean isFunctionInUse = (transcendentalFunction == null);
+		
+			if(isFunctionInUse && expression.isEmpty()){
+				transcendentalFunction = new FunctionMAD();
+				expression.append(MAD);
+			}
+	}
+	
 	// TODO : ADD YOUR OWN APPEND (FUNCTION)TO Expression Method
 	
 /**
@@ -313,6 +322,20 @@ public class Calculator {
 				System.out.println("EXP in CheckifFunctionEnabled: "+expression);
 				return true;
 				}
+			
+			// MAD
+			if(transcendentalFunction instanceof FunctionMAD) {
+				// Does not let the user enter an operator when the transcendental function is enabled
+				if(!StringHelper.checkIfOperandsClicked(input)) {
+						return true;
+				}
+				// Call to Method parse that will receive the input and reformat it as well as store the value
+				String updatedExpression = transcendentalFunction.parse(input, expString);
+				this.expression = new StringBuilder(updatedExpression);
+					
+				System.out.println("EXP in CheckifFunctionEnabled: "+expression);
+				return true;
+			}
 		
 	// TODO : ADD YOUR FUNCTION
 		return false;
@@ -338,6 +361,9 @@ public class Calculator {
 			} else {
 				transcendentalFunction = null;
 			}
+		}
+		if(transcendentalFunction instanceof FunctionMAD) {
+			transcendentalFunction.setVarsInputed(transcendentalFunction.getVarsInputed()+1);
 		}
 		
 	}
