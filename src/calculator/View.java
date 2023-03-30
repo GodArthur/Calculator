@@ -54,7 +54,7 @@ public class View extends JFrame {
 		abxBtn = new JButton("ab\u02e3");
 		clrBtn = new JButton("Clr");
 		nextBtn = new JButton("next");
-		acosBtn = new JButton("acos");
+		acosBtn = new JButton("acosX");
 		logbxBtn = new JButton("logbx");
 		// TODO : ADD BUTTON HERE
 		
@@ -179,6 +179,9 @@ public class View extends JFrame {
 	}
 	void addlogBXBtnListener(ActionListener listen) {
 		logbxBtn.addActionListener(listen);
+	}
+	void addArccosBtnListener(ActionListener listen) {
+		acosBtn.addActionListener(listen);
 	}
 	// TODO : Create your own button listener
 

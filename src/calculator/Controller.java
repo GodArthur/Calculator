@@ -22,6 +22,7 @@ public class Controller {
 		//Transcendental Functions
 		this.view.addABtoXBtnListener(new ABtoXBtnListener());
 		this.view.addlogBXBtnListener(new LogBXBtnListener());
+		this.view.addArccosBtnListener(new ArccosBtnListener());
 		// TODO ADD to view
 	}
 	
@@ -93,6 +94,19 @@ public class Controller {
 			String buttonText = ((JButton) e.getSource()).getText();
 			
 			model.appendLogbXToExpression(buttonText);
+			System.out.println(buttonText);
+			view.setExpressionInput(model.getExpression());
+		}
+		
+	}
+	
+	class ArccosBtnListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonText = ((JButton) e.getSource()).getText();
+			
+			model.appendArccosToExpression(buttonText);
 			System.out.println(buttonText);
 			view.setExpressionInput(model.getExpression());
 		}
