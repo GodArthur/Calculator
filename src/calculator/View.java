@@ -40,7 +40,7 @@ public class View extends JFrame {
 
 		// Initializing operator buttons 
 		addBtn = new JButton("+");
-		subBtn = new JButton("—");
+		subBtn = new JButton("ï¿½");
 		multBtn = new JButton("*");
 		divBtn = new JButton("/");
 		
@@ -168,5 +168,9 @@ public class View extends JFrame {
 	
 	void addABtoXBtnListener(ActionListener listen) {
 		abxBtn.addActionListener(listen);
+	}
+	
+	void addNextBtnListener(ActionListener listen) {
+		nextBtn.addActionListener(listen);
 	}
 }

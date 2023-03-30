@@ -39,10 +39,10 @@ public abstract class Functions {
 	public double getY() {
 		return this.y;
 	}
-	public double getVarsInputed() {
+	public int getVarsInputed() {
 		return this.varsInputed;
 	}
-	public double getTotalVars() {
+	public int getTotalVars() {
 		return this.totalVars;
 	}
 	
@@ -66,6 +66,9 @@ public abstract class Functions {
 	}
 	public void setY(double y) {
 		this.y = y;
+	}
+	public void setVarsInputed(int vars) {
+		this.varsInputed = vars;
 	}
 /**
  * Abstract method to be implemented in subclasses as to calculate the function defined in the subclass.

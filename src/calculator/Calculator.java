@@ -144,9 +144,7 @@ public class Calculator {
 				negationHandler(newInput);
 			
 			// TODO NO OPTION FOR "NEXT" SINCE IT SHOULD ONLE BE ACTIVE INSIDE T.FUNCTIONS --> MAYBE "FUNCTION ENABLED"?
-		} else {
-			
-		}
+		} 
 	}
 	
 	
@@ -244,12 +242,11 @@ public class Calculator {
 
 
 	public void appendAbxToExpression(String abx) {
-		System.out.println("expression1 is "+expression);
+		boolean isFunctionInUse = transcendentalFunction != null;
 
-		if(expression.isEmpty() || !StringHelper.checkIfOperandsClicked(expression.substring(expression.length() - 1))) {
+		if(!isFunctionInUse && ( expression.isEmpty() || !StringHelper.checkIfOperandsClicked(expression.substring(expression.length() - 1)))) {
 			transcendentalFunction = new FunctionAbx();
 			expression.append(abx);
-			System.out.println("expression is "+expression);
 		}
 	}
 
@@ -273,21 +270,27 @@ public class Calculator {
  * @return
  */
 	private boolean checkIfFunctionEnabled(String input) {
-		if(!expression.isEmpty()) {
-			String expString = expression.toString();
+		//if(!expression.isEmpty()) {
+
+			String expString = expression.isEmpty()? "" : expression.toString();
 			
 			//AB^X Function
 			if(transcendentalFunction instanceof FunctionAbx) {
-				String expr = transcendentalFunction.parse(input, expString);
-				if(expr.equals("-1")) {
+				if(!StringHelper.checkIfOperandsClicked(input)) {
 					return true;
 				}
+				String expr = transcendentalFunction.parse(input, expString);
+
 				if(transcendentalFunction.getVarsInputed() == transcendentalFunction.getTotalVars()) {
+					System.out.println("set to null");
+
 					transcendentalFunction = null;
 				}
+				expression = new StringBuilder(expr);
+
 				System.out.println("EXP: "+expression);
 				return true;
-			}
+			//}
 		
 		// TODO : ADD YOUR FUNCTION
 			
@@ -314,6 +317,17 @@ public class Calculator {
 			// TODO
 		}
 		
+		}
+	}
+	
+	public void updateNextFunctionValue() {
+		if(transcendentalFunction == null) {
+			return;
+		}
+		if(transcendentalFunction instanceof FunctionAbx) {
+			if(transcendentalFunction.getVarsInputed() < transcendentalFunction.getTotalVars()) {
+				transcendentalFunction.setVarsInputed(transcendentalFunction.getVarsInputed()+1);
+			}
 		}
 	}
 	

@@ -30,6 +30,7 @@ public class Controller {
 		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
 		this.view.addCalculateBtnListener(new CalculateBtnListener());
 		this.view.addABtoXBtnListener(new ABtoXBtnListener());
+		this.view.addNextBtnListener(new NextBtnListener());
 	}
 	
 	public void setModel(Calculator model) {
@@ -66,6 +67,15 @@ public class Controller {
 			System.out.println("expression: "+model.getExpression());
 
 			//TODO Calculate the math expression input in the TextField
+		}
+		
+	}
+	
+	class NextBtnListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			model.updateNextFunctionValue();
 		}
 		
 	}
