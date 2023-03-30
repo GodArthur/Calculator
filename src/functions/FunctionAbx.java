@@ -21,6 +21,10 @@ public class FunctionAbx extends Functions {
 	}
 
 	public double compute() {
+		System.out.println("a: "+a);
+		System.out.println("b: "+b);
+		System.out.println("x: "+x);
+
 		return a * (Math.pow(b, x));
 	}
 
@@ -74,8 +78,7 @@ public class FunctionAbx extends Functions {
 				: currentBToInt + input;
 		String currentX = this.x == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
 				: currentXToInt + input;
-		String isVarA = this.varsInputed == 0 ? "*" : "";
-		String isVarX = this.varsInputed == 2 ? "^" : "";
+		String isVarA = this.varsInputed == 0 ? "⋅" : "";
 		if(this.varsInputed == 2) {
 			input = StringHelper.superscript(input);
 		}
