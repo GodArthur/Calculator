@@ -18,8 +18,9 @@ public class Controller {
 
 		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
 		this.view.addCalculateBtnListener(new CalculateBtnListener());
-		this.view.addABtoXBtnListener(new ABtoXBtnListener());
 		this.view.addNextBtnListener(new NextBtnListener());
+		//Transcendental Functions
+		this.view.addABtoXBtnListener(new ABtoXBtnListener());
 		this.view.addlogBXBtnListener(new LogBXBtnListener());
 		// TODO ADD to view
 	}
@@ -56,12 +57,11 @@ public class Controller {
 			else
 				view.setExpressionInput(model.getError());
 			System.out.println("expression: "+model.getExpression());
-
-			//TODO Calculate the math expression input in the TextField
+			model.clear();
 		}
 		
 	}
-	
+
 	class NextBtnListener implements ActionListener{
 
 		@Override

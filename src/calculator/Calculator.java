@@ -14,29 +14,28 @@ public class Calculator {
 	private StringBuilder expressionToParse = new StringBuilder("");
 	private Functions transcendentalFunction;
 	private String errorMessage = "";
-	private boolean functionSelected = false;
 
 	// Store in memory variables TODO : DO WE NEED THESE VARIABLES BELOW??
-	private double operand_a; 
-	private double operand_b;
-	private double operand_c;
-	private double operand_d;
+//	private double operand_a; 
+//	private double operand_b;
+//	private double operand_c;
+//	private double operand_d;
 	
 /**
  * Getters TODO : JAVADOC
  */
-	public double getOperand_A() {
-		return operand_a;
-	}
-	public double getOperand_B() {
-		return operand_b;
-	}
-	public double getOperand_C() {
-		return operand_c;
-	}
-	public double getOperand_D() {
-		return operand_d;
-	}	
+//	public double getOperand_A() {
+//		return operand_a;
+//	}
+//	public double getOperand_B() {
+//		return operand_b;
+//	}
+//	public double getOperand_C() {
+//		return operand_c;
+//	}
+//	public double getOperand_D() {
+//		return operand_d;
+//	}	
 	public String getError() {
 		return this.errorMessage;
 	}
@@ -48,30 +47,27 @@ public class Calculator {
 /**
  * Setters TODO : JAVADOC
  */	
-	public void setOperand_a(double operand) {
-		this.operand_a = operand;
-	}
-	public void setOperand_b(double operand) {
-		this.operand_b = operand;
-	}	
-	public void setOperand_c(double operand) {
-		this.operand_c = operand;
-	}
-	public void setOperand_d(double operand) {
-		this.operand_d = operand;
-	}
+//	public void setOperand_a(double operand) {
+//		this.operand_a = operand;
+//	}
+//	public void setOperand_b(double operand) {
+//		this.operand_b = operand;
+//	}	
+//	public void setOperand_c(double operand) {
+//		this.operand_c = operand;
+//	}
+//	public void setOperand_d(double operand) {
+//		this.operand_d = operand;
+//	}
 	public void setErrorMessage(String error) {
 		this.errorMessage = error;
 	}
-
+	
+//-------------------------------- Basic Buttons Functions  -----------------------------------------------//	
 /** 
  * Method that applies the clear button to the instance variables of the calculator
  */
 	public void clear() {
-		this.operand_a = 0;
-		this.operand_b = 0;
-		this.operand_c = 0;
-		this.operand_d = 0;
 		this.expression = new StringBuilder("");
 		this.expressionToParse = new StringBuilder("");
 		this.transcendentalFunction = null;
@@ -85,46 +81,11 @@ public class Calculator {
 		 if(!expression.isEmpty())
 			expression.deleteCharAt(expression.length()-1);
 	}
-	
-/**
- * 
- * @param newInput
-*/
-//	public void appendToExpressionOLD(String newInput) {
-//		if(!checkIfFunctionEnabled(newInput)) {
-//			
-//		String expressionString = expression.toString();
-//
-//			if((expression.isEmpty() && !newInput.equals("+") && !newInput.equals("*") && !newInput.equals("/")) || StringHelper.checkIfOperandsClicked(newInput)) {
-//				expression.append(newInput);
-//			} 
-//			else if (expression.length() == 1  && expressionString.equals("-") && StringHelper.checkIfOperatorClicked(newInput)) {
-//				if(newInput.equals("+")) {
-//					expression.deleteCharAt(expression.length() - 1);
-//				} 
-//				else {
-//					return;
-//				}
-//			} else if (expression.isEmpty() && (newInput.equals("+") || newInput.equals("*") || newInput.equals("/"))) {
-//				return;
-//			}
-//			//Check if any operator is clicked twice - if yes, replace the new operator by the new one
-//			else {
-//				String lastInput = expression.substring(expression.length() - 1);
-//
-//				if(StringHelper.checkIfOperatorClicked(lastInput)) {
-//					expression.deleteCharAt(expression.length() - 1);
-//					expression.append(newInput);
-//				}
-//				
-//				else {
-//					expression.append(newInput);
-//				}
-//			}
-//			}
-//		}
 
 	public void appendToExpression(String newInput) {
+		if (newInput =="Clr")
+			this.clear();
+		
 		if(!checkIfFunctionEnabled(newInput)) {
 			if(StringHelper.checkIfOperandsClicked(newInput))
 				expression.append(newInput);
@@ -132,19 +93,15 @@ public class Calculator {
 			else if(StringHelper.checkIfOperatorClicked(newInput))
 				operatorHandler(newInput);
 			
+			// TODO : THE BUTTONS BELOW ARE NOT AVAILABLE WHEN USING A T.FUNCTION YET
 			else if(newInput=="DEL")
 				this.del();
-			
-			else if (newInput =="Clr")
-				this.clear();
 			
 			else if (newInput == ".")
 				decimalHandler(newInput);
 			
 			else if(newInput =="(-)")
 				negationHandler(newInput);
-			
-			// TODO NO OPTION FOR "NEXT" SINCE IT SHOULD ONLE BE ACTIVE INSIDE T.FUNCTIONS --> MAYBE "FUNCTION ENABLED"?
 		} 
 	}
 	
@@ -170,7 +127,7 @@ public class Calculator {
 				expression.append(newInput);
 			}
 		}
-		//TODO :  IF THERE IS NO DIGIT ENTERED AFTER DECIMAL AND THEY CLICK CALCULATE/...ERROR MESSAGE
+		//TODO :  IF THERE IS NO DIGIT ENTERED AFTER DECIMAL AND THEY CLICK CALCULATE/...ERROR MESSAGE?
 	}
 	
 	private void negationHandler(String newInput) {
@@ -186,9 +143,31 @@ public class Calculator {
 		else
 			expression.append("-");
 	}
-	
-	
-	
+
+/**
+ * Method called when the Controller requests "=". Will calculate basic arithmetic and transcendental functions	
+ * @param calculatorExpression
+ * */
+		public void calculateExpression(String calculatorExpression) {
+			if(!expression.isEmpty()) {
+			String lastInput = expression.substring(expression.length() - 1);
+						
+				if(StringHelper.checkIfOperatorClicked(lastInput)) {
+					expression.deleteCharAt(expression.length()-1);
+				}
+						
+				// BASIC ARITHMETIC
+				if(isBasicArithmetic()) 
+					computeBasicArithmetic();
+						
+				//TRANSCENDENTAL FUNCTIONS 
+				else {
+					this.expression = new StringBuilder(Double.toString(transcendentalFunction.compute()));
+				}
+			}
+			}
+				
+//-------------------------------- Basic Arithmetic  -----------------------------------------------//	
 	private boolean isBasicArithmetic() {
 		if(!expression.isEmpty()) {
 			String expString = expression.toString();
@@ -240,8 +219,8 @@ public class Calculator {
 			
 			return Double.toString(result);
 			}
-	
-//-------------------------------- For Transcendental Functions Methods -----------------------------------------------//		
+
+//-------------------------------- Transcendental Functions Methods -----------------------------------------------//		
 
 
 	public void appendAbxToExpression(String abx) {
@@ -259,7 +238,9 @@ public class Calculator {
  * @param logbx
  */
 	public void appendLogbXToExpression(String logbx) {
-		if(expression.isEmpty()){
+	boolean isFunctionInUse = (transcendentalFunction == null);
+	
+		if(isFunctionInUse && expression.isEmpty()){
 			transcendentalFunction = new FunctionLogBX();
 			expression.append(logbx);
 		}
@@ -294,39 +275,33 @@ public class Calculator {
 				System.out.println("EXP: "+expression);
 				return true;
 			//}
+			}
 		
-		// TODO : ADD YOUR FUNCTION
-			
-			
-	}
+		// Log_BX
+			if(transcendentalFunction instanceof FunctionLogBX) {
+				// Does not let the user enter an operator when the transcendental function is enabled
+				if(!StringHelper.checkIfOperandsClicked(input)) {
+						return true;
+				}
+				// Call to Method parse that will receive the input and reformat it as well as store the value
+				String updatedExpression = transcendentalFunction.parse(input, expString);
+				this.expression = new StringBuilder(updatedExpression);
+					
+				System.out.println("EXP in CheckifFunctionEnabled: "+expression);
+				return true;
+				}
+		
+	// TODO : ADD YOUR FUNCTION
 		return false;
 
 	}
 
 	
-	public void calculateExpression(String calculatorExpression) {
-		if(!expression.isEmpty()) {
-		String lastInput = expression.substring(expression.length() - 1);
-		
-		if(StringHelper.checkIfOperatorClicked(lastInput)) {
-			expression.deleteCharAt(expression.length()-1);
-		}
-		
-		// BASIC
-		if(this.isBasicArithmetic()) 
-			this.computeBasicArithmetic();
-		//TRANSCENDENTAL FUNCTIONS 
-		else {
-			// TODO 
-			transcendentalFunction.compute();
-		}
-		}
-	}
-	
 	public void updateNextFunctionValue() {
 		if(transcendentalFunction == null) {
 			return;
 		}
+		// MAYBE NO NEED TO SEPARATE PER FUNCTION?
 		if(transcendentalFunction instanceof FunctionAbx) {
 			if(transcendentalFunction.getVarsInputed() <= transcendentalFunction.getTotalVars()) {
 				transcendentalFunction.setVarsInputed(transcendentalFunction.getVarsInputed()+1);
@@ -334,6 +309,14 @@ public class Calculator {
 				transcendentalFunction = null;
 			}
 		}
+		if(transcendentalFunction instanceof FunctionLogBX) {
+			if(transcendentalFunction.getVarsInputed() < transcendentalFunction.getTotalVars()-1) {
+				transcendentalFunction.setVarsInputed(transcendentalFunction.getVarsInputed()+1);
+			} else {
+				transcendentalFunction = null;
+			}
+		}
+		
 	}
 	
 	

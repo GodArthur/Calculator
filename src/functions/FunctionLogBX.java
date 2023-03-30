@@ -6,20 +6,15 @@
  */	
 package functions;
 
-	
+import misc.StringHelper;
+
 public class FunctionLogBX extends Functions{
-	
-	private int varsInputed = 0;
-	private int numNeeded = 2;
 	
 	public FunctionLogBX(){
 		this.b = 0;
 		this.x = 0;
-	}
-
-	public FunctionLogBX(double b, double x){
-		this.b = b;
-		this.x = x;
+		this.varsInputed = 0;
+		this.totalVars = 2;
 	}
 	
 	@Override
@@ -33,6 +28,7 @@ public class FunctionLogBX extends Functions{
 		
 		// Regular valid cases
 		result = Math.log(x)/Math.log(b);
+		
 		return result;
 	}
 
@@ -53,15 +49,34 @@ public class FunctionLogBX extends Functions{
 
 	@Override
 	public String parse(String input, String expression) {
-
-		// split
+		StringBuilder exprBuilder = new StringBuilder(expression);
 		
-		//set a
+		// Enter First digit for B
+		if (exprBuilder.toString().equalsIgnoreCase("logbx")) {
+			exprBuilder.replace(exprBuilder.length()-2, exprBuilder.length(), StringHelper.subscript(input));
+			this.b = Double.parseDouble(input);
+		}
 		
-		//set b
+		// Enter remaining digits for B
+		else if (this.varsInputed ==0) {
+			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), StringHelper.subscript(input));
+			exprBuilder.append("x");
+			this.b = b*10 + Double.parseDouble(input);
+		}
 		
+		// Enter First digit for X
+		if (this.varsInputed ==1 && expression.contains("x")) {
+			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input );
+			this.x = Double.parseDouble(input);
+		}
 		
-		return null;
+		//Enter remaining digits for X
+		else if (this.varsInputed ==1) {
+			exprBuilder.append(input);
+			this.x = x*10 + Double.parseDouble(input);
+		}
+		
+		return exprBuilder.toString();
 	}
 
 	
