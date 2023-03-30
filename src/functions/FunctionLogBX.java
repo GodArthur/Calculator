@@ -6,7 +6,11 @@
  */	
 package functions;
 
+	
 public class FunctionLogBX extends Functions{
+	
+	private int varsInputed = 0;
+	private int numNeeded = 2;
 	
 	public FunctionLogBX(){
 		this.b = 0;
@@ -20,6 +24,8 @@ public class FunctionLogBX extends Functions{
 	
 	@Override
 	public double compute() {
+		validate();
+		
 		double result=0;
 		
 		// special case(s)
@@ -47,8 +53,16 @@ public class FunctionLogBX extends Functions{
 
 	@Override
 	public String parse(String input, String expression) {
-		// TODO Auto-generated method stub
+
+		// split
+		
+		//set a
+		
+		//set b
+		
+		
 		return null;
 	}
+
 	
 }

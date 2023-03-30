@@ -50,6 +50,7 @@ public class View extends JFrame {
 		delBtn = new JButton("DEL");
 		clrBtn = new JButton("C");
 		abxBtn = new JButton("ab\u02e3");
+		clrBtn = new JButton("Clr");
 		nextBtn = new JButton("next");
 		acosBtn = new JButton("acos");
 		logbxBtn = new JButton("logbx");
@@ -60,18 +61,20 @@ public class View extends JFrame {
 		funcBtns[1] = subBtn;
 		funcBtns[2] = divBtn;
 		funcBtns[3] = multBtn;
-		
 		funcBtns[4] = decBtn;
 		funcBtns[5] = negBtn;
 		funcBtns[6] = eqBtn;
 		funcBtns[7] = delBtn;
 		funcBtns[8] = nextBtn;
 		funcBtns[9] = clrBtn;
+
 		
 		//funcBtns[10] = abxBtn;
 		//funcBtns[11] = acosBtn;
 		//funcBtns[12] = logbxBtn;
 		// TODO : ADD BUTTON HERE
+
+
 		
 		// Initializing the value of the buttons
 		for (int i = 0; i < numBtns.length; i++) {
@@ -120,7 +123,6 @@ public class View extends JFrame {
 
 		//changing button func colour
 		for (JButton func : funcBtns) {
-
 			func.setBackground(Color.GRAY);
 		}
 
@@ -173,4 +175,9 @@ public class View extends JFrame {
 	void addNextBtnListener(ActionListener listen) {
 		nextBtn.addActionListener(listen);
 	}
+	void addlogBXBtnListener(ActionListener listen) {
+		logbxBtn.addActionListener(listen);
+	}
+	// TODO : Create your own button listener
+
 }

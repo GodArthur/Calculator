@@ -10,19 +10,8 @@ import java.util.ArrayList;
 
 public class Controller {
 	private Calculator model;
-//	private OldView view;
 	private View view;
 
-// Obsolete, to delete	
-//	public Controller(Calculator model, View view) {
-//		this.model = model;
-//		this.view = view;
-//
-//		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
-//		this.view.addCalculateBtnListener(new CalculateBtnListener());
-//		this.view.addABtoXBtnListener(new ABtoXBtnListener());
-//	}
-	
 	public Controller(Calculator model, View view) {
 		this.model = model;
 		this.view = view;
@@ -31,6 +20,8 @@ public class Controller {
 		this.view.addCalculateBtnListener(new CalculateBtnListener());
 		this.view.addABtoXBtnListener(new ABtoXBtnListener());
 		this.view.addNextBtnListener(new NextBtnListener());
+		this.view.addlogBXBtnListener(new LogBXBtnListener());
+		// TODO ADD to view
 	}
 	
 	public void setModel(Calculator model) {
@@ -100,7 +91,7 @@ public class Controller {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String buttonText = ((JButton) e.getSource()).getText();
-
+			
 			model.appendLogbXToExpression(buttonText);
 			System.out.println(buttonText);
 			view.setExpressionInput(model.getExpression());
