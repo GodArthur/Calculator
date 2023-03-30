@@ -32,9 +32,6 @@ public class FunctionAbx extends Functions {
 
 	public String parse(String input, String expression) {
 
-		System.out.println("EXPRESSION GIVEN: " + expression);
-		System.out.println("INPUT GIVEN: " + input);
-		System.out.println("this.a: " + this.a);
 		String toReturn = expression;
 		if (varsInputed == 0) {
 			toReturn = setValueInExpression(input, expression, 3, 2, 3);
@@ -45,13 +42,12 @@ public class FunctionAbx extends Functions {
 		} else if (varsInputed == 2) {
 			toReturn = setValueInExpression(input, expression, 1, 0, 0);
 		} else {
-			if (StringHelper.checkIfOperandsClicked(input)) {
-				return expression; // skip
-			} else { // isAbx = false; varsInputed = 0; //expressionToParse =
-				// expression.append(compute());
+			if (StringHelper.checkIfOperandsClicked(input)) { //can't put an operand right after the function
+				return expression; 
+			} else { 
 				this.varsInputed = 0;
-				double result = compute();
-				String expressionToParse = expression.replace("abx", String.valueOf(result));
+				//double result = compute();
+				//String expressionToParse = expression.replace("abx", String.valueOf(result));
 				return expression;
 			}
 		}
@@ -79,9 +75,13 @@ public class FunctionAbx extends Functions {
 		String currentX = this.x == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
 				: currentXToInt + input;
 		String isVarA = this.varsInputed == 0 ? "*" : "";
-		System.out.println("CURRENT A: " + currentA);
+		String isVarX = this.varsInputed == 2 ? "^" : "";
+		if(this.varsInputed == 2) {
+			input = StringHelper.superscript(input);
+		}
 
-		if ((this.varsInputed == 0 && this.a == 0) || (this.varsInputed == 1 && this.b == 0) || (this.varsInputed == 2 && this.a == 0)) {
+		if ((this.varsInputed == 0 && this.a == 0) || (this.varsInputed == 1 && this.b == 0) || (this.varsInputed == 2 && this.x == 0)) {
+
 			exprBuilder.replace(expression.length() - start, expression.length() - end, input + isVarA);
 
 		} else {
@@ -94,24 +94,6 @@ public class FunctionAbx extends Functions {
 		} else if(this.varsInputed == 2) {
 			this.setX(Double.parseDouble(currentX));
 		}
-		return exprBuilder.toString();
-	}
-	
-	private String setXValueInExpression(String input, String expression) {
-		
-		StringBuilder exprBuilder = new StringBuilder(expression);
-		String currentBToInt = doubleToIntString(this.b + "");
-		String current = this.b == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
-				: currentBToInt + input;
-		System.out.println("CURRENT B: " + current);
-
-		if (this.b == 0) {
-			exprBuilder.replace(expression.length() - 2, expression.length()-1, input);
-
-		} else {
-			exprBuilder.insert(expression.length() - 1, input.toCharArray(), 0, 1);
-		}
-		this.setB(Double.parseDouble(current));
 		return exprBuilder.toString();
 	}
 

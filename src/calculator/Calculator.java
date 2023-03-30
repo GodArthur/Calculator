@@ -284,11 +284,11 @@ public class Calculator {
 				}
 				String expr = transcendentalFunction.parse(input, expString);
 
-				if(transcendentalFunction.getVarsInputed() == transcendentalFunction.getTotalVars()) {
+				/*if(transcendentalFunction.getVarsInputed() == transcendentalFunction.getTotalVars()) {
 					System.out.println("set to null");
 
 					transcendentalFunction = null;
-				}
+				}*/
 				expression = new StringBuilder(expr);
 
 				System.out.println("EXP: "+expression);
@@ -328,8 +328,10 @@ public class Calculator {
 			return;
 		}
 		if(transcendentalFunction instanceof FunctionAbx) {
-			if(transcendentalFunction.getVarsInputed() < transcendentalFunction.getTotalVars()) {
+			if(transcendentalFunction.getVarsInputed() <= transcendentalFunction.getTotalVars()) {
 				transcendentalFunction.setVarsInputed(transcendentalFunction.getVarsInputed()+1);
+			} else {
+				transcendentalFunction = null;
 			}
 		}
 	}

@@ -37,10 +37,12 @@ public class View extends JFrame {
 		textField = new JTextField();
 		textField.setBounds(50, 25, 300, 50);
 		textField.setEditable(false);
+		Font bigFont = textField.getFont().deriveFont(Font.PLAIN, 30f);
+		textField.setFont(bigFont);
 
 		// Initializing operator buttons 
 		addBtn = new JButton("+");
-		subBtn = new JButton("�");
+		subBtn = new JButton("—");
 		multBtn = new JButton("*");
 		divBtn = new JButton("/");
 		
