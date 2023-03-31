@@ -32,6 +32,20 @@ import java.util.Arrays;
 	    str = str.replaceAll("9", "⁹");            
 	    return str;
 	}
+	
+	public static String undoSuperscript(String str) {
+	    str = str.replaceAll("⁰", "0");
+	    str = str.replaceAll("¹", "1");
+	    str = str.replaceAll("²", "2");
+	    str = str.replaceAll("³", "3");
+	    str = str.replaceAll("⁴", "4");
+	    str = str.replaceAll("⁵", "5");
+	    str = str.replaceAll("⁶", "6");
+	    str = str.replaceAll("⁷", "7");
+	    str = str.replaceAll("⁸", "8");
+	    str = str.replaceAll("⁹", "9");            
+	    return str;
+	}
 
 	public static String subscript(String str) {
 	    str = str.replaceAll("0", "₀");

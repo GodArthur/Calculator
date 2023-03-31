@@ -281,16 +281,10 @@ public class Calculator {
 				if(!StringHelper.checkIfOperandsClicked(input)) {
 					return true;
 				}
-				String expr = transcendentalFunction.parse(input, expString);
+				String updatedExpression = transcendentalFunction.parse(input, expString);
 
-				/*if(transcendentalFunction.getVarsInputed() == transcendentalFunction.getTotalVars()) {
-					System.out.println("set to null");
+				expression = new StringBuilder(updatedExpression);
 
-					transcendentalFunction = null;
-				}*/
-				expression = new StringBuilder(expr);
-
-				System.out.println("EXP: "+expression);
 				return true;
 			//}
 			}

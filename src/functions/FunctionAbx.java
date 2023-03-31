@@ -21,42 +21,101 @@ public class FunctionAbx extends Functions {
 	}
 
 	public double compute() {
-		System.out.println("a: "+a);
-		System.out.println("b: "+b);
-		System.out.println("x: "+x);
-
-		return a * (Math.pow(b, x));
+		validate();
+		
+		double powerResult = this.b;
+		for(double i = 0; i < this.x -1; i++) {
+			powerResult *= this.b;
+		}
+		return a * powerResult;
 	}
 
 	@Override
 	public boolean validate() {
-		// TODO Auto-generated method stub
-		return false;
+
+		return true;
 	}
 
 	public String parse(String input, String expression) {
 
 		String toReturn = expression;
 		if (varsInputed == 0) {
-			toReturn = setValueInExpression(input, expression, 3, 2, 3);
+			toReturn = setAVariable(input, expression);
 
 		} else if (varsInputed == 1) {
-			toReturn = setValueInExpression(input, expression, 2, 1, 1);
+			toReturn = setBVariable(input, expression);
 
 		} else if (varsInputed == 2) {
-			toReturn = setValueInExpression(input, expression, 1, 0, 0);
+			toReturn = setXVariable(input, expression);
 		} else {
 			if (StringHelper.checkIfOperandsClicked(input)) { //can't put an operand right after the function
 				return expression; 
 			} else { 
 				this.varsInputed = 0;
-				//double result = compute();
-				//String expressionToParse = expression.replace("abx", String.valueOf(result));
 				return expression;
 			}
 		}
 
 		return toReturn.toString();
+	}
+	
+	private String setAVariable(String input, String expression) {
+		StringBuilder exprBuilder = new StringBuilder(expression);
+
+		String currentAToInt = doubleToIntString(this.a + "");
+		String currentA =  this.a == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
+			: currentAToInt + input;
+		
+		if (this.a == 0) {
+
+			exprBuilder.replace(expression.length() - 3, expression.length() - 2, input + "⋅");
+
+		} else {
+			exprBuilder.insert(expression.length() - 3, input.toCharArray(), 0, 1);
+		}
+
+			this.setA(Double.parseDouble(currentA));
+
+		return exprBuilder.toString();
+	}
+	private String setBVariable(String input, String expression) {
+		StringBuilder exprBuilder = new StringBuilder(expression);
+
+		String currentBToInt = doubleToIntString(this.b + "");
+		String currentB =  this.b == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
+			: currentBToInt + input;
+		
+		if (this.b == 0) {
+
+			exprBuilder.replace(expression.length() - 2, expression.length() - 1, input);
+
+		} else {
+			exprBuilder.insert(expression.length() - 1, input.toCharArray(), 0, 1);
+		}
+
+			this.setB(Double.parseDouble(currentB));
+
+		return exprBuilder.toString();
+	}
+	
+	private String setXVariable(String input, String expression) {
+		StringBuilder exprBuilder = new StringBuilder(expression);
+
+		String currentXToInt = doubleToIntString(this.x + "");
+		String currentX =  this.x == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
+			: currentXToInt + input;
+		input = StringHelper.superscript(input);
+		if (this.x == 0) {
+
+			exprBuilder.replace(expression.length() - 1, expression.length(), input);
+
+		} else {
+			exprBuilder.insert(expression.length(), input.toCharArray(), 0, 1);
+		}
+
+			this.setX(Double.parseDouble(currentX));
+
+		return exprBuilder.toString();
 	}
 
 	private String doubleToIntString(String value) {
@@ -65,39 +124,5 @@ public class FunctionAbx extends Functions {
 
 	}
 
-	private String setValueInExpression(String input, String expression, int start, int end, int insertAt) {
-
-		StringBuilder exprBuilder = new StringBuilder(expression);
-		String currentAToInt = doubleToIntString(this.a + "");
-		String currentBToInt = doubleToIntString(this.b + "");
-		String currentXToInt = doubleToIntString(this.x + "");
-
-		String currentA = this.a == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
-				: currentAToInt + input;
-		String currentB = this.b == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
-				: currentBToInt + input;
-		String currentX = this.x == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
-				: currentXToInt + input;
-		String isVarA = this.varsInputed == 0 ? "⋅" : "";
-		if(this.varsInputed == 2) {
-			input = StringHelper.superscript(input);
-		}
-
-		if ((this.varsInputed == 0 && this.a == 0) || (this.varsInputed == 1 && this.b == 0) || (this.varsInputed == 2 && this.x == 0)) {
-
-			exprBuilder.replace(expression.length() - start, expression.length() - end, input + isVarA);
-
-		} else {
-			exprBuilder.insert(expression.length() - insertAt, input.toCharArray(), 0, 1);
-		}
-		if(this.varsInputed == 0) {
-			this.setA(Double.parseDouble(currentA));
-		} else if (this.varsInputed == 1) {
-			this.setB(Double.parseDouble(currentB));
-		} else if(this.varsInputed == 2) {
-			this.setX(Double.parseDouble(currentX));
-		}
-		return exprBuilder.toString();
-	}
 
 }
