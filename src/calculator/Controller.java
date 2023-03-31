@@ -22,6 +22,7 @@ public class Controller {
 		this.view.addlogBXBtnListener(new LogBXBtnListener());
 		this.view.addArccosBtnListener(new ArccosBtnListener());
 		this.view.addMADBtnListener(new MADBtnListener());
+		this.view.addsinhBtnListener(new sinhBtnListener());
 		// TODO ADD to view
 	}
 	
@@ -125,6 +126,19 @@ public class Controller {
 			System.out.println(buttonText);
 			view.setExpressionInput(model.getExpression());
 		}
+	}
+	
+	class sinhBtnListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonText = ((JButton) e.getSource()).getText();
+			
+			model.appendSinhToExpression(buttonText);
+			System.out.println(buttonText);
+			view.setExpressionInput(model.getExpression());
+		}
+		
 	}
 	
 	//TODO : ADD YOUR BtnListener 

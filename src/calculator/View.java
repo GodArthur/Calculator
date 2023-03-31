@@ -16,7 +16,7 @@ public class View extends JFrame {
 
 	JButton addBtn, subBtn, multBtn, divBtn;
 	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn;
-	JButton abxBtn, acosBtn, logbxBtn, MADBtn; //TODO : ADD YOUR BUTTON HERE
+	JButton abxBtn, acosBtn, logbxBtn, MADBtn, sinhBtn; //TODO : ADD YOUR BUTTON HERE
 
 	/**
 	 * Create the frame.
@@ -57,6 +57,7 @@ public class View extends JFrame {
 		acosBtn = new JButton("acosX");
 		logbxBtn = new JButton("logbx");
 		MADBtn = new JButton("MAD");
+		sinhBtn = new JButton("sinh");
 		// TODO : ADD BUTTON HERE
 		
 		
@@ -118,6 +119,7 @@ public class View extends JFrame {
 		panel.add(acosBtn);
 		panel.add(logbxBtn);
 		panel.add(MADBtn);
+		panel.add(sinhBtn);
 		// TODO : ADD BUTTON HERE
 		
 		//changing button num colour
@@ -187,6 +189,10 @@ public class View extends JFrame {
 	}
 	void addMADBtnListener(ActionListener listen) {
 		MADBtn.addActionListener(listen);
+	}
+	
+	void addsinhBtnListener(ActionListener listen) {
+		sinhBtn.addActionListener(listen);
 	}
 	// TODO : Create your own button listener
 

@@ -252,6 +252,15 @@ public class Calculator {
 			}
 	}
 	
+	public void appendSinhToExpression(String sinh) {
+		boolean isFunctionInUse = (transcendentalFunction == null);
+		
+			if(isFunctionInUse && expression.isEmpty()){
+				transcendentalFunction = new FunctionSinh();
+				expression.append(sinh);
+			}
+		}
+	
 	// TODO : ADD YOUR OWN APPEND (FUNCTION)TO Expression Method
 	
 /**
@@ -318,6 +327,19 @@ public class Calculator {
 				System.out.println("EXP in CheckifFunctionEnabled: "+expression);
 				return true;
 			}
+			
+			// Sinh
+			if(transcendentalFunction instanceof FunctionSinh) {
+				// Does not let the user enter an operator when the transcendental function is enabled
+				if(!StringHelper.checkIfOperandsClicked(input)) {
+					return true;
+				}
+				String updatedExpression = transcendentalFunction.parse(input, expString);
+				this.expression = new StringBuilder(updatedExpression);
+				System.out.println("EXP: "+expression);
+				return true;
+				
+				}
 		
 	// TODO : ADD YOUR FUNCTION
 		return false;
@@ -346,6 +368,15 @@ public class Calculator {
 		}
 		if(transcendentalFunction instanceof FunctionMAD) {
 			transcendentalFunction.setVarsInputed(transcendentalFunction.getVarsInputed()+1);
+		}
+		
+		if(transcendentalFunction instanceof FunctionSinh) {
+			if(transcendentalFunction.getVarsInputed() < transcendentalFunction.getTotalVars()-1) {
+				transcendentalFunction.setVarsInputed(transcendentalFunction.getVarsInputed()+1);
+			} else {
+				transcendentalFunction = null;
+			}
+		
 		}
 		
 	}
