@@ -16,13 +16,29 @@ public class FunctionXY extends Functions{
 	
 	public double compute() {
 		
-		int value = this.x;
+		double value = 1;
 		
-		for (int i = 0; i < y; i++) {
+		double absY = abs(y);
+		for (int i = 0; i < absY; i++) {
 			
-			
+			value = value * this.x;
 		}
-		return ;
+		
+		if (absY != y) {
+			return 1/value;
+		}
+		return value;
+	}
+	
+	//returns absolute value of a number
+	private double abs(double num) {
+		
+		if (num < 0) {
+			
+			return -num;
+		}
+		
+		return num;
 	}
 	
 	public boolean validate() {
