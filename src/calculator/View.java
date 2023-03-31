@@ -13,6 +13,7 @@ public class View extends JFrame {
 	JTextField textField;
 	JButton[] numBtns = new JButton[10];
 	JButton[] funcBtns = new JButton[10]; // TODO : +1 SIZE OF ARRAY IF NECESSARY
+	JButton[] specialFuncBtns = new JButton[4];
 
 	JButton addBtn, subBtn, multBtn, divBtn;
 	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn;
@@ -29,7 +30,7 @@ public class View extends JFrame {
 		// Creating Content Pane
 		contentPane = new JPanel();
 		contentPane.setSize(420, 550);
-		contentPane.setBackground(Color.LIGHT_GRAY);
+		contentPane.setBackground(Color.BLACK);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -70,12 +71,11 @@ public class View extends JFrame {
 		funcBtns[7] = delBtn;
 		funcBtns[8] = nextBtn;
 		funcBtns[9] = clrBtn;
-
 		
-		//funcBtns[10] = abxBtn;
-		//funcBtns[11] = acosBtn;
-		//funcBtns[12] = logbxBtn;
-		// TODO : ADD BUTTON HERE
+		specialFuncBtns[0] = abxBtn;
+		specialFuncBtns[1] = acosBtn;
+		specialFuncBtns[2] = logbxBtn;
+		specialFuncBtns[3] = MADBtn;
 
 
 		
@@ -93,6 +93,7 @@ public class View extends JFrame {
 		panel = new JPanel();
 		panel.setBounds(50, 100, 300, 300);
 		panel.setBackground(Color.BLACK);
+		//panel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		panel.setLayout(new GridLayout(6, 4, 10, 10));
 
 		// Adding buttons to the calculator GUI
@@ -127,7 +128,12 @@ public class View extends JFrame {
 
 		//changing button func colour
 		for (JButton func : funcBtns) {
-			func.setBackground(Color.GRAY);
+			func.setBackground(new Color(216, 236, 82));
+		}
+		
+		//changing button func colour
+		for (JButton func : specialFuncBtns) {
+			func.setBackground(new Color(254, 236, 179));
 		}
 
 		add(panel);
