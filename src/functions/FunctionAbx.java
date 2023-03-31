@@ -68,7 +68,7 @@ public class FunctionAbx extends Functions {
 		
 		if (this.a == 0) {
 
-			exprBuilder.replace(expression.length() - 3, expression.length() - 2, input + "⋅");
+			exprBuilder.replace(expression.length() - 3, expression.length() - 2, input + "\u22C5");
 
 		} else {
 			exprBuilder.insert(expression.length() - 3, input.toCharArray(), 0, 1);

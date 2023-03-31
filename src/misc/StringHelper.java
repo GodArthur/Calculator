@@ -4,7 +4,7 @@ import java.util.Arrays;
 
     public class StringHelper {
 
-	public static final String[] OPERATORS = {"+", "—", "*", "/"};
+	public static final String[] OPERATORS = {"+", "\u2014", "*", "/"};
 	public static final String[] OPERANDS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
 	public static final String[] FUNCTIONS = {"ab\u02e3"};
 	

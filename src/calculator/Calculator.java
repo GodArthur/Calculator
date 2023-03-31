@@ -159,7 +159,7 @@ public class Calculator {
 	private boolean isBasicArithmetic() {
 		if(!expression.toString().isEmpty()) {
 			String expString = expression.toString();
-			if(expString.contains("+") || expString.contains("—")|| expString.contains("*")|| expString.contains("/")) {
+			if(expString.contains("+") || expString.contains("\u2014")|| expString.contains("*")|| expString.contains("/")) {
 				return true;
 			}
 		}
@@ -172,8 +172,8 @@ public class Calculator {
 				String[] operands = expString.split("\\+");
 				this.expression = expression.replace(0, expression.length(), compute(operands[0], operands[1], "+"));
 			}
-			if(expString.contains("—")) {
-				String[] operands = expString.split("\\—");
+			if(expString.contains("\u2014")) {
+				String[] operands = expString.split("\\\u2014");
 				this.expression = expression.replace(0, expression.length(), compute(operands[0], operands[1], "-"));
 			}
 			if(expString.contains("*")) {
