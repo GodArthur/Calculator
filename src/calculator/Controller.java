@@ -22,6 +22,7 @@ public class Controller {
 		this.view.addABtoXBtnListener(new ABtoXBtnListener());
 		this.view.addlogBXBtnListener(new LogBXBtnListener());
 		this.view.addArccosBtnListener(new ArccosBtnListener());
+		this.view.addXYBtnListener(new XYBtnListener());
 		this.view.addMADBtnListener(new MADBtnListener());
 		this.view.addsinhBtnListener(new sinhBtnListener());
 		this.view.addstDevBtnListener(new standardDevBtnListener());
@@ -152,6 +153,19 @@ public class Controller {
 		
 	}
 	
+	
+	class XYBtnListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonText = ((JButton) e.getSource()).getText();
+			
+			model.appendXYToExpression(buttonText);
+			System.out.println(buttonText);
+			view.setExpressionInput(model.getExpression());
+		}
+	}
+	
+		
 	class standardDevBtnListener implements ActionListener{
 		
 		public void actionPerformed(ActionEvent e)

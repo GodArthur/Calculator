@@ -13,11 +13,12 @@ public class View extends JFrame {
 	JTextField textField;
 	JButton[] numBtns = new JButton[10];
 	JButton[] funcBtns = new JButton[10]; // TODO : +1 SIZE OF ARRAY IF NECESSARY
-	JButton[] specialFuncBtns = new JButton[6];
+	JButton[] specialFuncBtns = new JButton[7];
 
 	JButton addBtn, subBtn, multBtn, divBtn;
+
 	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn,commaBtn;
-	JButton abxBtn, acosBtn, logbxBtn, MADBtn, sinhBtn,stDevBtn; //TODO : ADD YOUR BUTTON HERE
+	JButton abxBtn, acosBtn, logbxBtn, MADBtn, sinhBtn, stDevBtn, xYBtn; //TODO : ADD YOUR BUTTON HERE
 
 	/**
 	 * Create the frame.
@@ -57,6 +58,7 @@ public class View extends JFrame {
 		nextBtn = new JButton("next");
 		acosBtn = new JButton("acosX");
 		logbxBtn = new JButton("logbx");
+		xYBtn = new JButton("x^y");
 		MADBtn = new JButton("MAD");
 		sinhBtn = new JButton("sinh");
 		commaBtn = new JButton(",");
@@ -81,10 +83,10 @@ public class View extends JFrame {
 		specialFuncBtns[3] = MADBtn;
 		specialFuncBtns[4] = sinhBtn;
 		specialFuncBtns[5] = stDevBtn;
-
+		specialFuncBtns[6] = xYBtn;
 
 		
-		// Initializing the value of the buttons
+		// Initializing the value of the numbered buttons
 		for (int i = 0; i < numBtns.length; i++) {
 
 			numBtns[i] = new JButton(String.valueOf(i));
@@ -124,6 +126,7 @@ public class View extends JFrame {
 		panel.add(abxBtn);
 		panel.add(acosBtn);
 		panel.add(logbxBtn);
+		panel.add(xYBtn);
 		panel.add(MADBtn);
 		panel.add(sinhBtn);
 		panel.add(stDevBtn);
@@ -205,6 +208,11 @@ public class View extends JFrame {
 	void addArccosBtnListener(ActionListener listen) {
 		acosBtn.addActionListener(listen);
 	}
+	
+	void addXYBtnListener(ActionListener listen) {
+		xYBtn.addActionListener(listen);
+	}
+		
 	void addMADBtnListener(ActionListener listen) {
 		MADBtn.addActionListener(listen);
 	}

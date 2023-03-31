@@ -243,6 +243,17 @@ public class Calculator {
 			}
 		}
 	
+
+	public void appendXYToExpression(String xy) {
+		
+		boolean isFunctionInUse = (transcendentalFunction == null);
+		
+		if(isFunctionInUse && expression.isEmpty()){
+			transcendentalFunction = new FunctionXY();
+			expression.append(xy);
+		}
+	}
+
 	public void appendMADToExpression(String MAD) {
 		boolean isFunctionInUse = (transcendentalFunction == null);
 		
@@ -329,12 +340,30 @@ public class Calculator {
 				return true;
 				}
 			
+			// XY
+			if(transcendentalFunction instanceof FunctionXY) {
+				
+					if(!StringHelper.checkIfOperandsClicked(input)) {
+						return true;
+					}
+					
+					String updatedExpression = transcendentalFunction.parse(input, expString);
+
+					this.expression = new StringBuilder(updatedExpression);
+
+					return true;
+				
+			}
+			
+			
 			// MAD
 			if(transcendentalFunction instanceof FunctionMAD) {
 				// Does not let the user enter an operator when the transcendental function is enabled
 				if(!StringHelper.checkIfOperandsClicked(input)) {
 						return true;
 				}
+				
+
 				// Call to Method parse that will receive the input and reformat it as well as store the value
 				String updatedExpression = transcendentalFunction.parse(input, expString);
 				this.expression = new StringBuilder(updatedExpression);
@@ -402,6 +431,16 @@ public class Calculator {
 			}
 		
 		}
+		
+		if(transcendentalFunction instanceof FunctionXY) {
+			System.out.println("");
+			if(transcendentalFunction.getVarsInputed() < transcendentalFunction.getTotalVars()-1) {
+				transcendentalFunction.setVarsInputed(transcendentalFunction.getVarsInputed()+1);
+			} else {
+				transcendentalFunction = null;
+			}
+		}
+		
 		
 	}
 	

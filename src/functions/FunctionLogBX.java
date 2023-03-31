@@ -63,7 +63,7 @@ public class FunctionLogBX extends Functions{
 			this.b = Double.parseDouble(input);
 		}
 		
-		// Enter remaining digits for B
+		// Enter remaining digits for B //Genyes
 		else if (this.varsInputed ==0) {
 			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), StringHelper.subscript(input));
 			exprBuilder.append("x");
