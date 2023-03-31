@@ -5,9 +5,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JTextField;
 
-
-import java.util.ArrayList;
-
 public class Controller {
 	private Calculator model;
 	private View view;
@@ -19,22 +16,34 @@ public class Controller {
 		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
 		this.view.addCalculateBtnListener(new CalculateBtnListener());
 		this.view.addNextBtnListener(new NextBtnListener());
+		this.view.addCommaBtnListener(new commaBtnListener());
+		
 		//Transcendental Functions
 		this.view.addABtoXBtnListener(new ABtoXBtnListener());
 		this.view.addlogBXBtnListener(new LogBXBtnListener());
 		this.view.addArccosBtnListener(new ArccosBtnListener());
 		this.view.addXYBtnListener(new XYBtnListener());
+		this.view.addMADBtnListener(new MADBtnListener());
+		this.view.addsinhBtnListener(new sinhBtnListener());
+		this.view.addstDevBtnListener(new standardDevBtnListener());
 		// TODO ADD to view
 	}
 	
-	public void setModel(Calculator model) {
+	private void setModel(Calculator model) {
 		this.model = model;
 	}
 
-	public void setView(View view) {
+	private void setView(View view) {
 		this.view = view;
 	}
+	
+	private Calculator getModel() {
+		return this.model;
+	}
 
+	private View getView() {
+		return this.view;
+	}
 	
 //-------------------------------- BtnListener Class -----------------------------------------------//	
 	class OperandsAndOperatorsBtnListener implements ActionListener{
@@ -45,7 +54,6 @@ public class Controller {
 			model.appendToExpression(buttonText);
 			view.setExpressionInput(model.getExpression());
 		}
-		
 	}
 	
 	class CalculateBtnListener implements ActionListener{
@@ -73,6 +81,15 @@ public class Controller {
 		
 	}
 	
+	class commaBtnListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonText = ((JButton) e.getSource()).getText();
+			model.appendToExpression(buttonText);
+			view.setExpressionInput(model.getExpression());
+		}
+	}
+	
 //-------------------------------- Transcendental functions Btn Classes -----------------------------------------------//	
 	
 	class ABtoXBtnListener implements ActionListener{
@@ -85,7 +102,6 @@ public class Controller {
 			System.out.println(buttonText);
 			view.setExpressionInput(model.getExpression());
 		}
-		
 	}
 	
 	class LogBXBtnListener implements ActionListener{
@@ -98,7 +114,6 @@ public class Controller {
 			System.out.println(buttonText);
 			view.setExpressionInput(model.getExpression());
 		}
-		
 	}
 	
 	class ArccosBtnListener implements ActionListener{
@@ -108,6 +123,30 @@ public class Controller {
 			String buttonText = ((JButton) e.getSource()).getText();
 			
 			model.appendArccosToExpression(buttonText);
+			System.out.println(buttonText);
+			view.setExpressionInput(model.getExpression());
+		}
+	}
+	
+	class MADBtnListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonText = ((JButton) e.getSource()).getText();
+			
+			model.appendMADToExpression(buttonText);
+			System.out.println(buttonText);
+			view.setExpressionInput(model.getExpression());
+		}
+	}
+	
+	class sinhBtnListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonText = ((JButton) e.getSource()).getText();
+			
+			model.appendSinhToExpression(buttonText);
 			System.out.println(buttonText);
 			view.setExpressionInput(model.getExpression());
 		}
@@ -124,7 +163,19 @@ public class Controller {
 			System.out.println(buttonText);
 			view.setExpressionInput(model.getExpression());
 		}
+	}
+	
 		
+	class standardDevBtnListener implements ActionListener{
+		
+		public void actionPerformed(ActionEvent e)
+		{
+			String buttonText = ((JButton) e.getSource()).getText();
+			model.appendStandardDevExpression(buttonText);
+			System.out.println("from listener: "+model.getExpression());
+			view.setExpressionInput(buttonText);
+
+		}
 	}
 	
 	//TODO : ADD YOUR BtnListener 

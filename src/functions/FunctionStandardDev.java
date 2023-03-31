@@ -9,30 +9,48 @@ public class FunctionStandardDev extends Functions
 
         double temp;
     
-        double sr = number / 2;
+        double squareRoot = number / 2;
+        
+        double squareRootFinal = 0;
     
         do {
-            temp = sr;
-            sr = (temp + (number / temp)) / 2;
-        } while ((temp - sr) != 0);
+            temp = squareRoot;
+            squareRoot = (temp + (number / temp)) / 2;
+        } while ((temp - squareRoot) != 0);
     
-        return sr;
+        
+        squareRootFinal = squareRoot;
+        return squareRoot;
         
     }
 
 	double[] values;
 	
+	String stringInput;
+	
 	public FunctionStandardDev() 
 	{
-		this.values = new double[0];
+		this.stringInput = "";
 	}
-	public FunctionStandardDev(double[] x) 
-	{
-		this.values = x;
-	}
-	
+
 	public double compute() 
 	{
+		
+		String[] numStrings = stringInput.substring(5).split(",");
+		values = new double[numStrings.length];
+		
+		for(int s = 0; s < numStrings.length;s++)
+		{
+			numStrings[s] = numStrings[s].replace("(", "").replace(")", "");
+		}
+		
+		//Take the same string array and convert each number into a double
+		for(int i = 0; i < numStrings.length;i++)
+		{
+			values[i] = Double.parseDouble(numStrings[i]);
+		}
+		
+		
 		double populationMean = 0;
 		double total = 0;
 		
@@ -61,8 +79,11 @@ public class FunctionStandardDev extends Functions
 	}
 	
 	public String parse(String input, String expression) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuilder exprBuilder = new StringBuilder(expression);
+		exprBuilder = exprBuilder.append(input);
+		this.stringInput = exprBuilder.toString();
+				
+		return exprBuilder.toString();
 	}
 	
 	

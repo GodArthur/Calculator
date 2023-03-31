@@ -13,10 +13,12 @@ public class View extends JFrame {
 	JTextField textField;
 	JButton[] numBtns = new JButton[10];
 	JButton[] funcBtns = new JButton[10]; // TODO : +1 SIZE OF ARRAY IF NECESSARY
+	JButton[] specialFuncBtns = new JButton[7];
 
 	JButton addBtn, subBtn, multBtn, divBtn;
-	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn;
-	JButton abxBtn, acosBtn, logbxBtn, xYBtn; //TODO : ADD YOUR BUTTON HERE
+
+	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn,commaBtn;
+	JButton abxBtn, acosBtn, logbxBtn, MADBtn, sinhBtn, stDevBtn, xYBtn; //TODO : ADD YOUR BUTTON HERE
 
 	/**
 	 * Create the frame.
@@ -29,7 +31,7 @@ public class View extends JFrame {
 		// Creating Content Pane
 		contentPane = new JPanel();
 		contentPane.setSize(420, 550);
-		contentPane.setBackground(Color.LIGHT_GRAY);
+		contentPane.setBackground(Color.BLACK);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
@@ -57,6 +59,10 @@ public class View extends JFrame {
 		acosBtn = new JButton("acosX");
 		logbxBtn = new JButton("logbx");
 		xYBtn = new JButton("x^y");
+		MADBtn = new JButton("MAD");
+		sinhBtn = new JButton("sinh");
+		commaBtn = new JButton(",");
+		stDevBtn = new JButton("stDev");
 		// TODO : ADD BUTTON HERE
 		
 		
@@ -70,13 +76,14 @@ public class View extends JFrame {
 		funcBtns[7] = delBtn;
 		funcBtns[8] = nextBtn;
 		funcBtns[9] = clrBtn;
-
 		
-		//funcBtns[10] = abxBtn;
-		//funcBtns[11] = acosBtn;
-		//funcBtns[12] = logbxBtn;
-		// TODO : ADD BUTTON HERE
-
+		specialFuncBtns[0] = abxBtn;
+		specialFuncBtns[1] = acosBtn;
+		specialFuncBtns[2] = logbxBtn;
+		specialFuncBtns[3] = MADBtn;
+		specialFuncBtns[4] = sinhBtn;
+		specialFuncBtns[5] = stDevBtn;
+		specialFuncBtns[6] = xYBtn;
 
 		
 		// Initializing the value of the numbered buttons
@@ -93,7 +100,8 @@ public class View extends JFrame {
 		panel = new JPanel();
 		panel.setBounds(50, 100, 300, 300);
 		panel.setBackground(Color.BLACK);
-		panel.setLayout(new GridLayout(6, 4, 10, 10));
+		//panel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		panel.setLayout(new GridLayout(7, 4, 10, 10));
 
 		// Adding buttons to the calculator GUI
 		panel.add(numBtns[1]);
@@ -114,10 +122,14 @@ public class View extends JFrame {
 		panel.add(divBtn);
 		panel.add(negBtn);
 		panel.add(nextBtn);
+		panel.add(commaBtn);
 		panel.add(abxBtn);
 		panel.add(acosBtn);
 		panel.add(logbxBtn);
 		panel.add(xYBtn);
+		panel.add(MADBtn);
+		panel.add(sinhBtn);
+		panel.add(stDevBtn);
 		// TODO : ADD BUTTON HERE
 		
 		//changing button num colour
@@ -127,8 +139,15 @@ public class View extends JFrame {
 
 		//changing button func colour
 		for (JButton func : funcBtns) {
-			func.setBackground(Color.GRAY);
+			func.setBackground(new Color(227, 247, 181));
 		}
+		
+		//changing button func colour
+		for (JButton func : specialFuncBtns) {
+			func.setBackground(new Color(247, 241, 181));
+		}
+		
+		commaBtn.setBackground(new Color(227, 247, 181));
 
 		add(panel);
 		add(delBtn);
@@ -145,6 +164,10 @@ public class View extends JFrame {
 		textField.setText(display);
 	}
 
+	
+	void addCommaBtnListener(ActionListener listen) {
+		commaBtn.addActionListener(listen);
+	}
 	/*
 	 * Function adds event listeners to the operators and operands
 	 */
@@ -188,6 +211,18 @@ public class View extends JFrame {
 	
 	void addXYBtnListener(ActionListener listen) {
 		xYBtn.addActionListener(listen);
+	}
+		
+	void addMADBtnListener(ActionListener listen) {
+		MADBtn.addActionListener(listen);
+	}
+	
+	void addsinhBtnListener(ActionListener listen) {
+		sinhBtn.addActionListener(listen);
+	}
+	
+	void addstDevBtnListener(ActionListener listen) {
+		stDevBtn.addActionListener(listen);
 	}
 	// TODO : Create your own button listener
 

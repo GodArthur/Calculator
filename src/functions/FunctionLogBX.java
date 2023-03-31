@@ -34,6 +34,11 @@ public class FunctionLogBX extends Functions{
 
 	@Override
 	public boolean validate() {
+		
+		// Not enough variable entered
+		if (varsInputed < totalVars)
+			this.setErrorMessage("Insufficient variables entered");
+		
 		// error conditions
 		if (x <= 0) {
 			this.setErrorMessage("Undefined");
@@ -54,6 +59,7 @@ public class FunctionLogBX extends Functions{
 		// Enter First digit for B
 		if (exprBuilder.toString().equalsIgnoreCase("logbx")) {
 			exprBuilder.replace(exprBuilder.length()-2, exprBuilder.length(), StringHelper.subscript(input));
+			exprBuilder.append("x");
 			this.b = Double.parseDouble(input);
 		}
 		
@@ -65,7 +71,7 @@ public class FunctionLogBX extends Functions{
 		}
 		
 		// Enter First digit for X
-		if (this.varsInputed ==1 && expression.contains("x")) {
+		if (this.varsInputed == 1 && expression.contains("x")) {
 			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input );
 			this.x = Double.parseDouble(input);
 		}
