@@ -14,7 +14,7 @@ public class FunctionLogBX extends Functions{
 		this.b = 0;
 		this.x = 0;
 		this.varsInputed = 0;
-		this.totalVars = 1; // 2 variable (0 and 1)
+		this.totalVars = 2;
 	}
 	
 	@Override
@@ -71,7 +71,7 @@ public class FunctionLogBX extends Functions{
 		}
 		
 		// Enter First digit for X
-		if (this.varsInputed ==1 && expression.contains("x")) {
+		if (this.varsInputed == 1 && expression.contains("x")) {
 			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input );
 			this.x = Double.parseDouble(input);
 		}
