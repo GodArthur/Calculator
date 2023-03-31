@@ -51,7 +51,7 @@ public class Calculator {
 * Method that applies the DEL button to the instance variables of the calculator
 */
 	public void del() {
-		 if(!expression.isEmpty())
+		 if(!expression.toString().isEmpty())
 			expression.deleteCharAt(expression.length()-1);
 	}
 
@@ -105,7 +105,7 @@ public class Calculator {
  * @param newInput
  */	
 	private void decimalHandler(String newInput) {
-		if(!expression.isEmpty()) {
+		if(!expression.toString().isEmpty()) {
 			String lastInput = expression.substring(expression.length() - 1);
 			if(StringHelper.checkIfOperandsClicked(lastInput)) {
 				expression.append(newInput);
@@ -119,7 +119,7 @@ public class Calculator {
  * @param newInput
  */
 	private void negationHandler(String newInput) {
-		if(!expression.isEmpty()) {
+		if(!expression.toString().isEmpty()) {
 			String lastInput = expression.substring(expression.length() - 1);
 			if(lastInput==newInput) {
 				return;
@@ -137,7 +137,7 @@ public class Calculator {
  * @param calculatorExpression
  * */
 		public void calculateExpression(String calculatorExpression) {
-			if(!expression.isEmpty()) {
+			if(!expression.toString().isEmpty()) {
 			String lastInput = expression.substring(expression.length() - 1);
 						
 				if(StringHelper.checkIfOperatorClicked(lastInput)) {
@@ -157,7 +157,7 @@ public class Calculator {
 				
 //-------------------------------- Basic Arithmetic  -----------------------------------------------//	
 	private boolean isBasicArithmetic() {
-		if(!expression.isEmpty()) {
+		if(!expression.toString().isEmpty()) {
 			String expString = expression.toString();
 			if(expString.contains("+") || expString.contains("—")|| expString.contains("*")|| expString.contains("/")) {
 				return true;
@@ -214,7 +214,7 @@ public class Calculator {
 	public void appendAbxToExpression(String abx) {
 		boolean isFunctionInUse = transcendentalFunction != null;
 
-		if(!isFunctionInUse && ( expression.isEmpty() || !StringHelper.checkIfOperandsClicked(expression.substring(expression.length() - 1)))) {
+		if(!isFunctionInUse && ( expression.toString().isEmpty() || !StringHelper.checkIfOperandsClicked(expression.substring(expression.length() - 1)))) {
 			transcendentalFunction = new FunctionAbx();
 			expression.append(abx);
 		}
@@ -228,7 +228,7 @@ public class Calculator {
 	public void appendLogbXToExpression(String logbx) {
 	boolean isFunctionInUse = (transcendentalFunction == null);
 	
-		if(isFunctionInUse && expression.isEmpty()){
+		if(isFunctionInUse && expression.toString().isEmpty()){
 			transcendentalFunction = new FunctionLogBX();
 			expression.append(logbx);
 		}
@@ -237,7 +237,7 @@ public class Calculator {
 	public void appendArccosToExpression(String arccos) {
 		boolean isFunctionInUse = (transcendentalFunction == null);
 		
-			if(isFunctionInUse && expression.isEmpty()){
+			if(isFunctionInUse && expression.toString().isEmpty()){
 				transcendentalFunction = new FunctionArccos();
 				expression.append(arccos);
 			}
@@ -246,7 +246,7 @@ public class Calculator {
 	public void appendMADToExpression(String MAD) {
 		boolean isFunctionInUse = (transcendentalFunction == null);
 		
-			if(isFunctionInUse && expression.isEmpty()){
+			if(isFunctionInUse && expression.toString().isEmpty()){
 				transcendentalFunction = new FunctionMAD();
 				expression.append(MAD);
 			}
@@ -255,11 +255,26 @@ public class Calculator {
 	public void appendSinhToExpression(String sinh) {
 		boolean isFunctionInUse = (transcendentalFunction == null);
 		
-			if(isFunctionInUse && expression.isEmpty()){
+			if(isFunctionInUse && expression.toString().isEmpty()){
 				transcendentalFunction = new FunctionSinh();
 				expression.append(sinh);
 			}
 		}
+	
+	public void appendStandardDevExpression(String i)
+	{
+		boolean isFunctionInUse = (transcendentalFunction == null);
+		
+		if(isFunctionInUse && expression.toString().isEmpty())
+		{
+		transcendentalFunction = new FunctionStandardDev();
+		System.out.println("from appendStandardDevExpression");
+	
+			//transcendentalFunction = new FunctionStandardDev(expression.toString());
+			expression.append(i);
+		}
+
+	}
 	
 	// TODO : ADD YOUR OWN APPEND (FUNCTION)TO Expression Method
 	
@@ -271,7 +286,7 @@ public class Calculator {
 	private boolean checkIfFunctionEnabled(String input) {
 		//if(!expression.isEmpty()) {
 
-			String expString = expression.isEmpty()? "" : expression.toString();
+			String expString = expression.toString().isEmpty()? "" : expression.toString();
 			
 			//AB^X Function
 			if(transcendentalFunction instanceof FunctionAbx) {
@@ -340,6 +355,15 @@ public class Calculator {
 				return true;
 				
 				}
+			
+			if(transcendentalFunction instanceof FunctionStandardDev)
+			{
+				this.expression = new StringBuilder(expString);
+				System.out.println("from checkIfFunctionEnabled: " + expression);
+				String updatedExpression = transcendentalFunction.parse(input, expString);
+				this.expression = new StringBuilder(updatedExpression);
+				return true;
+			}
 		
 	// TODO : ADD YOUR FUNCTION
 		return false;

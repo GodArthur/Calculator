@@ -16,6 +16,7 @@ public class Controller {
 		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
 		this.view.addCalculateBtnListener(new CalculateBtnListener());
 		this.view.addNextBtnListener(new NextBtnListener());
+		this.view.addCommaBtnListener(new commaBtnListener());
 		
 		//Transcendental Functions
 		this.view.addABtoXBtnListener(new ABtoXBtnListener());
@@ -23,6 +24,7 @@ public class Controller {
 		this.view.addArccosBtnListener(new ArccosBtnListener());
 		this.view.addMADBtnListener(new MADBtnListener());
 		this.view.addsinhBtnListener(new sinhBtnListener());
+		this.view.addstDevBtnListener(new standardDevBtnListener());
 		// TODO ADD to view
 	}
 	
@@ -76,6 +78,15 @@ public class Controller {
 			model.updateNextFunctionValue();
 		}
 		
+	}
+	
+	class commaBtnListener implements ActionListener{
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			String buttonText = ((JButton) e.getSource()).getText();
+			model.appendToExpression(buttonText);
+			view.setExpressionInput(model.getExpression());
+		}
 	}
 	
 //-------------------------------- Transcendental functions Btn Classes -----------------------------------------------//	
@@ -139,6 +150,18 @@ public class Controller {
 			view.setExpressionInput(model.getExpression());
 		}
 		
+	}
+	
+	class standardDevBtnListener implements ActionListener{
+		
+		public void actionPerformed(ActionEvent e)
+		{
+			String buttonText = ((JButton) e.getSource()).getText();
+			model.appendStandardDevExpression(buttonText);
+			System.out.println("from listener: "+model.getExpression());
+			view.setExpressionInput(buttonText);
+
+		}
 	}
 	
 	//TODO : ADD YOUR BtnListener 
