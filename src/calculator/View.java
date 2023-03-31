@@ -13,7 +13,7 @@ public class View extends JFrame {
 	JTextField textField;
 	JButton[] numBtns = new JButton[10];
 	JButton[] funcBtns = new JButton[10]; // TODO : +1 SIZE OF ARRAY IF NECESSARY
-	JButton[] specialFuncBtns = new JButton[4];
+	JButton[] specialFuncBtns = new JButton[5];
 
 	JButton addBtn, subBtn, multBtn, divBtn;
 	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn;
@@ -77,6 +77,7 @@ public class View extends JFrame {
 		specialFuncBtns[1] = acosBtn;
 		specialFuncBtns[2] = logbxBtn;
 		specialFuncBtns[3] = MADBtn;
+		specialFuncBtns[4] = sinhBtn;
 
 
 		
@@ -130,12 +131,12 @@ public class View extends JFrame {
 
 		//changing button func colour
 		for (JButton func : funcBtns) {
-			func.setBackground(new Color(216, 236, 82));
+			func.setBackground(new Color(227, 247, 181));
 		}
 		
 		//changing button func colour
 		for (JButton func : specialFuncBtns) {
-			func.setBackground(new Color(254, 236, 179));
+			func.setBackground(new Color(247, 241, 181));
 		}
 
 		add(panel);
