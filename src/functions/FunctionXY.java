@@ -1,5 +1,6 @@
 package functions;
-
+import misc.StringHelper;
+import misc.StringHelper.*;
 public class FunctionXY extends Functions{
 
 	
@@ -65,13 +66,13 @@ public class FunctionXY extends Functions{
 		}
 		// Enter First digit for y
 		if (this.varsInputed ==1 && expression.contains("y")) {
-			expBuilder.replace(expBuilder.length()-1, expBuilder.length(), input );
+			expBuilder.replace(expBuilder.length()-1, expBuilder.length(), StringHelper.superscript(input));
 			this.y = Double.parseDouble(input);
 		}
 		
 		//Enter remaining digits for y
 		else if (this.varsInputed ==1) {
-			expBuilder.append(input);
+			expBuilder.append(StringHelper.superscript(input));
 			this.y = y*10 + Double.parseDouble(input);
 		}
 		
