@@ -15,54 +15,27 @@ public class Calculator {
 	private Functions transcendentalFunction;
 	private String errorMessage = "";
 
-	// Store in memory variables TODO : DO WE NEED THESE VARIABLES BELOW??
-//	private double operand_a; 
-//	private double operand_b;
-//	private double operand_c;
-//	private double operand_d;
-	
-/**
- * Getters TODO : JAVADOC
- */
-//	public double getOperand_A() {
-//		return operand_a;
-//	}
-//	public double getOperand_B() {
-//		return operand_b;
-//	}
-//	public double getOperand_C() {
-//		return operand_c;
-//	}
-//	public double getOperand_D() {
-//		return operand_d;
-//	}	
-	public String getError() {
-		return this.errorMessage;
-	}
-	
-	public String getExpression() {
-		return expression.toString();
-	}
 	
 /**
  * Setters TODO : JAVADOC
  */	
-//	public void setOperand_a(double operand) {
-//		this.operand_a = operand;
-//	}
-//	public void setOperand_b(double operand) {
-//		this.operand_b = operand;
-//	}	
-//	public void setOperand_c(double operand) {
-//		this.operand_c = operand;
-//	}
-//	public void setOperand_d(double operand) {
-//		this.operand_d = operand;
-//	}
 	public void setErrorMessage(String error) {
 		this.errorMessage = error;
 	}
+	public void setExpression(StringBuilder exp) {
+		this.expression = exp;
+	}
 	
+/**
+* Getters TODO : JAVADOC
+*/
+	public String getError() {
+		return this.errorMessage;
+	}
+		
+	public String getExpression() {
+		return expression.toString();
+	}	
 //-------------------------------- Basic Buttons Functions  -----------------------------------------------//	
 /** 
  * Method that applies the clear button to the instance variables of the calculator
@@ -82,6 +55,11 @@ public class Calculator {
 			expression.deleteCharAt(expression.length()-1);
 	}
 
+/**
+ * Method for when a button (other than T.Functions) is pressed. Calls checkIfFunctionEnabled that will handle entering
+ * values when a T.Function has been selected previously.	
+ * @param newInput
+ */
 	public void appendToExpression(String newInput) {
 		if (newInput =="Clr")
 			this.clear();
@@ -105,9 +83,12 @@ public class Calculator {
 		} 
 	}
 	
-	
+/**
+ * Supporting Method to AppendToExpression that handles operator buttons	
+ * @param newInput
+ */
 	private void operatorHandler(String newInput) {
-		if(!expression.isEmpty()) {
+		if(!expression.toString().isEmpty()) {
 			String lastInput = expression.substring(expression.length() - 1);
 			if(StringHelper.checkIfOperatorClicked(lastInput)) {
 				expression.deleteCharAt(expression.length() - 1);
@@ -117,9 +98,12 @@ public class Calculator {
 				expression.append(newInput);
 			}
 		}
-		
 	}
 	
+/**
+ * Supporting Method to AppendToExpression that handles the decimal button	
+ * @param newInput
+ */	
 	private void decimalHandler(String newInput) {
 		if(!expression.isEmpty()) {
 			String lastInput = expression.substring(expression.length() - 1);
@@ -129,7 +113,11 @@ public class Calculator {
 		}
 		//TODO :  IF THERE IS NO DIGIT ENTERED AFTER DECIMAL AND THEY CLICK CALCULATE/...ERROR MESSAGE?
 	}
-	
+
+/**
+ * Supporting Method to AppendToExpression that handles the decimal button	
+ * @param newInput
+ */
 	private void negationHandler(String newInput) {
 		if(!expression.isEmpty()) {
 			String lastInput = expression.substring(expression.length() - 1);
@@ -283,7 +271,7 @@ public class Calculator {
 				}
 				String updatedExpression = transcendentalFunction.parse(input, expString);
 
-				expression = new StringBuilder(updatedExpression);
+				this.expression = new StringBuilder(updatedExpression);
 
 				return true;
 			//}

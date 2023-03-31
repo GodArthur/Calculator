@@ -45,16 +45,44 @@ public class FunctionMAD extends Functions {
 
 	@Override
 	public String parse(String input, String expression) {
-		StringBuilder exprBuilder = new StringBuilder(expression);
 		if (varsInputed + 1 >= dataset.length) {
 			resizeDataset();
 		}
+		
+		StringBuilder exprBuilder = new StringBuilder(expression);
+		if (varsInputed == 0) {
+			exprBuilder.delete(exprBuilder.lastIndexOf("D") + 1, exprBuilder.length());
+			exprBuilder.append("({");
+		} else if (dataset[varsInputed] == 0) {
+			exprBuilder.delete(exprBuilder.lastIndexOf("}"), exprBuilder.length());
+			exprBuilder.append(", ");
+		} else {
+			exprBuilder.delete(exprBuilder.lastIndexOf(",") + 2, exprBuilder.length());
+		}
+		
 		dataset[varsInputed] = 10 * dataset[varsInputed] + Double.parseDouble(input);
-		return Arrays.toString(Arrays.copyOf(dataset, varsInputed + 1));
+		int numberOfPrintedValues = countValues(exprBuilder);
+		for (int i = numberOfPrintedValues; i < varsInputed + 1; i++) {
+			exprBuilder.append("0, ");
+		}
+		exprBuilder.append((int)dataset[varsInputed] + "})");
+		return (exprBuilder.toString());
 	}
 	
 	private void resizeDataset() {
-		dataset = Arrays.copyOf(dataset, 2 * dataset.length + 1);
+		while (varsInputed + 1 >= dataset.length) {
+			dataset = Arrays.copyOf(dataset, 2 * dataset.length + 1);
+		}
+	}
+	
+	private int countValues(StringBuilder expr) {
+		int ctr = 0;
+		for (int i = 0; i < expr.length(); i++) {
+			if (expr.charAt(i) == ',') {
+				ctr++;
+			}
+		}
+		return ctr + 1;
 	}
 
 }

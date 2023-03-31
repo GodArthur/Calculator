@@ -29,7 +29,8 @@ import java.util.Arrays;
 	    str = str.replaceAll("6", "⁶");
 	    str = str.replaceAll("7", "⁷");
 	    str = str.replaceAll("8", "⁸");
-	    str = str.replaceAll("9", "⁹");            
+	    str = str.replaceAll("9", "⁹");  
+	    str = str.replaceAll("Y", "ʸ");
 	    return str;
 	}
 	
