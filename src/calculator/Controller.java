@@ -16,7 +16,6 @@ public class Controller {
 		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
 		this.view.addCalculateBtnListener(new CalculateBtnListener());
 		this.view.addNextBtnListener(new NextBtnListener());
-		this.view.addCommaBtnListener(new commaBtnListener());
 		
 		//Transcendental Functions
 		this.view.addABtoXBtnListener(new ABtoXBtnListener());
@@ -79,15 +78,6 @@ public class Controller {
 			model.updateNextFunctionValue();
 		}
 		
-	}
-	
-	class commaBtnListener implements ActionListener{
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			String buttonText = ((JButton) e.getSource()).getText();
-			model.appendToExpression(buttonText);
-			view.setExpressionInput(model.getExpression());
-		}
 	}
 	
 //-------------------------------- Transcendental functions Btn Classes -----------------------------------------------//	

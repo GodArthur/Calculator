@@ -17,30 +17,34 @@ public class View extends JFrame {
 
 	JButton addBtn, subBtn, multBtn, divBtn;
 
-	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn,commaBtn;
+	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn;
 	JButton abxBtn, acosBtn, logbxBtn, MADBtn, sinhBtn, stDevBtn, xYBtn; //TODO : ADD YOUR BUTTON HERE
 
 	/**
 	 * Create the frame.
 	 */
 	public View() {
+		setTitle("ETERNITY Calculator by Team C");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(420, 550);
+		setSize(600, 900);
 		// setBounds(100, 100, 565, 478);
 
 		// Creating Content Pane
 		contentPane = new JPanel();
 		contentPane.setSize(420, 550);
-		contentPane.setBackground(Color.BLACK);
+		contentPane.setBackground(Color.decode("#1B1212"));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 
 		// Creating Input Textbox
 		textField = new JTextField();
-		textField.setBounds(50, 25, 300, 50);
+		textField.setBounds(50, 25, 475, 115);
+		textField.setBackground(Color.decode("#1B1212"));
+		textField.setForeground(Color.WHITE);
+		textField.setBorder(new EmptyBorder(0, 0, 0, 0));
 		textField.setEditable(false);
-		Font bigFont = textField.getFont().deriveFont(Font.PLAIN, 30f);
-		textField.setFont(bigFont);
+		Font font = new Font("HELVETICA", Font.PLAIN, 45);
+		textField.setFont(font);
 
 		// Initializing operator buttons 
 		addBtn = new JButton("+");
@@ -61,7 +65,6 @@ public class View extends JFrame {
 		xYBtn = new JButton("x^y");
 		MADBtn = new JButton("MAD");
 		sinhBtn = new JButton("sinh");
-		commaBtn = new JButton(",");
 		stDevBtn = new JButton("stDev");
 		// TODO : ADD BUTTON HERE
 		
@@ -85,7 +88,6 @@ public class View extends JFrame {
 		specialFuncBtns[5] = stDevBtn;
 		specialFuncBtns[6] = xYBtn;
 
-		
 		// Initializing the value of the numbered buttons
 		for (int i = 0; i < numBtns.length; i++) {
 
@@ -93,15 +95,15 @@ public class View extends JFrame {
 			// numBtns[i].setFocusable(false);
 		}
 
-		delBtn.setBounds(50, 430, 135, 40);
-		clrBtn.setBounds(205, 430, 135, 40);
+		delBtn.setBounds(50, 800, 135, 40);
+		clrBtn.setBounds(205, 800, 135, 40);
 
 		// creating the button grid
 		panel = new JPanel();
-		panel.setBounds(50, 100, 300, 300);
-		panel.setBackground(Color.BLACK);
+		panel.setBounds(50, 150, 475, 600);
+		panel.setBackground(Color.decode("#1B1212"));
 		//panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		panel.setLayout(new GridLayout(7, 4, 10, 10));
+		panel.setLayout(new GridLayout(7, 4));
 
 		// Adding buttons to the calculator GUI
 		panel.add(numBtns[1]);
@@ -122,7 +124,6 @@ public class View extends JFrame {
 		panel.add(divBtn);
 		panel.add(negBtn);
 		panel.add(nextBtn);
-		panel.add(commaBtn);
 		panel.add(abxBtn);
 		panel.add(acosBtn);
 		panel.add(logbxBtn);
@@ -130,24 +131,32 @@ public class View extends JFrame {
 		panel.add(MADBtn);
 		panel.add(sinhBtn);
 		panel.add(stDevBtn);
-		// TODO : ADD BUTTON HERE
+		// TODO : ADD BUTTON HERE 
 		
+		Font buttonFont = new Font("Arial", Font.BOLD, 28);
 		//changing button num colour
 		for (JButton num : numBtns) {
-			num.setBackground(Color.WHITE);
+			num.setBorder(new EmptyBorder(0, 0, 0, 0));
+			num.setBackground(Color.decode("#28282B"));
+			num.setForeground(Color.WHITE);
+			num.setFont(buttonFont);
 		}
 
 		//changing button func colour
 		for (JButton func : funcBtns) {
-			func.setBackground(new Color(227, 247, 181));
+			func.setBorder(new EmptyBorder(0, 0, 0, 0));
+			func.setBackground(Color.decode("#CECBC5"));
+			func.setFont(buttonFont);
 		}
+		
+		eqBtn.setBackground(Color.decode("#0BDA51"));
 		
 		//changing button func colour
 		for (JButton func : specialFuncBtns) {
-			func.setBackground(new Color(247, 241, 181));
+			func.setBorder(new EmptyBorder(0, 0, 0, 0));
+			func.setBackground(Color.decode("#FF8700"));
+			func.setFont(buttonFont);
 		}
-		
-		commaBtn.setBackground(new Color(227, 247, 181));
 
 		add(panel);
 		add(delBtn);
@@ -164,10 +173,7 @@ public class View extends JFrame {
 		textField.setText(display);
 	}
 
-	
-	void addCommaBtnListener(ActionListener listen) {
-		commaBtn.addActionListener(listen);
-	}
+
 	/*
 	 * Function adds event listeners to the operators and operands
 	 */

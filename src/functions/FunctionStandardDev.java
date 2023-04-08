@@ -1,28 +1,29 @@
 package functions;
 
+import java.util.Arrays;
+
 import misc.StringHelper;
 
 public class FunctionStandardDev extends Functions
 {
 	
-	public  double squareRoot(double number) {
+	public static double squareRoot(double num) {
+	    if (num < 0) {
+	        return Double.NaN;  // Return NaN for negative input
+	    } else if (num == 0) {
+	        return 0;  // Return 0 for input 0
+	    }
 
-        double temp;
-    
-        double squareRoot = number / 2;
-        
-        double squareRootFinal = 0;
-    
-        do {
-            temp = squareRoot;
-            squareRoot = (temp + (number / temp)) / 2;
-        } while ((temp - squareRoot) != 0);
-    
-        
-        squareRootFinal = squareRoot;
-        return squareRoot;
-        
-    }
+	    double x = num / 2;  // Initial guess
+	    double lastX = 0;  // Variable to hold last guess
+
+	    while (x != lastX) {
+	        lastX = x;
+	        x = (x + num / x) / 2;  // Newton's method iteration
+	    }
+
+	    return x;
+	}
 
 	double[] values;
 	
@@ -30,47 +31,49 @@ public class FunctionStandardDev extends Functions
 	
 	public FunctionStandardDev() 
 	{
+		this.values = new double[0];
 		this.stringInput = "";
+		this.varsInputed = 0;
 	}
 
-	public double compute() 
-	{
+	public double compute(){
 		
-		String[] numStrings = stringInput.substring(5).split(",");
-		values = new double[numStrings.length];
-		
-		for(int s = 0; s < numStrings.length;s++)
+		if (!validate()) {
+			return Double.NaN;
+		}
+
+		int varsInDataset = varsInputed + 1;
+		for (int i = 0; i < varsInDataset; i++) 
 		{
-			numStrings[s] = numStrings[s].replace("(", "").replace(")", "");
+		    System.out.print("testing: " + values[i]);
 		}
 		
-		//Take the same string array and convert each number into a double
-		for(int i = 0; i < numStrings.length;i++)
-		{
-			values[i] = Double.parseDouble(numStrings[i]);
-		}
+		System.out.println("There is : " + Double.NaN );
 		
-		
+	    if (varsInDataset < 1) {
+	        return 0;
+	    }
+			
 		double populationMean = 0;
 		double total = 0;
 		
 		//Find the sum of population 
-		for (int i = 0; i < values.length; i++) 
+		for (int i = 0; i < varsInDataset; i++) 
 		{
 		    populationMean += values[i];
 		}
 		
 		//divide population by number of values
-		populationMean = populationMean/values.length;
+		populationMean = populationMean/varsInDataset;
 		
-        for(int k = 0; k < values.length; k++)
+        for(int k = 0; k < varsInDataset; k++)
         {
             total += (values[k] - populationMean)*(values[k] - populationMean);
         }
 		
         
 	    //Divide total by number of values
-        total = total/values.length;
+        total = total/varsInDataset;
         
         //Finally, do the square root
         total = squareRoot(total);
@@ -79,19 +82,59 @@ public class FunctionStandardDev extends Functions
 	}
 	
 	public String parse(String input, String expression) {
+//		StringBuilder exprBuilder = new StringBuilder(expression);
+//		exprBuilder = exprBuilder.append(input);
+//		this.stringInput = exprBuilder.toString();
+//				
+//		return exprBuilder.toString();
+		
+		if (varsInputed + 1 >= values.length) {
+			resizeDataset();
+		}
+		
 		StringBuilder exprBuilder = new StringBuilder(expression);
-		exprBuilder = exprBuilder.append(input);
-		this.stringInput = exprBuilder.toString();
-				
-		return exprBuilder.toString();
+		if (varsInputed == 0) {
+			exprBuilder.delete(exprBuilder.lastIndexOf("v") + 1, exprBuilder.length());
+			exprBuilder.append("(");
+		} else if (values[varsInputed] == 0) {
+			exprBuilder.delete(exprBuilder.lastIndexOf(")"), exprBuilder.length());
+			exprBuilder.append(",");
+		} else {
+			exprBuilder.delete(exprBuilder.lastIndexOf(",") + 2, exprBuilder.length());
+		}
+		
+		values[varsInputed] = 10 * values[varsInputed] + Double.parseDouble(input);
+		int numberOfPrintedValues = countValues(exprBuilder);
+		System.out.print("values: " + numberOfPrintedValues);
+//		for (int i = numberOfPrintedValues; i < varsInputed + 1; i++) {
+//			exprBuilder.append("0, ");
+//		}
+		exprBuilder.append((int)values[varsInputed] + ")");
+		return (exprBuilder.toString());
 	}
 	
+	
+	private void resizeDataset() {
+		while (varsInputed + 1 >= values.length) {
+			values = Arrays.copyOf(values, 2 * values.length + 1);
+		}
+	}
+	
+	private int countValues(StringBuilder expr) {
+		int ctr = 0;
+		for (int i = 0; i < expr.length(); i++) {
+			if (expr.charAt(i) == ',') {
+				ctr++;
+			}
+		}
+		return ctr + 1;
+	}
 	
 	@Override
 	public boolean validate() {
 		if (values.length < 2) 
 		{ 
-			this.setErrorMessage("Dataset must be more than 2");
+			this.setErrorMessage("Dataset must have at least 2 values");
 			return false; 
 		}
 		return true;

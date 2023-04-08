@@ -248,7 +248,7 @@ public class Calculator {
 		
 		boolean isFunctionInUse = (transcendentalFunction == null);
 		
-		if(isFunctionInUse && expression.isEmpty()){
+		if(isFunctionInUse && expression.toString().isEmpty()){
 			transcendentalFunction = new FunctionXY();
 			expression.append(xy);
 		}
@@ -387,11 +387,17 @@ public class Calculator {
 			
 			if(transcendentalFunction instanceof FunctionStandardDev)
 			{
-				this.expression = new StringBuilder(expString);
-				System.out.println("from checkIfFunctionEnabled: " + expression);
+				if(transcendentalFunction instanceof FunctionStandardDev)
+				{				
+					if(!StringHelper.checkIfOperandsClicked(input)) {
+						return true;
+				}
+				// Call to Method parse that will receive the input and reformat it as well as store the value
 				String updatedExpression = transcendentalFunction.parse(input, expString);
 				this.expression = new StringBuilder(updatedExpression);
+				System.out.println("EXP in CheckifFunctionEnabled: "+expression);
 				return true;
+				}
 			}
 		
 	// TODO : ADD YOUR FUNCTION
@@ -439,6 +445,10 @@ public class Calculator {
 			} else {
 				transcendentalFunction = null;
 			}
+		}
+		
+		if(transcendentalFunction instanceof FunctionStandardDev) {
+			transcendentalFunction.setVarsInputed(transcendentalFunction.getVarsInputed()+1);
 		}
 		
 		
