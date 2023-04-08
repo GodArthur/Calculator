@@ -301,7 +301,7 @@ public class Calculator {
 			
 			//AB^X Function
 			if(transcendentalFunction instanceof FunctionAbx) {
-				if(!StringHelper.checkIfOperandsClicked(input)) {
+				if(!StringHelper.checkIfOperandsClicked(input) && !StringHelper.isDecimalSymbol(input)) {
 					return true;
 				}
 				String updatedExpression = transcendentalFunction.parse(input, expString);

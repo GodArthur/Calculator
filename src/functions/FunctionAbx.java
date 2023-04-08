@@ -35,94 +35,64 @@ public class FunctionAbx extends Functions {
 
 		return true;
 	}
-
+	
+	@Override
 	public String parse(String input, String expression) {
-
-		String toReturn = expression;
-		if (varsInputed == 0) {
-			toReturn = setAVariable(input, expression);
-
-		} else if (varsInputed == 1) {
-			toReturn = setBVariable(input, expression);
-
-		} else if (varsInputed == 2) {
-			toReturn = setXVariable(input, expression);
-		} else {
-			if (StringHelper.checkIfOperandsClicked(input)) { //can't put an operand right after the function
-				return expression; 
-			} else { 
-				this.varsInputed = 0;
-				return expression;
-			}
-		}
-
-		return toReturn.toString();
-	}
-	
-	private String setAVariable(String input, String expression) {
 		StringBuilder exprBuilder = new StringBuilder(expression);
 
-		String currentAToInt = doubleToIntString(this.a + "");
-		String currentA =  this.a == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
-			: currentAToInt + input;
 		
-		if (this.a == 0) {
+		// Enter First digit for a
+		if (exprBuilder.toString().equalsIgnoreCase("ab\u02e3")) {
+			exprBuilder.replace(0, exprBuilder.length(), input);
+			exprBuilder.append("\u22C5"+"b\u02e3");
+			this.a = Double.parseDouble(input);
+			System.out.println("A: "+this.a);
 
-			exprBuilder.replace(expression.length() - 3, expression.length() - 2, input + "\u22C5");
-
-		} else {
-			exprBuilder.insert(expression.length() - 3, input.toCharArray(), 0, 1);
 		}
-
-			this.setA(Double.parseDouble(currentA));
-
-		return exprBuilder.toString();
-	}
-	private String setBVariable(String input, String expression) {
-		StringBuilder exprBuilder = new StringBuilder(expression);
-
-		String currentBToInt = doubleToIntString(this.b + "");
-		String currentB =  this.b == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
-			: currentBToInt + input;
 		
-		if (this.b == 0) {
+		// Enter remaining digits for a 
+		else if (this.varsInputed ==0) {
 
-			exprBuilder.replace(expression.length() - 2, expression.length() - 1, input);
+			exprBuilder.replace(exprBuilder.length()-3, exprBuilder.length(), input);
+			exprBuilder.append("\u22C5"+"b\u02e3");
+			this.a = Double.parseDouble(exprBuilder.substring(0 , exprBuilder.indexOf("\u22C5")));
+			System.out.println("A: "+this.a);
+		}
+		
+		// Enter First digit for b
+		if (this.varsInputed == 1 && expression.contains("b")) {
+			exprBuilder.replace(exprBuilder.length()-2, exprBuilder.length(), input);
+			exprBuilder.append("\u02e3");
+			this.b = Double.parseDouble(input);
+			System.out.println("B: "+this.b);
 
-		} else {
-			exprBuilder.insert(expression.length() - 1, input.toCharArray(), 0, 1);
+		}
+		
+		//Enter remaining digits for b
+		else if (this.varsInputed ==1) {
+			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input);
+			exprBuilder.append("\u02e3");
+			this.b = Double.parseDouble(exprBuilder.substring(exprBuilder.indexOf("\u22C5")+1, exprBuilder.toString().indexOf("\u02e3")));
+			System.out.println("B: "+this.b);
 		}
 
-			this.setB(Double.parseDouble(currentB));
+		// Enter First digit for x
+		if (this.varsInputed == 2 && expression.contains("\u02e3")) {
+			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), StringHelper.superscript(input));
+			this.x = Double.parseDouble(input);
+			System.out.println("X: "+this.x);
 
-		return exprBuilder.toString();
-	}
-	
-	private String setXVariable(String input, String expression) {
-		StringBuilder exprBuilder = new StringBuilder(expression);
-
-		String currentXToInt = doubleToIntString(this.x + "");
-		String currentX =  this.x == 0 ? (input.endsWith(".0") ? doubleToIntString(input) : input)
-			: currentXToInt + input;
-		input = StringHelper.superscript(input);
-		if (this.x == 0) {
-
-			exprBuilder.replace(expression.length() - 1, expression.length(), input);
-
-		} else {
-			exprBuilder.insert(expression.length(), input.toCharArray(), 0, 1);
 		}
 
-			this.setX(Double.parseDouble(currentX));
+		// Enter remaining digits for x
+		else if (this.varsInputed == 2) {
+			exprBuilder.append(StringHelper.superscript(input));
+			this.x = x * 10 + Double.parseDouble(input);
+			System.out.println("X: "+this.x);
 
+		}
+		
 		return exprBuilder.toString();
 	}
-
-	private String doubleToIntString(String value) {
-		StringBuilder inputBuilder = new StringBuilder(value);
-		return inputBuilder.delete(inputBuilder.length() - 2, inputBuilder.length()).toString();
-
-	}
-
 
 }

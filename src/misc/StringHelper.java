@@ -61,4 +61,8 @@ import java.util.Arrays;
 	    str = str.replaceAll("9", "₉");           
 	    return str;
 	}
+	
+	public static boolean isDecimalSymbol(String str) {
+		return str.equals(".");
+	}
 }
