@@ -295,8 +295,6 @@ public class Calculator {
  * @return
  */
 	private boolean checkIfFunctionEnabled(String input) {
-		//if(!expression.isEmpty()) {
-		System.out.println("input: "+input);
 			String expString = expression.toString().isEmpty()? "" : expression.toString();
 			
 			//AB^X Function

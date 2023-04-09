@@ -3,6 +3,7 @@ package functions;
 import misc.StringHelper;
 
 public class FunctionAbx extends Functions {
+	FunctionXY helperXY;
 
 	public FunctionAbx() {
 		this.a = 0;
@@ -10,6 +11,7 @@ public class FunctionAbx extends Functions {
 		this.x = 0;
 		this.varsInputed = 0;
 		this.totalVars = 3;
+		this.helperXY = new FunctionXY();
 	}
 
 	public FunctionAbx(double a, double b, double x) {
@@ -18,16 +20,15 @@ public class FunctionAbx extends Functions {
 		this.x = x;
 		this.varsInputed = 0;
 		this.totalVars = 3;
+		this.helperXY = new FunctionXY();
 	}
 
 	public double compute() {
-		validate();
-		
-		double powerResult = this.b;
-		for(double i = 0; i < this.x -1; i++) {
-			powerResult *= this.b;
-		}
-		return a * powerResult;
+
+		this.helperXY.setX(this.b);
+		this.helperXY.setY(this.x);
+		double result = this.helperXY.compute();
+		return a * result;
 	}
 
 	@Override
@@ -109,8 +110,6 @@ public class FunctionAbx extends Functions {
 			} else {
 				exprBuilder.append(StringHelper.superscript(input));
 				String xSuperscriptValue = exprBuilder.substring(getFirstSuperscriptNumber(expression), exprBuilder.length());
-				System.out.println("xSuperscriptValue: "+xSuperscriptValue);
-
 				this.x = Double.parseDouble(StringHelper.undoSuperscript(xSuperscriptValue));
 				System.out.println("X: "+this.x);
 			}
