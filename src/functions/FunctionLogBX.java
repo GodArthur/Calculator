@@ -23,17 +23,21 @@ public class FunctionLogBX extends Functions{
 	
 	@Override
 	public double compute() {
-		validate();
-		
 		double result=0;
-		
+		if(validate()) {
+
 		// special case(s)
 		if (x == 1) {result = 0;}
 		
 		// Regular valid cases
 		result = logarithmic(x,b);
+		double realResult = Math.log(this.x)/Math.log(this.b);
+//		double result2 = logarithmic2(x)/logarithmic2(b);
 		
-		// Return less decimal points
+		System.out.println("Method divison and nearest power: " + result);
+//		System.out.println("Method series: " + result2);
+		System.out.println("Real result: " + realResult);
+		}
 		return result;
 	}
 
@@ -45,7 +49,6 @@ public class FunctionLogBX extends Functions{
 		String resultStr="";
 		
 		for(int i = 0; i<=4; i++) {
-			System.out.println("interim beginning of for loop: " + interimX);
 			n = closestPower(interimX,b);	
 			resultArr.add(Integer.toString(n));
 			
@@ -54,11 +57,9 @@ public class FunctionLogBX extends Functions{
 			}
 			// Divide by b exponent nearest power n
 			interimX = interimX/exponent(b,n);
-			System.out.println("interim just divived by power "+n+": " + interimX);
 			
 			// Raise to 10
 			interimX = exponent(interimX,10);
-			System.out.println("interim raised: " + interimX);
 		}
 
 		
@@ -72,8 +73,7 @@ public class FunctionLogBX extends Functions{
 
 	private int closestPower(double x, double b) {
 		int n = 0;
-		double test = b;
-		
+		double test = exponent(b,n);
 		while(x >= test) {
 			n +=1;
 			test = exponent(b,n);
@@ -83,6 +83,18 @@ public class FunctionLogBX extends Functions{
 		}
 		return n;
 	}
+	
+//	private double logarithmic2(double x) {
+//		double result = 0;
+//		double x1 = (x-1)/(x+1);
+//		double series = 0;
+//		
+//		for(int i=1; i<=101; i+=2) {
+//			series+= exponent(x1,i)/i;
+//		}
+//		
+//		return series*2;
+//	}
 
 	private double exponent(double x,double y) {
 		this.helperXY.setX(x);
@@ -95,8 +107,9 @@ public class FunctionLogBX extends Functions{
 	public boolean validate() {
 		
 		// Not enough variable entered
-		if (varsInputed < totalVars)
+		if (varsInputed < totalVars-1) {
 			this.setErrorMessage("Insufficient variables entered");
+			return false;}
 		
 		// error conditions
 		if (x <= 0) {
@@ -126,7 +139,9 @@ public class FunctionLogBX extends Functions{
 		else if (this.varsInputed ==0) {
 			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), StringHelper.subscript(input));
 			exprBuilder.append("x");
-			this.b = b*10 + Double.parseDouble(input);
+			if(!input.equalsIgnoreCase(".")) {
+				this.b = b*10 + Double.parseDouble(input);}
+
 		}
 		
 		// Enter First digit for X
@@ -138,7 +153,8 @@ public class FunctionLogBX extends Functions{
 		//Enter remaining digits for X
 		else if (this.varsInputed ==1) {
 			exprBuilder.append(input);
-			this.x = x*10 + Double.parseDouble(input);
+			if(!input.equalsIgnoreCase(".")) {
+				this.b = b*10 + Double.parseDouble(input);}
 		}
 		
 		return exprBuilder.toString();

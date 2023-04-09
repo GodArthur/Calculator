@@ -151,6 +151,7 @@ public class Calculator {
 				//TRANSCENDENTAL FUNCTIONS 
 				else {
 					this.expression = new StringBuilder(Double.toString(transcendentalFunction.compute()));
+					this.errorMessage = this.transcendentalFunction.errorMessage;
 				}
 			}
 			}
@@ -286,8 +287,7 @@ public class Calculator {
 		}
 
 	}
-	
-	// TODO : ADD YOUR OWN APPEND (FUNCTION)TO Expression Method
+
 	
 /**
  * 
@@ -315,7 +315,7 @@ public class Calculator {
 		// Log_BX
 			if(transcendentalFunction instanceof FunctionLogBX) {
 				// Does not let the user enter an operator when the transcendental function is enabled
-				if(!StringHelper.checkIfOperandsClicked(input)) {
+				if(!StringHelper.checkIfOperandsClicked(input) && !StringHelper.isDecimalSymbol(input)) {
 						return true;
 				}
 				// Call to Method parse that will receive the input and reformat it as well as store the value
