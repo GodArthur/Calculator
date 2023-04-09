@@ -61,11 +61,11 @@ public class Controller {
 		public void actionPerformed(ActionEvent e) {
 			String expressionInputText = model.getExpression();
 			model.calculateExpression(expressionInputText);
-			if(model.getError()=="")
+			if(model.getError().equalsIgnoreCase(""))
 			view.setExpressionInput(model.getExpression());
 			else
 				view.setExpressionInput(model.getError());
-			System.out.println("expression: "+model.getExpression());
+//			System.out.println("expression: "+model.getExpression());
 			model.clear();
 		}
 		
