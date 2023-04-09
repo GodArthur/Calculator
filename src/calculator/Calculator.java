@@ -433,7 +433,6 @@ public class Calculator {
 		}
 		
 		if(transcendentalFunction instanceof FunctionXY) {
-			System.out.println("");
 			if(transcendentalFunction.getVarsInputed() < transcendentalFunction.getTotalVars()-1) {
 				transcendentalFunction.setVarsInputed(transcendentalFunction.getVarsInputed()+1);
 			} else {
