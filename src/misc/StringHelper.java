@@ -44,7 +44,9 @@ import java.util.Arrays;
 	    str = str.replaceAll("⁶", "6");
 	    str = str.replaceAll("⁷", "7");
 	    str = str.replaceAll("⁸", "8");
-	    str = str.replaceAll("⁹", "9");            
+	    str = str.replaceAll("⁹", "9");
+	    str = str.replaceAll("\u00b7", "."); //unicode for superscript "."     
+	    str = str.replaceAll("\u207b", "-"); //unicode for superscript "-"    
 	    return str;
 	}
 
@@ -64,5 +66,15 @@ import java.util.Arrays;
 	
 	public static boolean isDecimalSymbol(String str) {
 		return str.equals(".");
+	}
+	
+	public static boolean isSuperscriptNumber(String sup) {
+		String[] symbols = {"\u207b", "⁰", "¹", "²", "³", "⁴", "⁵", "⁶", "⁷", "⁸", "⁹"};
+		for(String s : symbols) {
+			if(s.equals(sup)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

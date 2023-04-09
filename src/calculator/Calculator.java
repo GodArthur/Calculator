@@ -296,12 +296,12 @@ public class Calculator {
  */
 	private boolean checkIfFunctionEnabled(String input) {
 		//if(!expression.isEmpty()) {
-
+		System.out.println("input: "+input);
 			String expString = expression.toString().isEmpty()? "" : expression.toString();
 			
 			//AB^X Function
 			if(transcendentalFunction instanceof FunctionAbx) {
-				if(!StringHelper.checkIfOperandsClicked(input) && !StringHelper.isDecimalSymbol(input)) {
+				if(!StringHelper.checkIfOperandsClicked(input) && !StringHelper.isDecimalSymbol(input) && !input.equals("(-)")) {
 					return true;
 				}
 				String updatedExpression = transcendentalFunction.parse(input, expString);
