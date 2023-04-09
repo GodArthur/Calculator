@@ -5,16 +5,20 @@
  * @param x 
  */	
 package functions;
-
+import java.util.ArrayList;
 import misc.StringHelper;
+import functions.FunctionXY;
 
 public class FunctionLogBX extends Functions{
+	
+	FunctionXY helperXY;
 	
 	public FunctionLogBX(){
 		this.b = 0;
 		this.x = 0;
 		this.varsInputed = 0;
 		this.totalVars = 2;
+		this.helperXY = new FunctionXY();
 	}
 	
 	@Override
@@ -27,11 +31,66 @@ public class FunctionLogBX extends Functions{
 		if (x == 1) {result = 0;}
 		
 		// Regular valid cases
-		result = Math.log(x)/Math.log(b);
+		result = logarithmic(x,b);
 		
+		// Return less decimal points
 		return result;
 	}
 
+	private double logarithmic(double x, double b) {
+		double result = 0;
+		int n;
+		ArrayList<String> resultArr = new ArrayList<>();
+		double interimX = x;
+		String resultStr="";
+		
+		for(int i = 0; i<=4; i++) {
+			System.out.println("interim beginning of for loop: " + interimX);
+			n = closestPower(interimX,b);	
+			resultArr.add(Integer.toString(n));
+			
+			if(i ==0) {
+				resultArr.add(".");
+			}
+			// Divide by b exponent nearest power n
+			interimX = interimX/exponent(b,n);
+			System.out.println("interim just divived by power "+n+": " + interimX);
+			
+			// Raise to 10
+			interimX = exponent(interimX,10);
+			System.out.println("interim raised: " + interimX);
+		}
+
+		
+		for(int j=0; j< resultArr.size();j++) {
+			resultStr = resultStr.concat(resultArr.get(j));
+		}
+		
+		result = Double.parseDouble(resultStr);
+		return result;
+	}
+
+	private int closestPower(double x, double b) {
+		int n = 0;
+		double test = b;
+		
+		while(x >= test) {
+			n +=1;
+			test = exponent(b,n);
+			if(x < test){
+				n-=1; 
+				break;}
+		}
+		return n;
+	}
+
+	private double exponent(double x,double y) {
+		this.helperXY.setX(x);
+		this.helperXY.setY(y);
+		double result = this.helperXY.compute();
+		return result;
+	}
+	
 	@Override
 	public boolean validate() {
 		
@@ -63,7 +122,7 @@ public class FunctionLogBX extends Functions{
 			this.b = Double.parseDouble(input);
 		}
 		
-		// Enter remaining digits for B //Genyes
+		// Enter remaining digits for B
 		else if (this.varsInputed ==0) {
 			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), StringHelper.subscript(input));
 			exprBuilder.append("x");
