@@ -56,7 +56,6 @@ public class FunctionMAD extends Functions {
 		StringBuilder exprBuilder = new StringBuilder(expression);
 		String thisNumber = ""; // String of the current number in the expression
 		String afterDecimal = ""; // Decimal part of current number
-		boolean isThisADecimal = false;
 		
 		// First number to input
 		if (varsInputed == 0) {
@@ -67,10 +66,6 @@ public class FunctionMAD extends Functions {
 			// Rewrite MAD
 			exprBuilder.delete(exprBuilder.lastIndexOf("D") + 1, exprBuilder.length());
 			exprBuilder.append("({");
-			// Special case: user types "0."
-			if (StringHelper.isDecimalSymbol(input) && dataset[varsInputed] == 0) {
-				exprBuilder.append("0");
-			}
 		} 
 		// Check if the current number is 0
 		else if (dataset[varsInputed] == 0) {
@@ -94,47 +89,72 @@ public class FunctionMAD extends Functions {
 			exprBuilder.delete(exprBuilder.lastIndexOf(",") + 2, exprBuilder.length());
 		}
 		
-		// Check if current number is a decimal
-		isThisADecimal = thisNumber.contains(".");
+		// Check if current number has a decimal point
+		boolean isThisADecimal = thisNumber.contains(".");
 		if (isThisADecimal) {
 			// Obtain the decimal part as a string
 			afterDecimal = thisNumber.substring(thisNumber.lastIndexOf(".") + 1);
 		}
 		
+		// Check if current number is negative
+		boolean isThisANegative = thisNumber.contains("-");
+		
 		String toAppend = "";
+		
+		// Add negation sign if necessary
+		if (isThisANegative) {
+			toAppend += "-";
+		}
 		// Process decimal point input
 		if (StringHelper.isDecimalSymbol(input)) {
+			// Ignore decimal point input if number is already decimal
 			if (isThisADecimal) {
-				// Ignore decimal point input if number is already decimal
 				return expression;
-			}
+			}			
 			// Add decimal point to integer in expression
 			if (dataset[varsInputed] != 0) {
-				toAppend += Integer.toString((int)dataset[varsInputed]);
+				toAppend += Integer.toString(currentAbsoluteInt());
+			}
+			// Special case: user writes "0.x" as first value
+			else if (varsInputed == 0) {
+					toAppend += "0";
 			}
 			toAppend += ".";
-		} else {
+		}
+		// Process negation sign input
+		else if (input.equals("(-)")) {
+			// Ignore negation sign input if number is not 0
+			if (dataset[varsInputed] != 0) {
+				return expression;
+			}
+			// Add negation sign to expression
+			toAppend += "-";
+		}
+		else {
 			double digit = Double.parseDouble(input);
+			int negationMultiplier = (isThisANegative) ? -1 : 1;
 			if (isThisADecimal) {
 				// Divide digit by appropriate power of 10 based on current length of decimal part
 				for (int i = 0; i < afterDecimal.length() + 1; i++) {
 					digit /= 10;
 				}
 				// Add digit to value in dataset and in expression
-				dataset[varsInputed] += digit;
-				toAppend = Integer.toString((int)dataset[varsInputed]) + "." + afterDecimal + input;
+				dataset[varsInputed] += (digit * negationMultiplier);
+				toAppend += Integer.toString(currentAbsoluteInt()) + "." + afterDecimal + input;
 			} else {
 				// Shift number one space to the left to add new digit
-				dataset[varsInputed] = 10 * dataset[varsInputed] + digit;
+				dataset[varsInputed] = 10 * dataset[varsInputed] + (digit * negationMultiplier);
 				// Add digit to value in expression
-				toAppend = Integer.toString((int)dataset[varsInputed]);
-			}
-			// Fill in expression with 0s if number of written values does not match actual values
-			int numberOfPrintedValues = countValues(exprBuilder);
-			for (int i = numberOfPrintedValues; i < varsInputed + 1; i++) {
-				exprBuilder.append("0, ");
+				toAppend += Integer.toString(currentAbsoluteInt());
 			}
 		}
+		
+		// Fill in expression with 0s if number of written values does not match actual values
+		int numberOfPrintedValues = countValues(exprBuilder);
+		for (int i = numberOfPrintedValues; i < varsInputed + 1; i++) {
+			exprBuilder.append("0, ");
+		}
+		
 		// Close brackets and return expression
 		exprBuilder.append(toAppend + "})");
 		return (exprBuilder.toString());
@@ -156,6 +176,14 @@ public class FunctionMAD extends Functions {
 			}
 		}
 		return ctr + 1;
+	}
+	
+	private int currentAbsoluteInt() {
+		int value = (int)dataset[varsInputed];
+		if (value < 0) {
+			value = - value;
+		}
+		return value;
 	}
 
 }
