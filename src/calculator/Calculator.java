@@ -379,7 +379,7 @@ public class Calculator {
 			// Sinh
 			if(transcendentalFunction instanceof FunctionSinh) {
 				// Does not let the user enter an operator when the transcendental function is enabled
-				if(!StringHelper.checkIfOperandsClicked(input)) {
+				if(!StringHelper.checkIfOperandsClicked(input) && !StringHelper.isDecimalSymbol(input) && !input.equals("(-)")) {
 					return true;
 				}
 				String updatedExpression = transcendentalFunction.parse(input, expString);
