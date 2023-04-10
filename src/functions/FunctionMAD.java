@@ -56,14 +56,24 @@ public class FunctionMAD extends Functions {
 		boolean isThisADecimal = false;
 		
 		if (varsInputed == 0) {
-			if (dataset[varsInputed] != 0) {
+			if (!exprBuilder.toString().equals("MAD")) {
 				thisNumber = exprBuilder.substring(exprBuilder.lastIndexOf("{") + 1, exprBuilder.length() - 2);
 			}
 			exprBuilder.delete(exprBuilder.lastIndexOf("D") + 1, exprBuilder.length());
 			exprBuilder.append("({");
+			if (StringHelper.isDecimalSymbol(input) && dataset[varsInputed] == 0) {
+				exprBuilder.append("0");
+			}
 		} else if (dataset[varsInputed] == 0) {
 			exprBuilder.delete(exprBuilder.lastIndexOf("}"), exprBuilder.length());
-			exprBuilder.append(", ");
+			if (!StringHelper.isDecimalSymbol(input)) {
+				if (countValues(exprBuilder) <= varsInputed) {
+					exprBuilder.append(", ");
+				} else {
+					thisNumber = exprBuilder.substring(exprBuilder.lastIndexOf(",") + 2, exprBuilder.length());
+					exprBuilder.delete(exprBuilder.lastIndexOf(",") + 2, exprBuilder.length());
+				}
+			}
 		} else {
 			thisNumber = exprBuilder.substring(exprBuilder.lastIndexOf(",") + 2, exprBuilder.length() - 2);
 			exprBuilder.delete(exprBuilder.lastIndexOf(",") + 2, exprBuilder.length());
@@ -74,12 +84,15 @@ public class FunctionMAD extends Functions {
 			afterDecimal = thisNumber.substring(thisNumber.lastIndexOf(".") + 1);
 		}
 		
-		String toAppend;
+		String toAppend = "";
 		if (StringHelper.isDecimalSymbol(input)) {
 			if (isThisADecimal) {
 				return expression;
 			}
-			toAppend = Integer.toString((int)dataset[varsInputed]) + ".";
+			if (dataset[varsInputed] != 0) {
+				toAppend += Integer.toString((int)dataset[varsInputed]);
+			}
+			toAppend += ".";
 		} else {
 			double digit = Double.parseDouble(input);
 			if (isThisADecimal) {
