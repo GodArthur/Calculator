@@ -12,9 +12,8 @@ public class FunctionArccos extends Functions{
 	public double compute() {
 		validate();
 		
-		double result=0;	
-		// Regular valid cases
-		result = Math.acos(x);
+		double result=Math.acos(x);
+		
 		
 		return result;
 	}
@@ -33,14 +32,32 @@ public class FunctionArccos extends Functions{
 	public String parse(String input, String expression) {
 StringBuilder exprBuilder = new StringBuilder(expression);
 		
-		// Enter X
-		 if (this.varsInputed ==0) {
-			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input );
+
+		//Enter First digit for X
+		if (this.varsInputed == 0 && expression.contains("X")) {
+			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input);
 			this.x = Double.parseDouble(input);
 		}
+		
+		//Enter remaining digits for X
+		else if (this.varsInputed ==0) {
+			exprBuilder.append(input);
+			if(!input.equalsIgnoreCase(".")) {
+				if(expression.contains(".")) {
+					this.x = x*10 + Double.parseDouble(input)/10;
+				}
+				else {
+					this.x = x*10 + Double.parseDouble(input);
+				}
+			}
+			
+		}
+		System.out.println(x);
+		 System.out.println(exprBuilder.toString());
 		
 		
 		return exprBuilder.toString();
 	}
 	
 }
+

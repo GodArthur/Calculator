@@ -331,7 +331,7 @@ public class Calculator {
 				}
 			
 			// Arccos
-			if(transcendentalFunction instanceof FunctionArccos) {
+			if(transcendentalFunction instanceof FunctionArccos && !StringHelper.isDecimalSymbol(input) && !input.equals("(-)")) {
 				// Does not let the user enter an operator when the transcendental function is enabled
 				if(!StringHelper.checkIfOperandsClicked(input)) {
 						return true;
