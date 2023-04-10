@@ -12,12 +12,12 @@ public class View extends JFrame {
 	private JPanel contentPane;
 	JTextField textField;
 	JButton[] numBtns = new JButton[10];
-	JButton[] funcBtns = new JButton[10]; // TODO : +1 SIZE OF ARRAY IF NECESSARY
+	JButton[] funcBtns = new JButton[11]; // TODO : +1 SIZE OF ARRAY IF NECESSARY
 	JButton[] specialFuncBtns = new JButton[7];
 
 	JButton addBtn, subBtn, multBtn, divBtn;
 
-	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn;
+	JButton decBtn, eqBtn, negBtn, delBtn, clrBtn, nextBtn,lastAnsBtn;
 	JButton abxBtn, acosBtn, logbxBtn, MADBtn, sinhBtn, stDevBtn, xYBtn; //TODO : ADD YOUR BUTTON HERE
 
 	/**
@@ -38,12 +38,12 @@ public class View extends JFrame {
 
 		// Creating Input Textbox
 		textField = new JTextField();
-		textField.setBounds(50, 25, 475, 115);
+		textField.setBounds(50, 50, 475, 120);
 		textField.setBackground(Color.decode("#1B1212"));
 		textField.setForeground(Color.WHITE);
-		textField.setBorder(new EmptyBorder(0, 0, 0, 0));
+		//textField.setBorder(new EmptyBorder(0, 0, 0, 0));
 		textField.setEditable(false);
-		Font font = new Font("HELVETICA", Font.PLAIN, 45);
+		Font font = new Font("HELVETICA", Font.PLAIN, 40);
 		textField.setFont(font);
 
 		// Initializing operator buttons 
@@ -66,6 +66,7 @@ public class View extends JFrame {
 		MADBtn = new JButton("MAD");
 		sinhBtn = new JButton("sinh");
 		stDevBtn = new JButton("stDev");
+		lastAnsBtn = new JButton("Ans");
 		// TODO : ADD BUTTON HERE
 		
 		
@@ -79,6 +80,7 @@ public class View extends JFrame {
 		funcBtns[7] = delBtn;
 		funcBtns[8] = nextBtn;
 		funcBtns[9] = clrBtn;
+		funcBtns[10] = lastAnsBtn;
 		
 		specialFuncBtns[0] = abxBtn;
 		specialFuncBtns[1] = acosBtn;
@@ -95,35 +97,14 @@ public class View extends JFrame {
 			// numBtns[i].setFocusable(false);
 		}
 
-		delBtn.setBounds(50, 800, 135, 40);
-		clrBtn.setBounds(205, 800, 135, 40);
-
 		// creating the button grid
 		panel = new JPanel();
-		panel.setBounds(50, 150, 475, 600);
+		panel.setBounds(50, 220, 475, 580);
 		panel.setBackground(Color.decode("#1B1212"));
 		//panel.setBorder(new EmptyBorder(10, 10, 10, 10));
-		panel.setLayout(new GridLayout(7, 4));
+		panel.setLayout(new GridLayout(7, 4,10,10));
 
 		// Adding buttons to the calculator GUI
-		panel.add(numBtns[1]);
-		panel.add(numBtns[2]);
-		panel.add(numBtns[3]);
-		panel.add(addBtn);
-		panel.add(numBtns[4]);
-		panel.add(numBtns[5]);
-		panel.add(numBtns[6]);
-		panel.add(subBtn);
-		panel.add(numBtns[7]);
-		panel.add(numBtns[8]);
-		panel.add(numBtns[9]);
-		panel.add(multBtn);
-		panel.add(decBtn);
-		panel.add(numBtns[0]);
-		panel.add(eqBtn);
-		panel.add(divBtn);
-		panel.add(negBtn);
-		panel.add(nextBtn);
 		panel.add(abxBtn);
 		panel.add(acosBtn);
 		panel.add(logbxBtn);
@@ -131,6 +112,27 @@ public class View extends JFrame {
 		panel.add(MADBtn);
 		panel.add(sinhBtn);
 		panel.add(stDevBtn);
+		panel.add(clrBtn);
+		panel.add(numBtns[7]);
+		panel.add(numBtns[8]);
+		panel.add(numBtns[9]);
+		panel.add(addBtn);
+		panel.add(numBtns[4]);
+		panel.add(numBtns[5]);
+		panel.add(numBtns[6]);
+		panel.add(subBtn);
+		panel.add(numBtns[1]);
+		panel.add(numBtns[2]);
+		panel.add(numBtns[3]);
+		panel.add(multBtn);
+		panel.add(decBtn);
+		panel.add(numBtns[0]);
+		panel.add(eqBtn);
+		panel.add(divBtn);
+		panel.add(negBtn);
+		panel.add(nextBtn);
+		panel.add(lastAnsBtn);
+		panel.add(delBtn);
 		// TODO : ADD BUTTON HERE 
 		
 		Font buttonFont = new Font("Arial", Font.BOLD, 28);
@@ -159,8 +161,6 @@ public class View extends JFrame {
 		}
 
 		add(panel);
-		add(delBtn);
-		add(clrBtn);
 		add(textField);
 
 	}
@@ -197,6 +197,11 @@ public class View extends JFrame {
 	/*
 	 * Function adds an event listener to the equal button
 	 */
+	
+	void addLastAnswerBtnListener(ActionListener listen) {
+		lastAnsBtn.addActionListener(listen);
+	}
+	
 	void addCalculateBtnListener(ActionListener listen) {
 		eqBtn.addActionListener(listen);
 	}

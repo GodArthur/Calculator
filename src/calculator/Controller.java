@@ -8,6 +8,7 @@ import javax.swing.JTextField;
 public class Controller {
 	private Calculator model;
 	private View view;
+	public String lastResult;
 
 	public Controller(Calculator model, View view) {
 		this.model = model;
@@ -16,6 +17,7 @@ public class Controller {
 		this.view.addOperandsAndOperatorsBtnListener(new OperandsAndOperatorsBtnListener());
 		this.view.addCalculateBtnListener(new CalculateBtnListener());
 		this.view.addNextBtnListener(new NextBtnListener());
+		this.view.addLastAnswerBtnListener(new lastAnswerBtnListener());
 		
 		//Transcendental Functions
 		this.view.addABtoXBtnListener(new ABtoXBtnListener());
@@ -168,6 +170,15 @@ public class Controller {
 		}
 	}
 	
+	
+	class lastAnswerBtnListener implements ActionListener{
+		public void actionPerformed(ActionEvent e)
+		{
+			model.appendToExpression(lastResult);
+			view.setExpressionInput(lastResult);
+			System.out.print(lastResult);
+		}
+	}
 	//TODO : ADD YOUR BtnListener 
 	
 

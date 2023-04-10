@@ -14,6 +14,7 @@ public class Calculator {
 	private StringBuilder expressionToParse = new StringBuilder("");
 	private Functions transcendentalFunction;
 	private String errorMessage = "";
+	private String lastAnswer;
 
 	
 /**
@@ -63,6 +64,9 @@ public class Calculator {
 	public void appendToExpression(String newInput) {
 		if (newInput =="Clr")
 			this.clear();
+		
+		if(newInput == "Ans")
+			expression.append(lastAnswer);
 		
 		if(!checkIfFunctionEnabled(newInput)) {
 			if(StringHelper.checkIfOperandsClicked(newInput))
@@ -152,6 +156,7 @@ public class Calculator {
 				else {
 					this.expression = new StringBuilder(Double.toString(transcendentalFunction.compute()));
 					this.errorMessage = this.transcendentalFunction.errorMessage;
+					lastAnswer = this.expression.toString();
 				}
 			}
 			}
@@ -185,6 +190,7 @@ public class Calculator {
 				String[] operands = expString.split("\\/");
 				this.expression = expression.replace(0, expression.length(), compute(operands[0], operands[1], "/"));
 			}
+			lastAnswer = this.expression.toString();
 	}
 	/**
 	 * Method used for computing basic arithmetic
@@ -387,7 +393,7 @@ public class Calculator {
 			{
 				if(transcendentalFunction instanceof FunctionStandardDev)
 				{				
-					if(!StringHelper.checkIfOperandsClicked(input)) {
+					if(!StringHelper.checkIfOperandsClicked(input) && !StringHelper.isDecimalSymbol(input) && !input.equals("(-)")) {
 						return true;
 				}
 				// Call to Method parse that will receive the input and reformat it as well as store the value

@@ -82,33 +82,48 @@ public class FunctionStandardDev extends Functions
 	}
 	
 	public String parse(String input, String expression) {
-//		StringBuilder exprBuilder = new StringBuilder(expression);
-//		exprBuilder = exprBuilder.append(input);
-//		this.stringInput = exprBuilder.toString();
-//				
-//		return exprBuilder.toString();
-		
 		if (varsInputed + 1 >= values.length) {
 			resizeDataset();
 		}
 		
 		StringBuilder exprBuilder = new StringBuilder(expression);
+		
+
+	    
 		if (varsInputed == 0) {
-			exprBuilder.delete(exprBuilder.lastIndexOf("v") + 1, exprBuilder.length());
-			exprBuilder.append("(");
+			
+			
+			//Checking for negation WIP
+		    if (input.equals("(-)")) { // if input is negation
+		    	exprBuilder.append("(");
+		        exprBuilder.append("-");
+		        return exprBuilder.toString();
+		    }
+		    
+		    if(exprBuilder.toString().contains("-"))
+		    {
+		    	exprBuilder.delete(exprBuilder.lastIndexOf("-") + 1, exprBuilder.length());
+		    }
+		    
+		    else
+		    {
+				exprBuilder.delete(exprBuilder.lastIndexOf("v") + 1, exprBuilder.length());
+				exprBuilder.append("(");
+		    }
+
 		} else if (values[varsInputed] == 0) {
+			
 			exprBuilder.delete(exprBuilder.lastIndexOf(")"), exprBuilder.length());
-			exprBuilder.append(",");
+			exprBuilder.append(", ");
 		} else {
 			exprBuilder.delete(exprBuilder.lastIndexOf(",") + 2, exprBuilder.length());
 		}
 		
 		values[varsInputed] = 10 * values[varsInputed] + Double.parseDouble(input);
 		int numberOfPrintedValues = countValues(exprBuilder);
-		System.out.print("values: " + numberOfPrintedValues);
-//		for (int i = numberOfPrintedValues; i < varsInputed + 1; i++) {
-//			exprBuilder.append("0, ");
-//		}
+		for (int i = numberOfPrintedValues; i < varsInputed + 1; i++) {
+			exprBuilder.append("0, ");
+		}
 		exprBuilder.append((int)values[varsInputed] + ")");
 		return (exprBuilder.toString());
 	}
@@ -132,9 +147,9 @@ public class FunctionStandardDev extends Functions
 	
 	@Override
 	public boolean validate() {
-		if (values.length < 2) 
+		if (varsInputed < 1) 
 		{ 
-			this.setErrorMessage("Dataset must have at least 2 values");
+			this.setErrorMessage("Enter at least 2 values");
 			return false; 
 		}
 		return true;
