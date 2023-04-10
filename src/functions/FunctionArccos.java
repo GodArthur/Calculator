@@ -48,13 +48,16 @@ public class FunctionArccos extends Functions{
 	@Override
 	public String parse(String input, String expression) {
     StringBuilder exprBuilder = new StringBuilder(expression);
-    	
+	if(input.equals("(-)")) {
+		input = "-";
+	}	
 
 		//Enter First digit for X
 		if (this.varsInputed == 0 && expression.contains("X")) {
 			
 			if(input.equals("-")) {
-				exprBuilder.append("-");
+				
+				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input);
 				return exprBuilder.toString();
 			}
 			else {
