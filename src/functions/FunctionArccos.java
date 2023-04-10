@@ -1,10 +1,12 @@
 package functions;
 
 public class FunctionArccos extends Functions{
+	int negative;
 	public FunctionArccos(){
 		this.x = 0;
 		this.varsInputed = 0;
 		this.totalVars = 1;
+		this.negative = 0;
 	}
 	
 	@Override
@@ -56,7 +58,7 @@ public class FunctionArccos extends Functions{
 		if (this.varsInputed == 0 && expression.contains("X")) {
 			
 			if(input.equals("-")) {
-				
+				this.negative = 1;
 				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input);
 				return exprBuilder.toString();
 			}
@@ -79,6 +81,9 @@ public class FunctionArccos extends Functions{
 				}
 			}
 			
+		}
+		if(this.negative == 1) {
+			x = -x;
 		}
 		 System.out.println(x);
 		 System.out.println(exprBuilder.toString());
