@@ -1,0 +1,210 @@
+[
+  {
+    "name": "Functions",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "String type",
+      "String errorMessage",
+      "int varsInputed",
+      "int totalVars",
+      "double a",
+      "double b",
+      "double x",
+      "double y",
+      "Functions()",
+      "getType()",
+      "getErrorMessage()",
+      "getA()",
+      "getB()",
+      "getX()",
+      "getY()",
+      "getVarsInputed()",
+      "getTotalVars()",
+      "setType()",
+      "setErrorMessage()",
+      "setA()",
+      "setB()",
+      "setX()",
+      "setY()",
+      "setVarsInputed()",
+      "compute()",
+      "validate()",
+      "parse()"
+    ],
+    "collaborators": [
+      ""
+    ]
+  },
+  {
+    "name": "FunctionXY",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "FunctionXY()",
+      "compute()",
+      "isDecimal()",
+      "abs()",
+      "validate()",
+      "fractionalExponent()",
+      "taylorSeriesExp()",
+      "taylorSeriesLn()",
+      "parse()"
+    ],
+    "collaborators": [
+      "Functions"
+    ]
+  },
+  {
+    "name": "FunctionAbx",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "FunctionXY helperXY",
+      "FunctionAbx()",
+      "compute()",
+      "validate()",
+      "parse()",
+      "getFirstSuperscriptNumber()",
+      ""
+    ],
+    "collaborators": [
+      "Functions",
+      "FunctionXY",
+      ""
+    ]
+  },
+  {
+    "name": "FunctionArccos",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "FunctionArccos()",
+      "compute()",
+      "validate()",
+      "parse()"
+    ],
+    "collaborators": [
+      "Functions"
+    ]
+  },
+  {
+    "name": "FunctionLogBX",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "FunctionXY helperXY",
+      "FunctionLogBx()",
+      "validate()",
+      "compute()",
+      "formatDecimal()",
+      "logarithmicDecimal()",
+      "logarithmic()",
+      "closestPower()",
+      "exponent()",
+      "parse()"
+    ],
+    "collaborators": [
+      "Functions",
+      "FunctionXY"
+    ]
+  },
+  {
+    "name": "FunctionMAD",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "double[] dataset",
+      "FunctionMAD()",
+      "compute()",
+      "validate()",
+      "parse()",
+      "resizeDataset()",
+      "countValues()",
+      ""
+    ],
+    "collaborators": [
+      "Functions"
+    ]
+  },
+  {
+    "name": "FunctionSinh",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "FunctionSinh()",
+      "compute()",
+      "validate()",
+      "parse()"
+    ],
+    "collaborators": [
+      "Functions"
+    ]
+  },
+  {
+    "name": "FunctionStandardDev",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "double[] values",
+      "String stringInput",
+      "squareRoot()",
+      "FunctionStandardDev()",
+      "compute()",
+      "validate()",
+      "parse()",
+      "resizeDataset()",
+      "countValues()"
+    ],
+    "collaborators": [
+      "Functions"
+    ]
+  },
+  {
+    "name": "Calculator",
+    "superclasses": "",
+    "subclasses": "",
+    "type": 1,
+    "responsibilities": [
+      "StringBuilder expression",
+      "Functions transcendentalFunction",
+      "String errorMessage",
+      "String lastAnswer",
+      "setErrorMessage()",
+      "setExpression()",
+      "String getError()",
+      "String getExpression()",
+      "clear()",
+      "del()",
+      "appendToExpression()",
+      "operatorHandler()",
+      "decimalHandler()",
+      "negationHandler()",
+      "calculateExpression()",
+      "isBasicArithmetic()",
+      "computeBasicArithmetic()",
+      "compute()",
+      "appendAbxToExpression()",
+      "appendLogbXToExpression()",
+      "appendArccosToExpression()",
+      "appendXYToExpression()",
+      "appendMADToExpression()",
+      "appendSinhToExpression()",
+      "appendStandardDevExpression()",
+      "checkIfFunctionEnabled()",
+      "updateNextFunctionValue()",
+      ""
+    ],
+    "collaborators": [
+      "Functions"
+    ]
+  }
+]
