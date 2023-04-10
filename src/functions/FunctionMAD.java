@@ -1,6 +1,7 @@
 package functions;
 
 import java.util.Arrays;
+import misc.StringHelper;
 
 public class FunctionMAD extends Functions {
 
@@ -50,22 +51,53 @@ public class FunctionMAD extends Functions {
 		}
 		
 		StringBuilder exprBuilder = new StringBuilder(expression);
+		String thisNumber = "";
+		String afterDecimal = "";
+		boolean isThisADecimal = false;
+		
 		if (varsInputed == 0) {
+			if (dataset[varsInputed] != 0) {
+				thisNumber = exprBuilder.substring(exprBuilder.lastIndexOf("{") + 1, exprBuilder.length() - 2);
+			}
 			exprBuilder.delete(exprBuilder.lastIndexOf("D") + 1, exprBuilder.length());
 			exprBuilder.append("({");
 		} else if (dataset[varsInputed] == 0) {
 			exprBuilder.delete(exprBuilder.lastIndexOf("}"), exprBuilder.length());
 			exprBuilder.append(", ");
 		} else {
+			thisNumber = exprBuilder.substring(exprBuilder.lastIndexOf(",") + 2, exprBuilder.length() - 2);
 			exprBuilder.delete(exprBuilder.lastIndexOf(",") + 2, exprBuilder.length());
 		}
 		
-		dataset[varsInputed] = 10 * dataset[varsInputed] + Double.parseDouble(input);
-		int numberOfPrintedValues = countValues(exprBuilder);
-		for (int i = numberOfPrintedValues; i < varsInputed + 1; i++) {
-			exprBuilder.append("0, ");
+		isThisADecimal = thisNumber.contains(".");
+		if (isThisADecimal) {
+			afterDecimal = thisNumber.substring(thisNumber.lastIndexOf(".") + 1);
 		}
-		exprBuilder.append((int)dataset[varsInputed] + "})");
+		
+		String toAppend;
+		if (StringHelper.isDecimalSymbol(input)) {
+			if (isThisADecimal) {
+				return expression;
+			}
+			toAppend = Integer.toString((int)dataset[varsInputed]) + ".";
+		} else {
+			double digit = Double.parseDouble(input);
+			if (isThisADecimal) {
+				for (int i = 0; i < afterDecimal.length() + 1; i++) {
+					digit /= 10;
+				}
+				dataset[varsInputed] += digit;
+				toAppend = Integer.toString((int)dataset[varsInputed]) + "." + afterDecimal + input;
+			} else {
+				dataset[varsInputed] = 10 * dataset[varsInputed] + digit;
+				toAppend = Integer.toString((int)dataset[varsInputed]);
+			}
+			int numberOfPrintedValues = countValues(exprBuilder);
+			for (int i = numberOfPrintedValues; i < varsInputed + 1; i++) {
+				exprBuilder.append("0, ");
+			}
+		}
+		exprBuilder.append(toAppend + "})");
 		return (exprBuilder.toString());
 	}
 	

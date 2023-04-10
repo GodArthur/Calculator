@@ -357,7 +357,7 @@ public class Calculator {
 			// MAD
 			if(transcendentalFunction instanceof FunctionMAD) {
 				// Does not let the user enter an operator when the transcendental function is enabled
-				if(!StringHelper.checkIfOperandsClicked(input)) {
+				if(!StringHelper.checkIfOperandsClicked(input) && !StringHelper.isDecimalSymbol(input) && !input.equals("(-)")) {
 						return true;
 				}
 				
