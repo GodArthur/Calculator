@@ -12,6 +12,8 @@ import functions.FunctionXY;
 public class FunctionLogBX extends Functions{
 	
 	FunctionXY helperXY;
+	private boolean negativeB=false;
+	private boolean negativeX=false;
 	
 	public FunctionLogBX(){
 		this.b = 0;
@@ -164,12 +166,23 @@ public class FunctionLogBX extends Functions{
 	@Override
 	public String parse(String input, String expression) {
 		StringBuilder exprBuilder = new StringBuilder(expression);
+		if(this.varsInputed ==0 && exprBuilder.toString().equalsIgnoreCase("logbx") && input.equals("(-)")) {
+			input = "-";
+			exprBuilder.replace(exprBuilder.length()-2, exprBuilder.length(), StringHelper.subscript(input));
+			exprBuilder.append("b");
+			exprBuilder.append("x");
+			this.negativeB=true;
+		}
 		
 		// Enter First digit for B
-		if (exprBuilder.toString().equalsIgnoreCase("logbx")) {
+		else if (exprBuilder.toString().equalsIgnoreCase("log-bx")) {
 			exprBuilder.replace(exprBuilder.length()-2, exprBuilder.length(), StringHelper.subscript(input));
 			exprBuilder.append("x");
-			this.b = Double.parseDouble(input);
+			if(this.negativeB) {
+				this.b = (-1)*Double.parseDouble(input);
+			}
+			else
+				this.b = Double.parseDouble(input);
 		}
 		
 		// Enter remaining digits for B
@@ -180,10 +193,23 @@ public class FunctionLogBX extends Functions{
 				this.b = b*10 + Double.parseDouble(input);}
 		}
 		
-		// Enter First digit for X
-		if (this.varsInputed == 1 && expression.contains("x")) {
+		if(this.varsInputed ==1 && expression.contains("x") && input.equals("(-)")) {
+			input = "-";
 			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input );
-			this.x = Double.parseDouble(input);
+			exprBuilder.append("x");
+			this.negativeX=true;
+		}
+		
+		// Enter First digit for X
+		else if (this.varsInputed == 1 && expression.contains("x")) {
+			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input );
+
+			if(!input.equalsIgnoreCase("-")) {
+				this.x = Double.parseDouble(input);
+				if(this.negativeX) {
+					this.x = this.x*-1;
+				}
+			}
 		}
 		
 		//Enter remaining digits for X
@@ -192,8 +218,9 @@ public class FunctionLogBX extends Functions{
 			if(!input.equalsIgnoreCase(".")) {
 				this.x = x*10 + Double.parseDouble(input);}
 		}
-		
+		System.out.println(this.b + " " + this.x);
 		return exprBuilder.toString();
+
 	}
 
 	

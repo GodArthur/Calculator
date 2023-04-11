@@ -319,7 +319,7 @@ public class Calculator {
 		// Log_BX
 			if(transcendentalFunction instanceof FunctionLogBX) {
 				// Does not let the user enter an operator when the transcendental function is enabled
-				if(!StringHelper.checkIfOperandsClicked(input) && !StringHelper.isDecimalSymbol(input)) {
+				if(!StringHelper.checkIfOperandsClicked(input) && !StringHelper.isDecimalSymbol(input)&& !input.equals("(-)")) {
 						return true;
 				}
 				// Call to Method parse that will receive the input and reformat it as well as store the value
