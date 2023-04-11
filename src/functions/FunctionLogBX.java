@@ -175,7 +175,7 @@ public class FunctionLogBX extends Functions{
 		}
 		
 		// Enter First digit for B
-		else if (exprBuilder.toString().equalsIgnoreCase("log-bx")) {
+		else if (exprBuilder.toString().equalsIgnoreCase("log-bx") || exprBuilder.toString().equalsIgnoreCase("logbx")) {
 			exprBuilder.replace(exprBuilder.length()-2, exprBuilder.length(), StringHelper.subscript(input));
 			exprBuilder.append("x");
 			if(this.negativeB) {
