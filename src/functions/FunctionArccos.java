@@ -1,12 +1,18 @@
 package functions;
 
 public class FunctionArccos extends Functions{
+FunctionXY helperXY;
+	
 	int negative;
-	public FunctionArccos(){
-		this.x = 0;
-		this.varsInputed = 0;
+	int decimalCount;
+	
+	public FunctionArccos() {
+		this.x =0;
 		this.totalVars = 1;
-		this.negative = 0;
+		this.varsInputed = 0;
+		this.negative=1;
+		this.decimalCount=0;
+		this.helperXY = new FunctionXY();
 	}
 	
 	@Override
@@ -35,6 +41,8 @@ public class FunctionArccos extends Functions{
 	                upper = mid;
 	            }
 	        }
+	        
+	        
 	}
 
 	@Override
@@ -49,48 +57,57 @@ public class FunctionArccos extends Functions{
 
 	@Override
 	public String parse(String input, String expression) {
-    StringBuilder exprBuilder = new StringBuilder(expression);
-	if(input.equals("(-)")) {
-		input = "-";
-	}	
-
-		//Enter First digit for X
-		if (this.varsInputed == 0 && expression.contains("X")) {
+		// TODO Auto-generated method stub
+		
+		StringBuilder exprBuilder = new StringBuilder(expression);
+		
+		if(input.equals("(-)")) {
+			input = "-";
 			
+		}
+		
+		if (exprBuilder.toString().equalsIgnoreCase("acos")) {
+			exprBuilder.append("("+input+")");
 			if(input.equals("-")) {
-				this.negative = 1;
-				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input);
+				negative = negative*-1;
 				return exprBuilder.toString();
 			}
-			else {
-			exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input);
 			this.x = Double.parseDouble(input);
-			}
 		}
-	
 		
-		//Enter remaining digits for X
-		else if (this.varsInputed ==0) {
-			exprBuilder.append(input);
-			if(!input.equalsIgnoreCase(".")) {
-				if(expression.contains(".")) {
-					this.x = x*10 + Double.parseDouble(input)/10;
-				}
-				else {
-					this.x = x*10 + Double.parseDouble(input);
-				}
+		
+		else {
+			if(input.equals("-")) {
+				exprBuilder.replace(4, 5, " "+input);
+				negative = negative*-1;
+				return exprBuilder.toString();
 			}
 			
+			
+			else if(input.equalsIgnoreCase(".")) {
+				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input+" ");
+				
+			}
+			
+			else if(expression.contains(".")) {
+				++decimalCount;
+				this.helperXY.setX(10);
+				this.helperXY.setY(decimalCount);
+				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input+" ");
+				this.x = x + Double.parseDouble(input)/(this.helperXY.compute());
+			}
+			
+			else {
+				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input+" ");
+				this.x = x*10 + Double.parseDouble(input);
+			
+			}
 		}
-		if(this.negative == 1) {
-			x = -x;
-		}
+		x =  x*negative;
 		 System.out.println(x);
 		 System.out.println(exprBuilder.toString());
-		
 		
 		return exprBuilder.toString();
 	}
 	
 }
-	  
