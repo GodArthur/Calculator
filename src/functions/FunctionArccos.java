@@ -77,15 +77,16 @@ FunctionXY helperXY;
 		
 		
 		else {
-			if(input.equals("-")) {
-				exprBuilder.replace(4, 5, " "+input);
+			if(input.equals("-") && expression.contains("X")) {
+				exprBuilder.replace(4, 5, " " + input);
 				negative = negative*-1;
 				return exprBuilder.toString();
 			}
-			
+
+		
 			
 			else if(input.equalsIgnoreCase(".")) {
-				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input+" ");
+				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input+")");
 				
 			}
 			
@@ -93,12 +94,12 @@ FunctionXY helperXY;
 				++decimalCount;
 				this.helperXY.setX(10);
 				this.helperXY.setY(decimalCount);
-				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input+" ");
+				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input+")");
 				this.x = x + Double.parseDouble(input)/(this.helperXY.compute());
 			}
 			
 			else {
-				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input+" ");
+				exprBuilder.replace(exprBuilder.length()-1, exprBuilder.length(), input+")");
 				this.x = x*10 + Double.parseDouble(input);
 			
 			}
