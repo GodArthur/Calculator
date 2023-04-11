@@ -60,7 +60,7 @@ public class View extends JFrame {
 		abxBtn = new JButton("ab\u02e3");
 		clrBtn = new JButton("Clr");
 		nextBtn = new JButton("next");
-		acosBtn = new JButton("acosX");
+		acosBtn = new JButton("acos");
 		logbxBtn = new JButton("logbx");
 		xYBtn = new JButton("x^y");
 		MADBtn = new JButton("MAD");
